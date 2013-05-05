@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Cache-Control: max-age=86400, public, must-revalidate
+Expires: Tue, 30 Apr 2013 12:27:15 GMT
+Last-Modified: Mon, 29 Apr 2013 12:14:03 GMT
+ETag: "N2MwMDAwMDAwMDAwMDAwMFNvbHI="
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+
+{"responseHeader":{"status":0,"QTime":1,"params":{"fl":"fulltext_list_ssf,id","echoParams":"all","q":"{!raw f=id v=$id}","rows":"1","id":"1519","fl":"fulltext_list_ssf,id","wt":"json"}},"response":{"numFound":1,"start":0,"docs":[{"id":"1519"}]}}

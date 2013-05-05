@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Cache-Control: max-age=86400, public, must-revalidate
+Expires: Wed, 22 May 2013 14:37:58 GMT
+Last-Modified: Fri, 17 May 2013 08:24:46 GMT
+ETag: "ZjM3ZmMwMDAwMDAwMDAwMFNvbHI="
+Content-Type: application/json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Tue, 21 May 2013 14:37:58 GMT
+
+{"responseHeader":{"status":0,"QTime":26,"params":{"fl":"holdings_ssf","q":"issn_ss:15577317","wt":"json","fq":"format:journal"}},"response":{"numFound":2,"start":0,"maxScore":9.7718725,"docs":[{},{"holdings_ssf":["{\"fromissue\":\"10\",\"fromyear\":\"1952\",\"toyear\":\"1962\",\"type\":\"printed\",\"toissue\":\"40\"}","{\"tovolume\":\"42\",\"fromvolume\":\"1\",\"fromyear\":\"1958\",\"toyear\":\"1999\",\"type\":\"printed\"}"]}]},"facet_counts":{"facet_queries":{},"facet_fields":{},"facet_dates":{},"facet_ranges":{}}}

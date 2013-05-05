@@ -1,0 +1,28 @@
+en:
+  fulltext:
+
+    license:
+      text:
+        dtu_staff: "Full Text"
+        dtu_student: "Full Text"
+        walkin: "Full Text"
+        public: "On-site use at DTU Library"
+        anonymous: "On-site use at DTU Library"
+      note:
+        dtu_staff: "Licensed %{doctype} - No charge"
+        dtu_student: "Licensed %{doctype} - No charge"
+        walkin: "Licensed %{doctype} - No charge"
+        public: "Available for on-site use at DTU Library - No charge"
+        anonymous: "Available for on-site use at DTU Library - No charge"
+
+    openaccess:
+      text: "Open Access"
+      note: "Open Access %{doctype} - No charge"
+
+    dtic_scan:
+      text: "Order scan - %{price}"
+      note: "Order scan - %{price}"
+
+    rd_scan:
+      text: "Order scan - %{price}"
+      note: "Order scan - %{price}"

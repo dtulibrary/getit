@@ -1,4 +1,0 @@
-kyandi
-======
-
-Link resolver proxy

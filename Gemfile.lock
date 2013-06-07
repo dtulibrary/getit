@@ -16,6 +16,7 @@ GEM
     coderay (1.0.9)
     cookiejar (0.3.0)
     crack (0.3.2)
+    dalli (2.6.4)
     em-http-request (1.0.3)
       addressable (>= 2.2.3)
       cookiejar
@@ -93,6 +94,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   capistrano
+  dalli
   em-http-request
   i18n
   m

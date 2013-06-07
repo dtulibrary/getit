@@ -4,11 +4,11 @@ require_relative 'service'
 class Sfx
   include Service
 
-  def initialize(reference, configuration)    
+  def initialize(reference, configuration, cache_settings = {})    
     # mapping of service type names between SFX and GetIT
     @sfx_to_getit_types = {"getFullTxt" => "fulltext"}
     
-    super(reference, configuration)
+    super(reference, configuration, cache_settings)
   end
 
   def parse_response
@@ -58,7 +58,10 @@ class Sfx
     @sfx_to_getit_types.values.each do |service_type|
       co.serviceType.first.set_metadata(service_type, "true")
     end    
-    co.to_hash.merge({"req.ip" => "127.0.0.1", "sfx.response_type" => "multi_obj_xml"})
+    co_h = co.to_hash.merge({"req.ip" => "127.0.0.1", "sfx.response_type" => "multi_obj_xml"})
+    # remove timestamp so it can be used as cache key    
+    co_h.delete("ctx_tim")
+    co_h
   end
 
   private

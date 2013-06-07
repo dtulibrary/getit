@@ -9,6 +9,7 @@ gem "capistrano"
 gem "nokogiri"
 gem "sinatra-synchrony"
 gem "i18n"
+gem "dalli"
 
 group :test do 
   gem "minitest"

@@ -19,7 +19,6 @@ class Metastore
       response.url = fulltext["url"]
       response.service_type = "fulltext"      
       response.source = "metastore"
-      response.priority = @configuration["priority"]
       response.subtype = fulltext["type"] == "openaccess" ? "openaccess" : "license"
       service_responses << response      
     end
@@ -35,7 +34,7 @@ class Metastore
   private
 
   def id
-    custom_co_data["id"] || nil
+    @reference.custom_co_data["id"] || nil
   end
 
 end

@@ -12,11 +12,10 @@ class Scan
     service_response.service_type = "fulltext"
     service_response.source = "scan"
     service_response.subtype = "rd_scan"
-    service_response.priority = @configuration["priority"]
 
-    article_year = @context_object.referent.metadata["year"].to_i
-    article_volume = @context_object.referent.metadata["volume"].to_i
-    article_issue = @context_object.referent.metadata["issue"].to_i
+    article_year = @reference.context_object.referent.metadata["year"].to_i
+    article_volume = @reference.context_object.referent.metadata["volume"].to_i
+    article_issue = @reference.context_object.referent.metadata["issue"].to_i
 
     response = JSON.parse(@response[:body])["response"]
     if(response["numFound"] > 0)
@@ -51,17 +50,15 @@ class Scan
         end
       end
     end
-
     [service_response]
-  end    
+  end  
 
   def get_query    
     #TODO only make request if we have something meaningful to query with   
     query = ""
-    query = "issn_ss:#{@context_object.referent.metadata['issn']}" if !@context_object.referent.metadata['issn'].nil?
-    query ||= "isbn_ss:#{@context_object.referent.metadata['isbn']}" if !@context_object.referent.metadata['isbn'].nil?
-    query ||= "journal_title_ts:#{@context_object.referent.metadata['jtitle']}" if !@context_object.referent.metadata['jtitle'].nil?
+    query = "issn_ss:#{@reference.context_object.referent.metadata['issn']}" if !@reference.context_object.referent.metadata['issn'].nil?
+    query ||= "isbn_ss:#{@reference.context_object.referent.metadata['isbn']}" if !@reference.context_object.referent.metadata['isbn'].nil?
+    query ||= "journal_title_ts:#{@reference.context_object.referent.metadata['jtitle']}" if !@reference.context_object.referent.metadata['jtitle'].nil?
     {"q" => query, "fq" => "format:journal",  "fl" => "holdings_ssf", "wt" => "json"}
   end
-
 end

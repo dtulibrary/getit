@@ -1,4 +1,3 @@
-
 require_relative '../test_helper'
 
 describe Sfx do
@@ -17,13 +16,13 @@ describe Sfx do
   }
 
   configuration = {"sfx" => {"url" => "http://example.com", "service_types" => ['fulltext']}}
-  context_object = OpenURL::ContextObject.new_from_form_vars(params)
+  reference = Reference.new(params)
 
   it "has a fulltext" do
 
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_fulltext.txt"))
-      sfx = Sfx.new(context_object, configuration)
+      sfx = Sfx.new(reference, configuration)
       sfx.callback { |result|        
         result.first.url.must_be :==, "http://globalproxy.cvt.dk/login?url=http://link.springer.com/article/10.1145/2441776.2441941"
         result.first.service_type.must_be :==, "fulltext"
@@ -39,7 +38,7 @@ describe Sfx do
 
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_no_fulltext.txt"))
-      sfx = Sfx.new(context_object, configuration)
+      sfx = Sfx.new(reference, configuration)
       sfx.callback { |result|
         result.must_be_empty
       }

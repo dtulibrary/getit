@@ -4,11 +4,11 @@ require_relative 'service'
 class Sfx
   include Service
 
-  def initialize(configuration, context_object)    
+  def initialize(reference, configuration)    
     # mapping of service type names between SFX and GetIT
     @sfx_to_getit_types = {"getFullTxt" => "fulltext"}
     
-    super(configuration, context_object)
+    super(reference, configuration)
   end
 
   def parse_response
@@ -35,7 +35,6 @@ class Sfx
           response.url = target.at("./target_url").inner_text.chomp("/")
           response.service_type = @sfx_to_getit_types[service_type]
           response.source = "sfx"
-          response.priority = @configuration["priority"]
 
           if((target/"./target_public_name").inner_text =~ /open access/i)
             response.subtype = "openaccess"
@@ -54,7 +53,7 @@ class Sfx
   end
 
   def get_query    
-    co = @clean_context_object
+    co = @reference.clean_context_object
     co.serviceType.push(OpenURL::ContextObjectEntity.new) if co.serviceType.length == 0
     @sfx_to_getit_types.values.each do |service_type|
       co.serviceType.first.set_metadata(service_type, "true")

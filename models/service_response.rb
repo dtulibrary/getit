@@ -5,7 +5,6 @@ class ServiceResponse
   attr_accessor :service_type
   attr_accessor :subtype
   attr_accessor :source  
-  attr_accessor :priority
   attr_accessor :text
   attr_accessor :note
 
@@ -14,7 +13,6 @@ class ServiceResponse
     @service_type = ""
     @subtype = ""
     @source = ""
-    @priority = -1
     @text = ""
     @note = ""
   end

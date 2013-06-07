@@ -1,67 +1,73 @@
-
 require_relative "../helpers/rules_helper"
 require_relative "../helpers/application_helper"
 
+# Rule format:
+#
+# rule :name,
+#      priority: number 
+#      reply: [conditions] (msg send ok if conditions => true)
+#      skip:  [conditions] (msg send not ok if conditions => true)
+#      wait:  [conditions] (hold msg if conditions => true) 
+#
 module Rules
   include RulesHelper
   include ApplicationHelper
 
-  def add_fulltext_rules(user_type)
+  def add_fulltext_rules
 
-    # direct fulltext access (via local store or sfx) is preferred over order,
-    # for public version this only applies to open access     
-    subtype = ["public", "anonymous"].include?(user_type) ? "openaccess" : nil
+    # DTU - direct fulltext access is preferred over scan
     rule :direct_fulltext_preempts_scan,
-         reply: service_is_not("scan"),
-         skip: has_sent_services(subtype, ["metastore", "sfx"]),
-         wait: has_not_processed_services(["metastore", "sfx"])
+         reply: [user_is_not_dtu, service_is_not("scan")],
+         skip: has_seen_services(["metastore", "sfx"]),
+         wait: has_not_seen_services(["metastore", "sfx"])
 
-    fulltext_common_rules(user_type)
+    # Public - scan is preferred over licensed direct fulltexts
+    rule :openaccess_fulltext_preempts_scan,
+         reply: [user_is_dtu, service_is_not("scan")],
+         skip: has_seen_services("openaccess", ["metastore", "sfx"]),
+         wait: has_not_seen_services(["metastore", "sfx"])
+
+    fulltext_common_rules
   end
 
-  def add_fulltext_short_rules(user_type)    
+  def add_fulltext_short_rules
+
     # only one response needed
     rule :max_one,
          priority: 1,
-         skip: has_seen_any
+         skip: has_sent_any
 
     rule :openaccess_preempts_scan,
          priority: 2,
-         reply: service_is_not("scan"),
-         skip: has_sent_services("openaccess", ["metastore", "sfx"]),
-         wait: has_not_processed_services(["metastore", "sfx"])
+         reply: [service_is_not("scan")],
+         skip: has_seen_services("openaccess", ["metastore", "sfx"]),
+         wait: has_not_seen_services(["metastore", "sfx"])
 
-    if(dtu?(user_type))     
+    # DTU - licensed higher priority than open access
+    rule :license_preempts_openaccess,
+          priority: 3,
+          reply: [user_is_not_dtu, service_and_subtype_is_not("openaccess", ["sfx", "metastore"])],
+          skip: has_seen_services("license", ["metastore", "sfx"]),
+          wait: has_not_seen_services(["metastore", "sfx"])
 
-      # DTU - licensed higher priority than open access
-      rule :license_preempts_openaccess,
-            priority: 3,
-            reply: service_and_subtype_is_not("openaccess", ["sfx", "metastore"]),
-            skip: has_sent_services("license", ["metastore", "sfx"]),
-            wait: has_not_processed_services(["metastore", "sfx"])
-    else
+    # Public - Scan higher priority than license
+    rule :scan_preempts_licensed,
+         priority: 3,
+         reply: [user_is_dtu, service_and_subtype_is_not("license", ["sfx", "metastore"])],
+         skip: has_seen_services(["scan"]),
+         wait: has_not_seen_services(["scan"])
 
-      # Public: Scan higher priority than license
-      rule :scan_preempts_licensed,
-           priority: 3,
-           reply: service_and_subtype_is_not("license", ["sfx", "metastore"]),
-           skip: has_sent_services(["scan"]),
-           wait: has_not_processed_services(["scan"])
-    end
-
-    fulltext_common_rules(user_type)
+    fulltext_common_rules
   end
 
-  def fulltext_common_rules(user_type)
+  def fulltext_common_rules
 
-    # metastore responses are preferred over sfx responses for the same subtypes (licensed or open access)
+    # metastore has higher priority than sfx for the same subtypes (licensed or open access)
     rule :metastore_preempts_sfx,   
-         # only relevant for sfx responses 
          reply: service_is_not("sfx"),
-         # response should be skipped if we have already seen one from metastore with the same subtype
-         skip: has_sent_service_with_same_subtype("metastore"),
+         skip: has_seen_service_with_same_subtype("metastore"),
          # wait for decision if we haven't seen any responses from metastore yet
-         wait: has_not_processed_services(["metastore"])
+         wait: has_not_seen_services(["metastore"])
   end
 
 end

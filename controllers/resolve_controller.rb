@@ -1,4 +1,3 @@
-require 'openurl'
 require_relative 'application_controller'
 require_relative '../models/dispatch_decider'
 
@@ -11,17 +10,10 @@ class ResolveController < ApplicationController
     headers "Cache-Control" => "no-cache",
             "Access-Control-Allow-Origin" => "*"
 
-    # create context object from parameters
-    # note that no validity check on openurl parameters are made 
-    context_object = OpenURL::ContextObject.new_from_form_vars(params)
-    user_type = get_user_type(context_object)
-
-    service_list_name = context_object.serviceType.first.private_data if context_object.serviceType.length > 0
-    service_list_name ||= settings.service_list_default
+    reference = Reference.new(params)    
+    service_list_name = reference.service_list_name || settings.service_list_default
     service_list = settings.service_lists[service_list_name]
-    logger.info "Request for service list #{service_list_name}"
-
-    decider = DispatchDecider.new(service_list_name, user_type)
+    decider = DispatchDecider.new(service_list_name, reference)
 
     stream(:keepalive) do |out|
 
@@ -34,7 +26,7 @@ class ResolveController < ApplicationController
         if klass = get_class(service_conf["type"])
         
           logger.info "Calling service #{service_name}"
-          service = klass.new(context_object, settings.services)
+          service = klass.new(reference, settings.services)
 
           service.callback do |results|
             logger.info("Writing result for #{service_name}")
@@ -47,13 +39,13 @@ class ResolveController < ApplicationController
                 results.each do |result|                    
                   can_send = decider.can_send(result)
                   if(can_send == :yes)
-                    out << write_response(result, user_type, context_object, settings.prices)
+                    out << write_response(result, reference, settings.prices)
                   elsif(can_send == :maybe)
                     on_hold << result 
                   end
-                  decider.status.update(result, can_send == :yes)
+                  decider.status.update(result.source, can_send, result.subtype)
                 end
-                decider.status.mark_no_response(service_name) if results.empty?                
+                decider.status.update(service_name, :no) if results.empty?                
               end
             end
             logger.info "callback done"
@@ -61,7 +53,7 @@ class ResolveController < ApplicationController
           end
 
           service.errback do |error|            
-            decider.status.mark_no_response(service_name)
+            decider.status.update(service_name, :no)
             logger.error "#{error}"
             iter.return
           end
@@ -72,10 +64,10 @@ class ResolveController < ApplicationController
       end
 
       # process results we haven't decided whether to send yet
-      on_hold.sort_by(&:priority).each do |result|        
+      on_hold.each do |result|        
         can_send = decider.can_send(result)        
-        out << write_response(result, user_type, context_object, settings.prices) if can_send == :yes
-        decider.status.update(result, can_send == :yes)
+        out << write_response(result, reference, settings.prices) if can_send == :yes
+        decider.status.update(result.source, can_send, result.subtype)
       end
       
       out << "event: close\n"

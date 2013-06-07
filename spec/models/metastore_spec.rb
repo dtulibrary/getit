@@ -1,4 +1,3 @@
-
 require_relative '../test_helper'
 
 describe Metastore do
@@ -17,13 +16,13 @@ describe Metastore do
   }
 
   configuration = {"metastore" => {"url" => "http://example.com"}}
-  context_object = OpenURL::ContextObject.new_from_form_vars(params)
+  reference = Reference.new(params)
 
   it "finds a fulltext url" do
 
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr1.txt"))
-      metastore = Metastore.new(context_object, configuration)
+      metastore = Metastore.new(reference, configuration)
       metastore.callback { |result|
         result.first.url.must_equal("http://arxiv.org/abs/0801.1253")
         result.first.service_type.must_equal("fulltext")
@@ -38,7 +37,7 @@ describe Metastore do
 
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr2.txt"))
-      metastore = Metastore.new(context_object, configuration)
+      metastore = Metastore.new(reference, configuration)
       metastore.callback { |result|        
         result.must_be_empty
       }
@@ -52,7 +51,7 @@ describe Metastore do
 
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr3.txt"))
-      metastore = Metastore.new(context_object, configuration)
+      metastore = Metastore.new(reference, configuration)
       metastore.callback { |result|        
         result.must_be_empty
       }
@@ -66,7 +65,7 @@ describe Metastore do
 
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(:status => 404)
-      metastore = Metastore.new(context_object, configuration)
+      metastore = Metastore.new(reference, configuration)
       metastore.callback { |result|        
         result.must_be_empty
       }
@@ -75,6 +74,4 @@ describe Metastore do
       }
     }
   end
-
 end
-

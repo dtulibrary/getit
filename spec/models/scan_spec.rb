@@ -41,11 +41,11 @@ describe Scan do
 
   it "finds a local scan option" do
 
-    context_object = OpenURL::ContextObject.new_from_form_vars(params_local)
+    reference = Reference.new(params_local)
     
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings.txt"))
-      scan = Scan.new(context_object, configuration)
+      scan = Scan.new(reference, configuration)
       scan.callback { |result|
         result.first.subtype == "dtic_scan"
       }
@@ -57,11 +57,11 @@ describe Scan do
 
   it "does not find a local scan option" do
     
-    context_object = OpenURL::ContextObject.new_from_form_vars(params_no_local)
+    reference = Reference.new(params_no_local)
 
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings_no_result.txt"))
-      scan = Scan.new(context_object, configuration)
+      scan = Scan.new(reference, configuration)
       scan.callback { |result|
         result.first.subtype == "rd_scan"
       }

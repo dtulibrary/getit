@@ -16,6 +16,9 @@ describe "resolve" do
 
   it "handles requests for unknown services" do
   end
+
+  it "handles params which are not correct open url" do
+  end
   
 end
 

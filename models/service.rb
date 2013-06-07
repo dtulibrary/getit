@@ -1,24 +1,20 @@
-
 require 'em-http'
-require 'active_support/json'
 
 module Service
   include EventMachine::Deferrable
 
   attr_reader :response
 
-  def initialize(context_object, service_settings, dry_run = false)
+  def initialize(reference, service_settings)
     # TODO configuration validation
     @configuration = service_settings[self.class.to_s.downcase]
-    @context_object = context_object
-    @clean_context_object = cleanup_context_object    
+    @reference = reference
     @response = {}
-    if !dry_run
-      call
-    end
+    call
   end    
 
-  def call        
+  def call            
+    puts "calling service with #{get_query}"
     request = EM::HttpRequest.new(@configuration["url"]).get({
       :query => get_query
     })
@@ -39,17 +35,7 @@ module Service
     }
   end
 
-  def custom_co_data
-    data = {}
-
-    if @context_object.referent.metadata.has_key?('data')
-      data = JSON.parse(@context_object.referent.metadata['data']) 
-    end
-
-    data
-  end
-
-  ### Override in class ###
+  # Override methods below in including class 
 
   def parse_response
     ServiceResponse.new
@@ -57,17 +43,6 @@ module Service
 
   def get_query
     {}
-  end
-
-  ###
-
-  private
-
-  def cleanup_context_object
-    clean_context_object = @context_object
-    clean_context_object.requestor.identifiers.each {|id| clean_context_object.requestor.delete_identifier(id)}        
-    clean_context_object.serviceType.first.set_private_data('') if clean_context_object.serviceType.length > 0
-    clean_context_object
   end
 
 end

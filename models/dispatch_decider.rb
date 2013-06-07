@@ -6,16 +6,17 @@ class DispatchDecider
 
   attr_accessor :status
 
-  def initialize(service_list_name, user_type)
+  def initialize(service_list_name, reference)
 
+    @reference = reference
     @status = Status.new    
     @rules = []
 
     if(service_list_name.eql?("fulltext"))
-      add_fulltext_rules(user_type)
+      add_fulltext_rules
     else
       if(service_list_name.eql?("fulltext_short"))
-        add_fulltext_short_rules(user_type)
+        add_fulltext_short_rules
       end
     end
   end
@@ -42,9 +43,8 @@ class DispatchDecider
   #
   def process_rules(data)
     result = :yes
-    @rules.sort_by(&:priority).each do |rule|      
+    @rules.sort_by(&:priority).each do |rule|    
       test = rule.run(data, @status)
-
       if(test != :yes)
         result = test
         if(result == :no)
@@ -57,24 +57,34 @@ class DispatchDecider
 
   class Status
     attr_accessor :count
-    attr_accessor :seen
+    attr_accessor :sent
+    attr_accessor :onhold
+    attr_accessor :ignore
 
     def initialize
       @count = 0
-      @seen = {}
+      @sent, @onhold = {}, {}
+      @ignore = []
     end
 
-    def update(result, has_sent)
-      if(has_sent)
+    def update(name, status, subtype = nil)
+      case status
+      when :yes
+        @sent[name] = subtype
         @count += 1
-        @seen[result.source] = result.subtype    
+      when :maybe
+        @onhold[name] = subtype
       else
-        @seen[result.source] = -1  
+        @ignore << name
       end
     end
+    
+    def seen
+      @sent.keys + @onhold.keys + @ignore
+    end
 
-    def mark_no_response(service_name)
-      @seen[service_name] = -1
+    def seen_with_subtype
+      @sent.merge(@onhold)
     end
   end
 
@@ -97,15 +107,28 @@ class DispatchDecider
     end
 
     def run(data, status)
-      result = :yes  
-      if(reply.call(data, status))
+      result = :yes      
+      if(evaluate(reply, data))
         result = :yes
-      elsif(test = skip.call(data, status))
+      elsif(evaluate(skip, data))
         result = :no
-      elsif(wait.call(data, status))        
+      elsif(evaluate(wait, data))        
         result = :maybe
       end
       result
+    end
+
+    private 
+
+    def evaluate(predicates, data)
+      if(!predicates.is_a?(Array))
+        predicates = [predicates]
+      end
+      predicates.each do |predicate|
+        res = predicate.call(data)
+        return true if res
+      end
+      return false      
     end
   end
 end

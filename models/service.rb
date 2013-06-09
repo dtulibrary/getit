@@ -11,9 +11,7 @@ module Service
     # TODO configuration validation
     @configuration = service_settings[self.class.to_s.downcase]
     @reference = reference    
-    @cache_enabled = cache_settings["enabled"] || false
-    options = {:expires_in => @configuration["cache_timeout"], :compress => true}        
-    @cache_client = Dalli::Client.new(cache_settings["hosts"] || 'localhost:11211', options) if @cache_enabled
+    @cache_client = ServiceCache.new(cache_settings, @configuration["cache_timeout"])
     call
   end    
 
@@ -21,9 +19,8 @@ module Service
     query = get_query
     cache_key = Zlib.crc32(query.to_s)
 
-    @response = @cache_client.get(cache_key) if @cache_enabled    
-
-    if(@cache_enabled && !@response.nil?)
+    @response = @cache_client.get(cache_key)
+    if(!@response.nil?)
       self.succeed(parse_response)      
     else
       @response = {}
@@ -35,15 +32,45 @@ module Service
           @response[:status] = request.response_header.status
           @response[:header] = request.response_header
           @response[:body] = request.response        
-          @cache_client.add(cache_key, @response) if @cache_enabled
+          @cache_client.add(cache_key, @response)
           self.succeed(parse_response)          
         else
           self.fail("Service #{self.class} failed with status #{request.response_header.status} for url: #{@configuration['url']}, query: #{get_query}")
         end
       }
       request.errback {
-        self.fail("Error making API call: #{request.error}")
+        self.fail("Error making API call for #{self.class}: #{request.error}")
       }
+    end
+  end
+
+  class ServiceCache
+    attr_reader :client
+
+    def initialize(settings, timeout)
+      @enabled = false  
+      if(settings["enabled"])
+        @enabled = true 
+        options = {:expires_in => timeout, :compress => true}        
+        begin
+          @client = Dalli::Client.new(settings["hosts"] || 'localhost:11211', options) 
+        rescue Dalli::RingError
+          @enabled = false
+          # TODO log a warning
+        end  
+      end
+    end
+
+    def get(key)      
+      @client.get(key) if @enabled   
+    rescue Dalli::RingError
+      nil
+    end
+
+    def add(key, value)
+      @client.add(key, value) if @enabled
+    rescue Dalli::RingError
+      nil
     end
   end
 

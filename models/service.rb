@@ -25,8 +25,9 @@ module Service
       log.info "#{self.class} cache hit with #{cache_key}"
       self.succeed(parse_response)      
     else
-      log.info "#{self.class} cache miss"
+      log.info "#{self.class} cache miss with #{cache_key}"
       @response = {}
+      log.info "#{self.class} call service with #{get_query}"
       request = EM::HttpRequest.new(@configuration["url"]).get({
         :query => query
       })      

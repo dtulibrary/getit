@@ -6,8 +6,10 @@ class Reference
   attr_reader :context_object
 
   def initialize(params)
+    # remove sse param
+    params.delete("r")
     # create context object from parameters
-    # note that no validity check on openurl parameters are made 
+    # note that no validity check on openurl parameters are made     
     @context_object = OpenURL::ContextObject.new_from_form_vars(params)
   end
 

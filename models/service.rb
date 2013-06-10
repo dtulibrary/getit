@@ -16,13 +16,16 @@ module Service
   end    
 
   def call         
+    log = Kyandi.logger
     query = get_query
     cache_key = Zlib.crc32(query.to_s)
 
     @response = @cache_client.get(cache_key)
     if(!@response.nil?)
+      log.info "#{self.class} cache hit with #{cache_key}"
       self.succeed(parse_response)      
     else
+      log.info "#{self.class} cache miss"
       @response = {}
       request = EM::HttpRequest.new(@configuration["url"]).get({
         :query => query

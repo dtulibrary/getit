@@ -11,7 +11,7 @@ class Metastore
 
     service_responses = []
 
-    if(count > 0 && response["docs"].first.has_key?("fulltext_list_ssf"))
+    if count > 0 && response["docs"].first.has_key?("fulltext_list_ssf")
 
       fulltext = JSON.parse(response["docs"].first["fulltext_list_ssf"].first)    
       

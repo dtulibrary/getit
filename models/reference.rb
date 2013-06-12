@@ -18,7 +18,7 @@ class Reference
   end
 
   def clean_context_object
-    if(!defined?(@clean_context_object))
+    if !defined?(@clean_context_object)
       @clean_context_object = OpenURL::ContextObject.new_from_kev(@context_object.kev)
       @clean_context_object.requestor.identifiers.each {|id| clean_context_object.requestor.delete_identifier(id)}        
       @clean_context_object.serviceType.first.set_private_data('') if clean_context_object.serviceType.length > 0
@@ -35,15 +35,8 @@ class Reference
   end
 
   def doctype
-    doctype = @context_object.referent.format
-    if(doctype == "journal")
-      # could be both an article or a journal
-      #TODO make sure genre is set
-      if(@context_object.referent.metadata.has_key?("genre"))
-        doctype = @context_object.referent.metadata["genre"]
-      end
-    end
-    return doctype
+    doctype = @context_object.referent.metadata["genre"]
+    doctype ||= @context_object.referent.format
   end
 
   def user_type

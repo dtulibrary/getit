@@ -21,7 +21,7 @@ module Service
     cache_key = Zlib.crc32(query.to_s)
 
     @response = @cache_client.get(cache_key)
-    if(!@response.nil?)
+    if !@response.nil?
       log.info "#{self.class} cache hit with #{cache_key}"
       self.succeed(parse_response)      
     else
@@ -53,7 +53,7 @@ module Service
 
     def initialize(settings, timeout)
       @enabled = false  
-      if(settings["enabled"])
+      if settings["enabled"]
         @enabled = true 
         options = {:expires_in => timeout, :compress => true}        
         begin

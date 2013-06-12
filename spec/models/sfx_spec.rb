@@ -10,7 +10,7 @@ describe Sfx do
     "rft_val_fmt" => "info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal",
     "rft.au"      => "Baillot%2C+Patrick",
     "rft.atitle"  => "Linear+Logic+by+Levels+and+Bounded+Time+Complexity",
-    "rft.year"    => "2008",
+    "rft.date"    => "2008",
     "rft.doi"     => "10.1016%2Fj.tcs.2009.09.015",
     "rft.data"    => "{\"id\":\"1\"}"
   }

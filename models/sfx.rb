@@ -29,21 +29,21 @@ class Sfx
 
         service_type = target.at("./service_type").inner_text
 
-        if(@configuration["service_types"].include?(@sfx_to_getit_types[service_type]))          
+        if @configuration["service_types"].include?(@sfx_to_getit_types[service_type])
 
           response = ServiceResponse.new
           response.url = target.at("./target_url").inner_text.chomp("/")
           response.service_type = @sfx_to_getit_types[service_type]
           response.source = "sfx"
 
-          if((target/"./target_public_name").inner_text =~ /open access/i)
+          if (target/"./target_public_name").inner_text =~ /open access/i
             response.subtype = "openaccess"
           else
             response.subtype = "license"
           end
 
           # only include response if it's not a duplicate (i.e. different target names but identical URLs)
-          if(!duplicate?(response, service_responses))
+          if !duplicate?(response, service_responses)
             service_responses << response
           end
         end

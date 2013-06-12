@@ -13,7 +13,7 @@ describe DispatchDecider do
     "rft.jtitle" => "Communications+of+the+ACM",
     "rft.issn" => "00010782",
     "rft.issn" => "15577317",
-    "rft.year" => "2008",
+    "rft.date" => "2008",
     "rft.volume" => "51",
     "rft.issue" => "7",
     "rft.pages" => "35-39",

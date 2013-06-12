@@ -12,10 +12,10 @@ class DispatchDecider
     @status = Status.new    
     @rules = []
 
-    if(service_list_name.eql?("fulltext"))
+    if service_list_name.eql?("fulltext")
       add_fulltext_rules
     else
-      if(service_list_name.eql?("fulltext_short"))
+      if service_list_name.eql?("fulltext_short")
         add_fulltext_short_rules
       end
     end
@@ -45,9 +45,9 @@ class DispatchDecider
     result = :yes
     @rules.sort_by(&:priority).each do |rule|    
       test = rule.run(data, @status)
-      if(test != :yes)
+      if test != :yes
         result = test
-        if(result == :no)
+        if result == :no
           break
         end
       end
@@ -108,11 +108,11 @@ class DispatchDecider
 
     def run(data, status)
       result = :yes      
-      if(evaluate(reply, data))
+      if evaluate(reply, data)
         result = :yes
-      elsif(evaluate(skip, data))
+      elsif evaluate(skip, data)
         result = :no
-      elsif(evaluate(wait, data))        
+      elsif evaluate(wait, data)
         result = :maybe
       end
       result
@@ -121,7 +121,7 @@ class DispatchDecider
     private 
 
     def evaluate(predicates, data)
-      if(!predicates.is_a?(Array))
+      if !predicates.is_a?(Array)
         predicates = [predicates]
       end
       predicates.each do |predicate|

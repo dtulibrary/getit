@@ -14,7 +14,7 @@ describe Scan do
     "rft.jtitle" => "Computer+Supported+Cooperative+Work",
     "rft.issn" => "09259724",
     "rft.issn" => "15737551",
-    "rft.year" => "2013",
+    "rft.date" => "2013",
     "rft.pages" => "1463-1468",
     "rft.doi" => "10.1145%2F2441776.2441941"
   }

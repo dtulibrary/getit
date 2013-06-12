@@ -38,9 +38,9 @@ class ResolveController < ApplicationController
                 # otherwise push to decision to all services has been executed
                 results.each do |result|                    
                   can_send = decider.can_send(result)
-                  if(can_send == :yes)
+                  if can_send == :yes
                     out << write_response(result, reference, settings.prices)
-                  elsif(can_send == :maybe)
+                  elsif can_send == :maybe
                     on_hold << result 
                   end
                   decider.status.update(result.source, can_send, result.subtype)

@@ -22,7 +22,7 @@ module ApplicationHelper
   def write_response(service_response, reference, prices)
     translation_key = "#{service_response.service_type}.#{service_response.subtype}.text"
     translation_key << ".#{reference.user_type}" if service_response.subtype.eql?("license")
-    if(service_response.source.eql?("scan"))
+    if service_response.source.eql?("scan")
       price = prices[service_response.subtype][reference.user_type] || -1
       price = "No" if price == 0
       price = "#{price} dkr."

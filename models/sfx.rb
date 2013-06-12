@@ -56,11 +56,14 @@ class Sfx
     co = @reference.clean_context_object
     co.serviceType.push(OpenURL::ContextObjectEntity.new) if co.serviceType.length == 0
     @sfx_to_getit_types.values.each do |service_type|
-      co.serviceType.first.set_metadata(service_type, "true")
+      co.serviceType.first.set_metadata(service_type, "yes")
     end    
     co_h = co.to_hash.merge({"req.ip" => "127.0.0.1", "sfx.response_type" => "multi_obj_xml"})
     # remove timestamp so it can be used as cache key    
     co_h.delete("ctx_tim")
+    if @reference.doctype == "journal"
+      co_h["sfx.ignore_date_threshold"] = 1
+    end
     co_h
   end
 

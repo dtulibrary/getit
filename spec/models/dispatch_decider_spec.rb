@@ -17,7 +17,8 @@ describe DispatchDecider do
     "rft.volume" => "51",
     "rft.issue" => "7",
     "rft.pages" => "35-39",
-    "rft.doi" => "10.1145%2F1364782.1364794"
+    "rft.doi" => "10.1145%2F1364782.1364794",
+    "rft.genre" => "article"
   }
 
   it "ignores the scan response" do

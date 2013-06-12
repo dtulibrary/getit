@@ -12,7 +12,7 @@ class ResolveController < ApplicationController
 
     reference = Reference.new(params)    
     service_list_name = reference.service_list_name || settings.service_list_default
-    service_list = settings.service_lists[service_list_name]
+    service_list = settings.service_lists[service_list_name][reference.doctype]
     decider = DispatchDecider.new(service_list_name, reference)
 
     stream(:keepalive) do |out|

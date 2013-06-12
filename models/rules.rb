@@ -30,34 +30,36 @@ module Rules
     fulltext_common_rules
   end
 
-  def add_fulltext_short_rules
+  def add_fulltext_short_rules(doctype)
 
     # only one response needed
     rule :max_one,
          priority: 1,
          skip: has_sent_any
 
-    rule :openaccess_preempts_scan,
-         priority: 2,
-         reply: [service_is_not("scan")],
-         skip: has_seen_services("openaccess", ["metastore", "sfx"]),
-         wait: has_not_seen_services(["metastore", "sfx"])
+    if doctype == "article"
+      rule :openaccess_preempts_scan,
+           priority: 2,
+           reply: [service_is_not("scan")],
+           skip: has_seen_services("openaccess", ["metastore", "sfx"]),
+           wait: has_not_seen_services(["metastore", "sfx"])
 
-    # DTU - licensed higher priority than open access
-    rule :license_preempts_openaccess,
-          priority: 3,
-          reply: [user_is_not_dtu, service_and_subtype_is_not("openaccess", ["sfx", "metastore"])],
-          skip: has_seen_services("license", ["metastore", "sfx"]),
-          wait: has_not_seen_services(["metastore", "sfx"])
+      # DTU - licensed higher priority than open access
+      rule :license_preempts_openaccess,
+            priority: 3,
+            reply: [user_is_not_dtu, service_and_subtype_is_not("openaccess", ["sfx", "metastore"])],
+            skip: has_seen_services("license", ["metastore", "sfx"]),
+            wait: has_not_seen_services(["metastore", "sfx"])
 
-    # Public - Scan higher priority than license
-    rule :scan_preempts_licensed,
-         priority: 3,
-         reply: [user_is_dtu, service_and_subtype_is_not("license", ["sfx", "metastore"])],
-         skip: has_seen_services(["scan"]),
-         wait: has_not_seen_services(["scan"])
+      # Public - Scan higher priority than license
+      rule :scan_preempts_licensed,
+           priority: 3,
+           reply: [user_is_dtu, service_and_subtype_is_not("license", ["sfx", "metastore"])],
+           skip: has_seen_services(["scan"]),
+           wait: has_not_seen_services(["scan"])
 
-    fulltext_common_rules
+      fulltext_common_rules
+    end
   end
 
   def fulltext_common_rules

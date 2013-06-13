@@ -1,4 +1,6 @@
 
+require 'json'
+
 class ServiceResponse
 
   attr_accessor :url
@@ -7,17 +9,26 @@ class ServiceResponse
   attr_accessor :source  
   attr_accessor :text
   attr_accessor :note
+  attr_accessor :priority
 
   def initialize
-    @url = ""
-    @service_type = ""
-    @subtype = ""
-    @source = ""
-    @text = ""
-    @note = ""
+    @public_vars = ["@url", "@service_type", "@subtype", "@source", "@text", "@note"]
   end
 
   def to_json
-    ActiveSupport::JSON.encode(self)
+    sr_map = {}
+    self.instance_variables.each do |var|
+      if(instance_variable_defined?(var) && @public_vars.include?(var.to_s))
+        sr_map[var_name(var)] = self.instance_variable_get(var.to_s)
+      end      
+    end
+    sr_map.to_json
   end
-end
+
+  private
+
+  def var_name(var)
+    var.to_s.sub(/^@/, "")
+  end
+
+end 

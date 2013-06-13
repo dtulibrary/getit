@@ -7,6 +7,15 @@ class Sfx
   def initialize(reference, configuration, cache_settings = {})    
     # mapping of service type names between SFX and GetIT
     @sfx_to_getit_types = {"getFullTxt" => "fulltext"}
+
+    @sfx_target_priority = {
+      "EBSCOHOST_ACADEMIC_SEARCH_ELITE" => 1,       
+      "EBSCOHOST_BUSINESS_SOURCE_PREMIER" => 1,
+      "JSTOR_ARTS_AND_SCIENCES_1" => 1,
+      "JSTOR_LIFE_SCIENCES_COLLECTION" => 1,
+      "JSTOR_EARLY_JOURNAL_CONTENT_FREE" => 1      
+    }
+    @sfx_target_priority.default = 0
     
     super(reference, configuration, cache_settings)
   end
@@ -35,6 +44,7 @@ class Sfx
           response.url = target.at("./target_url").inner_text.chomp("/")
           response.service_type = @sfx_to_getit_types[service_type]
           response.source = "sfx"
+          response.priority = @sfx_target_priority[target.at("./target_name").inner_text]
 
           if (target/"./target_public_name").inner_text =~ /open access/i
             response.subtype = "openaccess"
@@ -49,6 +59,12 @@ class Sfx
         end
       end
     end
+
+    # sort and return, max one open access & one licensed
+    sr_licensed, sr_openaccess = service_responses.partition {|sr| sr.subtype == "license"}
+    service_responses = []
+    service_responses << sr_licensed.sort_by(&:priority).first if !sr_licensed.nil? && !sr_licensed.empty?
+    service_responses << sr_openaccess.sort_by(&:priority).first if !sr_openaccess.nil? && !sr_openaccess.empty?
     service_responses
   end
 

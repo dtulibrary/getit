@@ -15,8 +15,13 @@ class Metastore
 
       fulltext = JSON.parse(response["docs"].first["fulltext_list_ssf"].first)    
       
+      url = fulltext["url"]
+      if fulltext["local"] == true && /http/.match(url).nil? 
+        url.prepend(@configuration["dtic_url"])         
+      end
+
       response = ServiceResponse.new
-      response.url = fulltext["url"]
+      response.url = url
       response.service_type = "fulltext"      
       response.source = "metastore"
       response.subtype = fulltext["type"] == "openaccess" ? "openaccess" : "license"

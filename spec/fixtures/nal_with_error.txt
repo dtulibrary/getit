@@ -1,0 +1,40 @@
+HTTP/1.1 200 OK
+Date: Thu, 13 Jun 2013 14:59:36 GMT
+Server: Apache/2.2.3 (Red Hat)
+Content-Length: 6162
+Connection: close
+Content-Type: application/json;charset=UTF-8
+
+[{
+    "authentication": "STUD, STAFF, WALKIN", 
+    "errorMessage": "Read timed out", 
+    "id": "sdu", 
+    "providerHTMLOpenUrl": null, 
+    "providerXMLOpenUrl": null, 
+    "public_name_DK": "University of Southern Denmark", 
+    "public_name_ENG": "University of Southern Denmark", 
+    "serviceType": "INST_ONLINE", 
+    "type": "sfx"
+}, 
+{
+    "authentication": "STUD, STAFF, WALKIN", 
+    "errorMessage": "Read timed out", 
+    "id": "cbs", 
+    "providerHTMLOpenUrl": null, 
+    "providerXMLOpenUrl": null, 
+    "public_name_DK": "CBS", 
+    "public_name_ENG": "CBS", 
+    "serviceType": "INST_ONLINE", 
+    "type": "sfx"
+}, 
+{
+    "authentication": "STUD, STAFF, WALKIN", 
+    "errorMessage": null, 
+    "id": "aau", 
+    "providerHTMLOpenUrl": "http://sfx.aub.aau.dk/sfxaub?svc.fulltext=yes&ctx_ver=Z39.88-2004&amp;ctx_enc=info%3Aofi%2Fenc%3AUTF-8&amp;url_ctx_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Actx&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.au=Spengler%2C+S.&amp;rft.atitle=Data+Scientists%2C+Data+Management+and+Data+Policy&amp;rft.jtitle=LECTURE+NOTES+IN+COMPUTER+SCIENCE&amp;rft.issn=0302-9743&amp;rft.issn=03029743&amp;rft.issn=16113349&amp;rft.year=2011&amp;rft.issue=6809&amp;rft.pages=490", 
+    "providerXMLOpenUrl": "http://sfx.aub.aau.dk/sfxaub?sfx.response_type=simplexml&svc.fulltext=yes&ctx_ver=Z39.88-2004&amp;ctx_enc=info%3Aofi%2Fenc%3AUTF-8&amp;url_ctx_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Actx&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.au=Spengler%2C+S.&amp;rft.atitle=Data+Scientists%2C+Data+Management+and+Data+Policy&amp;rft.jtitle=LECTURE+NOTES+IN+COMPUTER+SCIENCE&amp;rft.issn=0302-9743&amp;rft.issn=03029743&amp;rft.issn=16113349&amp;rft.year=2011&amp;rft.issue=6809&amp;rft.pages=490", 
+    "public_name_DK": "Aalborg Universitet", 
+    "public_name_ENG": "Aalborg University", 
+    "serviceType": "INST_ONLINE", 
+    "type": "sfx"
+}]

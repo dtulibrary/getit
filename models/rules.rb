@@ -27,6 +27,11 @@ module Rules
          skip: has_seen_services("openaccess", ["metastore", "sfx"]),
          wait: has_not_seen_services(["metastore", "sfx"])
 
+    rule :nal_if_no_open_access,
+         reply: service_is_not("nal"),
+         skip: has_seen_services("openaccess", ["metastore", "sfx"]),       
+         wait: has_not_seen_services(["metastore", "sfx"])
+
     fulltext_common_rules
   end
 
@@ -40,7 +45,7 @@ module Rules
     if doctype == "article"
       rule :openaccess_preempts_scan,
            priority: 2,
-           reply: [service_is_not("scan")],
+           reply: service_is_not("scan"),
            skip: has_seen_services("openaccess", ["metastore", "sfx"]),
            wait: has_not_seen_services(["metastore", "sfx"])
 

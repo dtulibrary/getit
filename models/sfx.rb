@@ -13,7 +13,9 @@ class Sfx
       "EBSCOHOST_BUSINESS_SOURCE_PREMIER" => 1,
       "JSTOR_ARTS_AND_SCIENCES_1" => 1,
       "JSTOR_LIFE_SCIENCES_COLLECTION" => 1,
-      "JSTOR_EARLY_JOURNAL_CONTENT_FREE" => 1      
+      "JSTOR_EARLY_JOURNAL_CONTENT_FREE" => 1,  
+      "DOAJ_DIRECTORY_OPEN_ACCESS_JOURNALS_FREE" => 1,
+      "MISCELLANEOUS_FREE_EJOURNALS" => 1    
     }
     @sfx_target_priority.default = 0
     

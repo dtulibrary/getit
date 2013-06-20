@@ -4,6 +4,21 @@ require_relative 'service'
 class Nal
   include Service
 
+  def initialize(reference, configuration, cache_settings = {})    
+    
+    skip = reference.doctype == 'book' &&
+      reference.context_object.referent.metadata['isbn'].nil? && 
+      reference.context_object.referent.metadata['issn'].nil? 
+
+    if skip
+      # do not check for books without isbn
+      # to prevent wrong matches on title
+      self.succeed([])
+    else
+      super(reference, configuration, cache_settings)
+    end
+  end
+
   def parse_response
 
     service_responses = []

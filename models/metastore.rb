@@ -32,8 +32,8 @@ class Metastore
   end    
 
   #TODO option to make fuzzy or not
-  def get_query    
-    {"id" => "#{id}", "fl" => "fulltext_list_ssf", "wt" => "json"}
+  def get_query              
+    {"q" => "{!raw f=cluster_id_ss v=$id}", "id" => "#{id}", "fl" => "fulltext_list_ssf", "wt" => "json"}
   end
 
   private

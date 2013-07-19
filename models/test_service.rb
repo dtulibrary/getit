@@ -4,14 +4,14 @@ require "em-synchrony"
 class TestService 
   include EventMachine::Deferrable
 
-  def initialize(configuration, context_object)
+  def initialize(reference, service_settings, cache_settings = {})
 
     EM.synchrony do
-      EM::Synchrony.sleep(30)
+      EM::Synchrony.sleep(10)
 
       response = ServiceResponse.new
       response.url = "http://example.com"
-      response.type = "test"
+      response.service_type = "test"
       response.source = "test"
       self.succeed([response])
     end

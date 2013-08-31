@@ -12,12 +12,17 @@ class DispatchDecider
     @status = Status.new    
     @rules = []
 
-    if ["fulltext", "fulltext_info"].include?(service_list_name) && @reference.doctype == "article"
-      add_fulltext_rules
-    else
-      if service_list_name.eql?("fulltext_short")
-        add_fulltext_short_rules(@reference.doctype)
+    case service_list_name
+    when "fulltext"
+      if @reference.doctype == "article"
+        add_fulltext_rules 
       end
+    when "fulltext_info"
+      if @reference.doctype == "article"
+        add_fulltext_info_rules
+      end
+    when "fulltext_short"
+      add_fulltext_short_rules(@reference.doctype)
     end
   end
 
@@ -60,22 +65,24 @@ class DispatchDecider
     attr_accessor :sent
     attr_accessor :onhold
     attr_accessor :ignore
+    attr_accessor :responses
 
     def initialize
       @count = 0
       @sent, @onhold = {}, {}
-      @ignore = []
+      @ignore, @responses = [], []
     end
 
-    def update(name, status, subtype = nil)
+    def update(response, status)
       case status
       when :yes
-        @sent[name] = subtype
+        @sent[response.source] = response.subtype
+        @responses << response
         @count += 1
       when :maybe
-        @onhold[name] = subtype
+        @onhold[response.source] = response.subtype
       else
-        @ignore << name
+        @ignore << response
       end
     end
     
@@ -85,7 +92,7 @@ class DispatchDecider
 
     def seen_with_subtype
       @sent.merge(@onhold)
-    end
+    end    
   end
 
   class Rule

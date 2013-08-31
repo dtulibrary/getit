@@ -43,7 +43,7 @@ class ResolveController < ApplicationController
                   elsif can_send == :maybe
                     on_hold << result 
                   end
-                  decider.status.update(result.source, can_send, result.subtype)
+                  decider.status.update(result, can_send)
                 end
                 decider.status.update(service_name, :no) if results.empty?                
               end
@@ -67,7 +67,7 @@ class ResolveController < ApplicationController
       on_hold.each do |result|        
         can_send = decider.can_send(result)        
         out << "data: #{result.to_json}\n\n" if can_send == :yes
-        decider.status.update(result.source, can_send, result.subtype)
+        decider.status.update(result, can_send)
       end
       
       out << "event: close\n"

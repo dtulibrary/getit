@@ -37,7 +37,7 @@ en:
           dtu_student: "From DTU Library server"
           walkin: "From DTU Library server"
           #Map & info
-          public: &map_tool_tip "" 
+          public: &map_tool_tip "Available on-site at DTU Library"
         icon: &license_icon
           dtu_staff: "icon-download-alt"
           dtu_student: "icon-download-alt"

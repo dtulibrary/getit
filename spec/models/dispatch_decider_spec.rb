@@ -5,9 +5,9 @@ describe DispatchDecider do
   params = {
     "url_ver" => "Z39.88-2004",
     "ctx_ver" => "Z39.88-2004",
-    "ctx_enc" => "info%3Aofi%2Fenc%3AUTF-8",
-    "url_ctx_fmt" => "info%3Aofi%2Ffmt%3Akev%3Amtx%3Actx",
-    "rft_val_fmt" => "info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal",
+    "ctx_enc" => "info:ofi/enc:UTF-8",
+    "url_ctx_fmt" => "info:ofi/fmt:kev:mtx:ctx",
+    "rft_val_fmt" => "info:ofi/fmt:kev:mtx:journal",
     "rft.au" => "Knuth%2C+Donald",
     "rft.atitle" => "Interview%3Cbr+%2F%3EThe+%27art%27+of+being+Donald+Knuth",
     "rft.jtitle" => "Communications+of+the+ACM",
@@ -24,6 +24,7 @@ describe DispatchDecider do
   it "ignores the scan response" do
 
     reference = Reference.new(params.merge({"req_id" => "dtu_staff"}))
+
     dd = DispatchDecider.new("fulltext", reference)
     dd.status.update("metastore", :no)
     
@@ -58,7 +59,7 @@ describe DispatchDecider do
 
     metastore_can_send = dd.can_send(metastore_rep)
     metastore_can_send.must_equal(:maybe)
-    dd.status.update(metastore_rep.source, metastore_can_send, metastore_rep.subtype)
+    dd.status.update(metastore_rep, metastore_can_send)
     dd.can_send(sfx_rep).must_equal(:yes)
   end
 
@@ -80,7 +81,7 @@ describe DispatchDecider do
 
     metastore_can_send = dd.can_send(metastore_rep)
     metastore_can_send.must_equal(:maybe)
-    dd.status.update(metastore_rep.source, metastore_can_send, metastore_rep.subtype)
+    dd.status.update(metastore_rep, metastore_can_send)
     dd.can_send(scan_rep).must_equal(:yes)
   end
 end

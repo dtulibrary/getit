@@ -32,13 +32,19 @@ module RulesHelper
       !service_response.subtype.eql?(subtype) || !service_names.include?(service_response.source)
     end
     service_is_not_lambda.curry[service_names, subtype]    
-  end
+  end  
 
   ## status rule helpers
 
   def has_sent_any
     lambda do |service_response| 
       @status.sent.length > 0
+    end
+  end
+
+  def has_sent_short_name
+    lambda do |service_response|
+      @status.responses.collect { |response| response.short_name }.include?(service_response.short_name)
     end
   end
 

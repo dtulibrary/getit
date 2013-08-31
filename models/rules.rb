@@ -35,6 +35,15 @@ module Rules
     fulltext_common_rules
   end
 
+  def add_fulltext_info_rules
+
+    rule :unique_short_names,
+      priority: 1,
+      skip: has_sent_short_name
+
+    add_fulltext_rules
+  end
+
   def add_fulltext_short_rules(doctype)
 
     # only one response needed

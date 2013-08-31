@@ -1,28 +1,246 @@
 en:
   fulltext:
-
-    license:
-      text:
-        dtu_staff: "Full Text"
-        dtu_student: "Full Text"
-        walkin: "Full Text"
-        public: "On-site use at DTU Library"
-        anonymous: "On-site use at DTU Library"
-      note:
-        dtu_staff: "Licensed %{doctype} - No charge"
-        dtu_student: "Licensed %{doctype} - No charge"
-        walkin: "Licensed %{doctype} - No charge"
-        public: "Available for on-site use at DTU Library - No charge"
-        anonymous: "Available for on-site use at DTU Library - No charge"
-
-    openaccess:
-      text: "Open Access"
-      note: "Open Access %{doctype} - No charge"
-
-    dtic_scan:
-      text: "Order scan - %{price}"
-      note: "Order scan - %{price}"
-
-    rd_scan:
-      text: "Order scan - %{price}"
-      note: "Order scan - %{price}"
+    article:
+      license_local:
+        short_name: &license_short_name
+          dtu_staff: &download "Download"
+          dtu_student: *download
+          walkin: *download
+          public: "On-site"
+        type: &license_type
+          dtu_staff: "Online"
+          dtu_student: "Online"
+          walkin: "Online"
+          public: "At DTU"
+        short_explanation: &license_short_explanation
+          dtu_staff: &dtu_download "Download from DTU Library for immediate reading"
+          dtu_student: *dtu_download
+          walkin: *dtu_download
+          public: &public_download "Available on-site at DTU Library"
+        lead_text: &license_lead_text
+          dtu_staff: &nocharge "No charge"
+          dtu_student: *nocharge
+          walkin: *nocharge
+          public: *nocharge
+        explanation: &license_explanation
+          dtu_staff: "Covered by DTU License"
+          dtu_student: "Covered by DTU License"
+          walkin: "On-site at DTU Library"
+          public: ""
+        button_text: &license_button_text
+          dtu_staff: *download
+          dtu_student: *download
+          walkin: *download
+          public: "Visit DTU"
+        tool_tip: &license_tool_tip
+          dtu_staff: "From DTU Library server"
+          dtu_student: "From DTU Library server"
+          walkin: "From DTU Library server"
+          #Map & info
+          public: &map_tool_tip "" 
+        icon: &license_icon
+          dtu_staff: "icon-download-alt"
+          dtu_student: "icon-download-alt"
+          walkin: "icon-download-alt"
+          public: "icon-map-marker"
+      license_remote:
+        short_name: *license_short_name
+        type: *license_type
+        short_explanation:
+          dtu_staff: &license_remote_short "Download from publishers website for immediate reading"
+          dtu_student: *license_remote_short
+          walkin: *license_remote_short
+          public: "Available on-site at DTU Library"
+        lead_text: *license_lead_text
+        explanation: *license_explanation
+        button_text: *license_button_text
+        tool_tip: &license_remote_tool_tip
+          dtu_staff: "From remote server"
+          dtu_student: "From remote server"
+          walkin: "From remote server"
+          public: *map_tool_tip
+        icon: *license_icon
+      openaccess_local:
+        short_name: &openaccess_short_name
+          dtu_staff: *download
+          dtu_student: *download
+          walkin: *download
+          public: *download
+        type: &openaccess_type
+          dtu_staff: "Online"
+          dtu_student: "Online"
+          walkin: "Online"
+          public: "Online"
+        short_explanation:
+          dtu_staff: *dtu_download
+          dtu_student: *dtu_download
+          walkin: *dtu_download
+          public: *dtu_download
+        lead_text: &openaccess_lead_text
+          dtu_staff: *nocharge
+          dtu_student: *nocharge
+          walkin: *nocharge
+          public: *nocharge
+        explanation: &openaccess_explanation
+          dtu_staff: &openaccess "<i class='icon-openaccess'></i>Open Access"
+          dtu_student: *openaccess
+          walkin: *openaccess
+          public: *openaccess
+        button_text: &openaccess_button_text
+          dtu_staff: *download
+          dtu_student: *download
+          walkin: *download
+          public: *download
+        tool_tip: &openaccess_tool_tip
+          dtu_staff: &openaccess_text "Open Access article"
+          dtu_student: *openaccess_text
+          walkin: *openaccess_text
+          public: *openaccess_text
+        icon: &openacces_icon
+          dtu_staff: "icon-download-alt"
+          dtu_student: "icon-download-alt"
+          walkin: "icon-download-alt"
+          public: "icon-download-alt"
+      openaccess_remote:
+        short_name: *openaccess_short_name
+        type: *openaccess_type
+        short_explanation: 
+          dtu_staff: &remote_download "Download from remote repository for immediate reading"
+          dtu_student: *remote_download
+          walkin: *remote_download
+          public: *remote_download
+        lead_text: *openaccess_lead_text
+        explanation: *openaccess_explanation
+        button_text: *openaccess_button_text
+        tool_tip: *openaccess_tool_tip
+        icon: *openacces_icon
+      dtic_scan:
+        short_name: &scan_short_name
+          dtu_staff: &scan_request "Request"
+          dtu_student: *scan_request
+          walkin: &scan_buy "Buy"
+          public: *scan_buy
+        type: &scan_type
+          dtu_staff: &scan "Scan"
+          dtu_student: *scan
+          walkin: *scan
+          public: *scan
+        short_explanation:
+          dtu_staff: &scan_request_text_dtu "Request scan from DTU Library journal collection"
+          dtu_student: *scan_request_text_dtu
+          walkin: &scan_buy_text_dtu "Buy scan from DTU Library journal collection"
+          public: *scan_buy_text_dtu
+        lead_text: &scan_lead_text
+          dtu_staff: "%price"
+          dtu_student: "%price"
+          walkin: "%price"
+          public: "%price"
+        explanation:
+          dtu_staff: &scan_dtu_cover "Covered by DTU"
+          dtu_student: *scan_dtu_cover
+          walkin: ""
+          public: ""
+        button_text:
+          dtu_staff: *scan_request
+          dtu_student: *scan_request
+          walkin: *scan_buy
+          public: *scan_buy
+        tool_tip:
+          dtu_staff: &scan_dtu_tool_tip "Scan from DTU Library Collection"
+          dtu_student: *scan_dtu_tool_tip
+          walkin: *scan_dtu_tool_tip
+          public: *scan_dtu_tool_tip
+        icon: &scan_icon
+          dtu_staff: "icon-file-text"
+          dtu_student: "icon-file-text"
+          walkin: "icon-file-text"
+          public: "icon-file-text"
+      rd_scan:
+        short_name: *scan_short_name
+        type: *scan_type
+        short_explanation:
+          dtu_staff: &scan_request_text_remote "Request scan from external document supplier"
+          dtu_student: *scan_request_text_remote
+          walkin: *scan_request_text_remote
+          public: *scan_request_text_remote
+        lead_text: *scan_lead_text
+        explanation:
+          dtu_staff: *scan_dtu_cover
+          dtu_student: "DTU Student discount price"
+          walkin: ""
+          public: ""
+        button_text:
+          dtu_staff: *scan_request
+          dtu_student: *scan_buy
+          walkin: *scan_buy
+          public: *scan_buy
+        tool_tip:
+          dtu_staff: &scan_remote_tool_tip "Scan from External Supplier"
+          dtu_student: *scan_remote_tool_tip
+          walkin: *scan_remote_tool_tip
+          public: *scan_remote_tool_tip
+        icon: *scan_icon
+      nal:
+        short_name:
+          dtu_staff: &nal_short_name "On-site"
+          dtu_student: *nal_short_name
+          walkin: *nal_short_name
+          public: *nal_short_name
+        type:
+          dtu_staff: &nal_type "In DK"
+          dtu_student: *nal_type
+          walkin: *nal_type
+          public: *nal_type
+        short_explanation:
+          dtu_staff: &nal_short_explanation "Available on-site at Danish libraries"
+          dtu_student: *nal_short_explanation
+          walkin: *nal_short_explanation
+          public: *nal_short_explanation
+        lead_text:
+          dtu_staff: &nal_lead_text "No charge"
+          dtu_student: *nal_lead_text
+          walkin: *nal_lead_text
+          public: *nal_lead_text
+        explanation:
+          dtu_staff: &nal_explanation "Relocate to other library"
+          dtu_student: *nal_explanation
+          walkin: *nal_explanation
+          public: *nal_explanation
+        button_text:
+          dtu_staff: &nal_button_text "At %{n} libraries"
+          dtu_student: *nal_button_text
+          walkin: *nal_button_text
+          public: *nal_button_text
+        tool_tip:
+          #Maps & Info
+          dtu_staff: &nal_tool_tip "" 
+          dtu_student: *nal_tool_tip
+          walkin: *nal_tool_tip
+          public: *nal_tool_tip
+    book:
+      license_local:
+        short_name: &book_license_short_name
+          dtu_staff: *download
+          dtu_student: *download
+          walkin: *download
+          public: ""
+        type: *license_type
+        short_explanation: *license_short_explanation
+        lead_text: *license_lead_text
+        explanation: *license_explanation
+        button_text: *license_button_text
+        tool_tip: *license_tool_tip
+        icon: *license_icon
+      license_remote:
+        short_name: *book_license_short_name
+        type: *license_type
+        short_explanation:
+          dtu_staff: *license_remote_short
+          dtu_student: *license_remote_short
+          walkin: *license_remote_short
+          public: *public_download
+        lead_text: *license_lead_text
+        explanation: *license_explanation
+        button_text: *license_button_text
+        tool_tip: *license_remote_tool_tip
+        icon: *license_icon

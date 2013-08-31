@@ -53,17 +53,32 @@ class Sfx
 
         if @configuration["service_types"].include?(@sfx_to_getit_types[service_type])
 
-          response = ServiceResponse.new
+          response = FulltextServiceResponse.new
           response.url = target.at("./target_url").inner_text.chomp("/")
           response.service_type = @sfx_to_getit_types[service_type]
           response.source = "sfx"
           response.priority = @sfx_target_priority[target.at("./target_name").inner_text]
 
           if (target/"./target_public_name").inner_text =~ /open access/i
-            response.subtype = "openaccess"
+            response.subtype = "openaccess_remote"
           else
-            response.subtype = "license"
+            response.subtype = "license_remote"
           end
+
+          if response.subtype.start_with?("license") && @reference.user_type == "public"
+            response.url = "http://www.dtic.dtu.dk/english/servicemenu/visit/opening#lyngby"
+          end
+
+          lookup_text = "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}"
+
+          response.short_name = I18n.t lookup_text % "short_name"
+          response.type = I18n.t lookup_text % "type"
+          response.short_explanation = I18n.t lookup_text % "short_explanation"
+          response.lead_text = I18n.t lookup_text % "lead_text"
+          response.explanation = I18n.t lookup_text % "explanation"
+          response.button_text = I18n.t lookup_text % "button_text"
+          response.tool_tip = I18n.t lookup_text % "tool_tip"
+          response.icon = I18n.t lookup_text % "icon"          
 
           # only include response if it's not a duplicate (i.e. different target names but identical URLs)
           if !duplicate?(response, service_responses)

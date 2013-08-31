@@ -5,14 +5,15 @@ describe Sfx do
   params = {
     "url_ver"     => "Z39.88-2004",
     "ctx_ver"     => "Z39.88-2004",
-    "ctx_enc"     => "info%3Aofi%2Fenc%3AUTF-8",
-    "url_ctx_fmt" => "info%3Aofi%2Ffmt%3Akev%3Amtx%3Actx",
-    "rft_val_fmt" => "info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal",
+    "ctx_enc"     => "info:ofi/enc:UTF-8",
+    "url_ctx_fmt" => "info:ofi/fmt:kev:mtx:ctx",
+    "rft_val_fmt" => "info:ofi/fmt:kev:mtx:journal",
     "rft.au"      => "Baillot%2C+Patrick",
     "rft.atitle"  => "Linear+Logic+by+Levels+and+Bounded+Time+Complexity",
     "rft.date"    => "2008",
     "rft.doi"     => "10.1016%2Fj.tcs.2009.09.015",
-    "rft.data"    => "{\"id\":\"1\"}"
+    "rft.data"    => "{\"id\":\"1\"}",
+    "req_id"      => "dtu_staff"
   }
 
   configuration = {"sfx" => {"url" => "http://example.com", "service_types" => ['fulltext']}}

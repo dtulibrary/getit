@@ -14,7 +14,7 @@ module Service
     @reference = reference    
     @cache_client = ServiceCache.new(cache_settings, @configuration["cache_timeout"])
     call
-  end    
+  end
 
   def call         
     query = get_query

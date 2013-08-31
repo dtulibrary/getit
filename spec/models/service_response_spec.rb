@@ -5,8 +5,7 @@ describe ServiceResponse do
   it "exports to json correct" do
     url = "http://example.com"
     s = ServiceResponse.new
-    s.url = url
-    s.text = "Some link text" 
+    s.url = url    
     sj = JSON.parse(s.to_json)
     sj["url"].must_equal(url)
   end

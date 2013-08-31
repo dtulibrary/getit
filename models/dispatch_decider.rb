@@ -12,7 +12,7 @@ class DispatchDecider
     @status = Status.new    
     @rules = []
 
-    if service_list_name.eql?("fulltext") && @reference.doctype == "article"
+    if ["fulltext", "fulltext_info"].include?(service_list_name) && @reference.doctype == "article"
       add_fulltext_rules
     else
       if service_list_name.eql?("fulltext_short")

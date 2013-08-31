@@ -39,7 +39,7 @@ class ResolveController < ApplicationController
                 results.each do |result|                    
                   can_send = decider.can_send(result)
                   if can_send == :yes
-                    out << write_response(result, reference, settings.prices)
+                    out << "data: #{result.to_json}\n\n"
                   elsif can_send == :maybe
                     on_hold << result 
                   end
@@ -66,7 +66,7 @@ class ResolveController < ApplicationController
       # process results we haven't decided whether to send yet
       on_hold.each do |result|        
         can_send = decider.can_send(result)        
-        out << write_response(result, reference, settings.prices) if can_send == :yes
+        out << "data: #{result.to_json}\n\n" if can_send == :yes
         decider.status.update(result.source, can_send, result.subtype)
       end
       

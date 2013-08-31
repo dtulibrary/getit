@@ -18,27 +18,6 @@ class ApplicationController < Sinatra::Base
     #rdoc :README, :layout_engine => :erb, :views => File.expand_path("..", settings.root)
   end
 
-  get "/price" do
-    content_type :json
-    user_type = params["user_type"] || nil
-    order_type = params["order_type"] || nil
-    if order_type != nil && 
-      user_type != nil &&
-      settings.respond_to?("prices") && 
-      settings.prices.has_key?(order_type) && 
-      settings.prices[order_type].has_key?(user_type)
-      { amount: settings.prices[order_type][user_type], currency: "dkr"}.to_json
-    else
-      status 400
-    end    
-  end
-
-  get "/prices" do
-    content_type :json
-    prices = settings.respond_to?("prices") ? settings.prices : {} 
-    prices.to_json
-  end
-
   not_found do
     title 'Not Found!'
     erb title

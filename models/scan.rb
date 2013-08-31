@@ -11,12 +11,12 @@ class Scan
     if service_settings["scan"]["enable_dtic"]
       super(reference, service_settings, cache_settings)
     else
-      self.succeed([rd_response])
+      self.succeed([rd_response(reference)])
     end
   end    
 
   def parse_response
-    service_response = rd_response
+    service_response = rd_response(@reference)
 
     article_year = @reference.context_object.referent.metadata["date"].to_i
     article_volume = @reference.context_object.referent.metadata["volume"].to_i
@@ -51,6 +51,7 @@ class Scan
               end 
             end            
           end
+          # TODO set dtic scan specific texts if local
           service_response.subtype = "dtic_scan" if has_local
         end
       end
@@ -58,12 +59,26 @@ class Scan
     [service_response]
   end  
 
-  def rd_response
-    service_response = ServiceResponse.new
-    service_response.service_type = "fulltext"
-    service_response.source = "scan"
-    service_response.subtype = "rd_scan"
-    service_response
+  def rd_response(reference)
+    response = FulltextServiceResponse.new
+    response.service_type = "fulltext"
+    response.source = "scan"
+    response.subtype = "rd_scan"
+
+    if reference.doctype == 'article'
+      lookup_text = "fulltext.article.#{response.subtype}.%s.#{reference.user_type}"
+
+      response.short_name = I18n.t lookup_text % "short_name"
+      response.type = I18n.t lookup_text % "type"
+      response.short_explanation = I18n.t lookup_text % "short_explanation"
+      response.lead_text = I18n.t lookup_text % "lead_text"
+      response.explanation = I18n.t lookup_text % "explanation"
+      response.button_text = I18n.t lookup_text % "button_text"
+      response.tool_tip = I18n.t lookup_text % "tool_tip"
+      response.icon = I18n.t lookup_text % "icon"
+    end
+
+    response
   end
 
   def get_query    

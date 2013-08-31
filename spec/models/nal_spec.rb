@@ -13,8 +13,8 @@ describe Nal do
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/nal.txt"))
       nal = Nal.new(reference, configuration)
-      nal.callback { |result|        
-        result.size.must_be :==, 3
+      nal.callback { |result|                
+        result.first.url_list.size.must_be :==, 3
       }
       nal.errback { |error| 
         flunk error
@@ -27,7 +27,7 @@ describe Nal do
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/nal_with_error.txt"))
       nal = Nal.new(reference, configuration)
       nal.callback { |result|        
-        result.size.must_be :==, 1
+        result.first.url_list.size.must_be :==, 1
       }
       nal.errback { |error| 
         flunk error

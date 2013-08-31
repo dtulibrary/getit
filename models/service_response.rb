@@ -7,12 +7,10 @@ class ServiceResponse
   attr_accessor :service_type
   attr_accessor :subtype
   attr_accessor :source  
-  attr_accessor :text
-  attr_accessor :note
   attr_accessor :priority
 
   def initialize
-    @public_vars = ["@url", "@service_type", "@subtype", "@source", "@text", "@note"]
+    @public_vars = ["@url", "@service_type", "@subtype", "@source"]
   end
 
   def to_json

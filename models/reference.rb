@@ -40,7 +40,9 @@ class Reference
   end
 
   def user_type
-    @context_object.requestor.identifiers.first || "anonymous"
+    type = @context_object.requestor.identifiers.first || "public"
+    type = "public" if type == "anonymous"  
+    type
   end
 
   def dtu?

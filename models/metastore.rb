@@ -14,17 +14,44 @@ class Metastore
     if count > 0 && response["docs"].first.has_key?("fulltext_list_ssf")
 
       fulltext = JSON.parse(response["docs"].first["fulltext_list_ssf"].first)    
+      local = fulltext["local"] == true
       
       url = fulltext["url"]
-      if fulltext["local"] == true && /http/.match(url).nil? 
+      if local && /http/.match(url).nil? 
         url.prepend(@configuration["dtic_url"])         
       end
 
-      response = ServiceResponse.new
+      response = FulltextServiceResponse.new
       response.url = url
       response.service_type = "fulltext"      
       response.source = "metastore"
-      response.subtype = fulltext["type"] == "openaccess" ? "openaccess" : "license"
+
+      if fulltext["type"] == "openaccess"
+        response.subtype = "openaccess"
+      else
+        response.subtype = "license"
+      end
+      if local
+        response.subtype << "_local"
+      else
+       response.subtype << "_remote"
+      end
+
+      if response.subtype.start_with?("license") && @reference.user_type == "public"
+        response.url = "http://www.dtic.dtu.dk/english/servicemenu/visit/opening#lyngby"
+      end
+            
+      lookup_text = "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}"
+
+      response.short_name = I18n.t lookup_text % "short_name"
+      response.type = I18n.t lookup_text % "type"
+      response.short_explanation = I18n.t lookup_text % "short_explanation"
+      response.lead_text = I18n.t lookup_text % "lead_text"
+      response.explanation = I18n.t lookup_text % "explanation"
+      response.button_text = I18n.t lookup_text % "button_text"
+      response.tool_tip = I18n.t lookup_text % "tool_tip"
+      response.icon = I18n.t lookup_text % "icon"
+
       service_responses << response      
     end
 

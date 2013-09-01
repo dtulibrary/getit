@@ -29,7 +29,7 @@ module RulesHelper
 
   def service_and_subtype_is_not(subtype, service_names)    
     service_is_not_lambda = lambda do |service_names, subtype, service_response|
-      !service_response.subtype.eql?(subtype) || !service_names.include?(service_response.source)
+      !service_response.subtype.match(subtype) || !service_names.include?(service_response.source)
     end
     service_is_not_lambda.curry[service_names, subtype]    
   end  
@@ -50,7 +50,7 @@ module RulesHelper
 
   def has_seen_service_with_same_subtype(service_name)
     has_seen_service_with_same_subtype_lambda = lambda do |service_name, service_response|      
-      @status.seen_with_subtype.has_key?(service_name) && service_response.subtype == @status.seen_with_subtype[service_name]
+      @status.seen_with_subtype.has_key?(service_name) && service_response.subtype.match(@status.seen_with_subtype[service_name][/[a-z]+_/])
     end
     has_seen_service_with_same_subtype_lambda.curry[service_name]
   end
@@ -60,7 +60,7 @@ module RulesHelper
     has_seen_services_lambda = lambda do |service_names, service_response|            
       result = service_names.select do |name| 
         @status.seen_with_subtype.include?(name) &&
-        (@status.seen_with_subtype[name] == subtype || subtype.nil?)
+        (subtype.nil? || @status.seen_with_subtype[name].match(subtype))
       end.length > 0
     end
     has_seen_services_lambda.curry[service_names]

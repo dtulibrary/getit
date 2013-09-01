@@ -25,6 +25,7 @@ class Metastore
       response.url = url
       response.service_type = "fulltext"      
       response.source = "metastore"
+      response.source_priority = @configuration["priority"]
 
       if fulltext["type"] == "openaccess"
         response.subtype = "openaccess"

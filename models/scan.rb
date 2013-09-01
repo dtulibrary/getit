@@ -11,6 +11,7 @@ class Scan
     if service_settings["scan"]["enable_dtic"]
       super(reference, service_settings, cache_settings)
     else
+      @configuration = service_settings[self.class.to_s.downcase]
       self.succeed([rd_response(reference)])
     end
   end    
@@ -63,7 +64,8 @@ class Scan
     response = FulltextServiceResponse.new
     response.service_type = "fulltext"
     response.source = "scan"
-    response.subtype = "rd_scan"
+    response.source_priority = @configuration["priority"]
+    response.subtype = "rd_scan"    
 
     if reference.doctype == 'article'
       lookup_text = "fulltext.article.#{response.subtype}.%s.#{reference.user_type}"

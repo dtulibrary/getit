@@ -64,7 +64,7 @@ class ResolveController < ApplicationController
       end
 
       # process results we haven't decided whether to send yet
-      on_hold.each do |result|        
+      on_hold.sort_by(&:source_priority).each do |result|        
         can_send = decider.can_send(result)        
         out << "data: #{result.to_json}\n\n" if can_send == :yes
         decider.status.update(result, can_send)

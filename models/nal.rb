@@ -27,6 +27,7 @@ class Nal
     response.source = "nal"
     response.service_type = "fulltext"                
     response.subtype = "nal"
+    response.source_priority = @configuration["priority"]
 
     item_list.each do |item|
       unless item["errorMessage"]

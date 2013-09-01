@@ -82,7 +82,11 @@ class DispatchDecider
       when :maybe
         @onhold[response.source] = response.subtype
       else
-        @ignore << response
+        if response.kind_of?(ServiceResponse)
+          @ignore << response.source
+        else
+          @ignore << response
+        end
       end
     end
     

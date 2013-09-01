@@ -197,12 +197,12 @@ en:
           walkin: *nal_short_explanation
           public: *nal_short_explanation
         lead_text:
-          dtu_staff: &nal_lead_text "No charge"
+          dtu_staff: &nal_lead_text "Relocate to other library"
           dtu_student: *nal_lead_text
           walkin: *nal_lead_text
           public: *nal_lead_text
         explanation:
-          dtu_staff: &nal_explanation "Relocate to other library"
+          dtu_staff: &nal_explanation ""
           dtu_student: *nal_explanation
           walkin: *nal_explanation
           public: *nal_explanation

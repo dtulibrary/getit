@@ -57,6 +57,7 @@ class Sfx
           response.url = target.at("./target_url").inner_text.chomp("/")
           response.service_type = @sfx_to_getit_types[service_type]
           response.source = "sfx"
+          response.source_priority = @configuration["priority"]
           response.priority = @sfx_target_priority[target.at("./target_name").inner_text]
 
           if (target/"./target_public_name").inner_text =~ /open access/i
@@ -89,7 +90,7 @@ class Sfx
     end
 
     # sort and return, max one open access & one licensed
-    sr_licensed, sr_openaccess = service_responses.partition {|sr| sr.subtype == "license"}
+    sr_licensed, sr_openaccess = service_responses.partition {|sr| sr.subtype.match("license") }
     service_responses = []
     service_responses << sr_licensed.sort_by(&:priority).first if !sr_licensed.nil? && !sr_licensed.empty?
     service_responses << sr_openaccess.sort_by(&:priority).first if !sr_openaccess.nil? && !sr_openaccess.empty?

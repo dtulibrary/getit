@@ -180,7 +180,7 @@ en:
           walkin: *scan_remote_tool_tip
           public: *scan_remote_tool_tip
         icon: *scan_icon
-      nal:
+      nal: &nal
         short_name:
           dtu_staff: &nal_short_name "On-site"
           dtu_student: *nal_short_name
@@ -244,3 +244,4 @@ en:
         button_text: *license_button_text
         tool_tip: *license_remote_tool_tip
         icon: *license_icon
+      nal: *nal

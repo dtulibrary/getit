@@ -7,11 +7,11 @@ require_relative 'service'
 class Scan
   include Service
 
-  def initialize(reference, service_settings, cache_settings = {})    
-    if service_settings["scan"]["enable_dtic"]
-      super(reference, service_settings, cache_settings)
+  def initialize(reference, configuration, cache_settings = {})    
+    if configuration["enable_dtic"]
+      super(reference, configuration, cache_settings)
     else
-      @configuration = service_settings[self.class.to_s.downcase]
+      @configuration = configuration
       self.succeed([rd_response(reference)])
     end
   end    

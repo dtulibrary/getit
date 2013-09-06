@@ -1,0 +1,24 @@
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Cache-Control: max-age=86400, public, must-revalidate
+Expires: Thu, 05 Sep 2013 13:33:26 GMT
+Last-Modified: Fri, 30 Aug 2013 12:20:08 GMT
+ETag: "ODQ0NDQwMDAwMDAwMDAwMFNvbHI="
+Content-Type: application/json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Wed, 04 Sep 2013 13:33:26 GMT
+
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":10,
+    "params":{
+      "facet":"false",
+      "fl":"alis_key_ssf",
+      "indent":"true",
+      "q":"cluster_id_ss:194176872",
+      "wt":"json"}},
+  "response":{"numFound":1,"start":0,"maxScore":17.152899,"docs":[
+      {
+        "alis_key_ssf":["000441656"]}]
+  }}

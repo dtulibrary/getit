@@ -6,7 +6,7 @@ describe Nal do
     "rft.genre" => "article"
   }
 
-  configuration = {"nal" => {"url" => "http://example.com", "service_types" => ['fulltext']}}
+  configuration = {"url" => "http://example.com", "service_types" => ['fulltext']}
   reference = Reference.new(params)
 
   it "finds Nal fulltext links" do

@@ -43,7 +43,7 @@ en:
           dtu_student: "icon-download-alt"
           walkin: "icon-download-alt"
           public: "icon-map-marker"
-      license_remote:
+      license_remote: &license_remote
         short_name: *license_short_name
         type: *license_type
         short_explanation:
@@ -245,3 +245,46 @@ en:
         tool_tip: *license_remote_tool_tip
         icon: *license_icon
       nal: *nal
+      catalog:
+        short_name: 
+          dtu_staff: &borrow "Borrow"
+          dtu_student: *borrow
+          walkin: *borrow
+          public: *borrow
+        type: 
+          dtu_staff: "..."
+          dtu_student: "..."
+          walkin: "..."
+          public: "..."
+        short_explanation:
+          dtu_staff: "..."
+          dtu_student: "..." 
+          walkin: "..."
+          public: "..."
+        lead_text:
+          dtu_staff: "..."
+          dtu_student: "..."
+          walkin: "..."
+          public: "..."
+        explanation: 
+          dtu_staff: "..."
+          dtu_student: "..."
+          walkin: "..."
+          public: "..."
+        button_text:
+          dtu_staff: &borrow "Borrow"
+          dtu_student: *borrow
+          walkin: *borrow
+          public: *borrow
+        tool_tip: 
+          dtu_staff: "..."
+          dtu_student: "..."
+          walkin: "..."
+          public: "..."
+        icon: 
+          dtu_staff: &catalog-icon "icon-book"
+          dtu_student: *catalog-icon
+          walkin: *catalog-icon
+          public: *catalog-icon
+    journal:
+      license_remote: *license_remote

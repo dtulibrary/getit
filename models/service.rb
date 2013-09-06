@@ -7,10 +7,10 @@ module Service
 
   attr_reader :response
 
-  def initialize(reference, service_settings, cache_settings = {})
-    # TODO configuration validation
-    @configuration = service_settings[self.class.to_s.downcase]
+  def initialize(reference, configuration, cache_settings = {})
     @logger = Kyandi.logger
+    # TODO configuration validation
+    @configuration = configuration
     @reference = reference    
     @cache_client = ServiceCache.new(cache_settings, @configuration["cache_timeout"])
     call

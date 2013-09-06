@@ -13,10 +13,11 @@ describe Metastore do
     "rft.year"    => "2008",
     "rft.doi"     => "10.1016%2Fj.tcs.2009.09.015",
     "rft.data"    => "{\"id\":\"1\"}",
+    "rft.genre"   => "article",
     "req_id"      => "dtu_staff"
   }
 
-  configuration = {"metastore" => {"url" => "http://example.com"}}
+  configuration = {"url" => "http://example.com"}
   reference = Reference.new(params)
 
   it "finds a fulltext url" do
@@ -24,7 +25,7 @@ describe Metastore do
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr1.txt"))
       metastore = Metastore.new(reference, configuration)
-      metastore.callback { |result|
+      metastore.callback { |result|        
         result.first.url.must_equal("http://arxiv.org/abs/0801.1253")
         result.first.service_type.must_equal("fulltext")
       }

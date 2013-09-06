@@ -61,13 +61,7 @@ class Metastore
 
   #TODO option to make fuzzy or not
   def get_query              
-    {"q" => "{!raw f=cluster_id_ss v=$id}", "id" => "#{id}", "fl" => "fulltext_list_ssf", "wt" => "json"}
-  end
-
-  private
-
-  def id
-    @reference.custom_co_data["id"] || nil
+    {"q" => "{!raw f=cluster_id_ss v=$id}", "id" => "#{@reference.custom_co_data["id"] || nil}", "fl" => "fulltext_list_ssf", "wt" => "json"}
   end
 
 end

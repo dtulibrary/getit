@@ -16,7 +16,7 @@ describe Sfx do
     "req_id"      => "dtu_staff"
   }
 
-  configuration = {"sfx" => {"url" => "http://example.com", "service_types" => ['fulltext']}}
+  configuration = {"url" => "http://example.com", "service_types" => ['fulltext']}
   reference = Reference.new(params)
 
   it "has a fulltext" do

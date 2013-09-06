@@ -26,7 +26,7 @@ class ResolveController < ApplicationController
         if klass = get_class(service_conf["type"])
         
           logger.info "Calling service #{service_name}"
-          service = klass.new(reference, settings.services, settings.cache)
+          service = klass.new(reference, service_conf, settings.cache)
 
           service.callback do |results|
             logger.info("Writing result for #{service_name}")

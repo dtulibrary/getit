@@ -17,11 +17,21 @@ class ServiceResponse
   def to_json
     sr_map = {}
     self.instance_variables.each do |var|
-      if(instance_variable_defined?(var) && @public_vars.include?(var.to_s))
-        sr_map[var_name(var)] = self.instance_variable_get(var.to_s)
+      if instance_variable_defined?(var) && @public_vars.include?(var.to_s)        
+        instance_var = self.instance_variable_get(var.to_s)
+        unless instance_var.class == Array && instance_var.empty?
+          sr_map[var_name(var)] = instance_var
+        end
       end      
     end
     sr_map.to_json
+  end
+
+  def set_translation(name, translation_key)
+    text = I18n.t(translation_key % name, :default => '')
+    unless text.empty?
+      self.send("#{name}=", text)
+    end
   end
 
   private

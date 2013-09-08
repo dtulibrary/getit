@@ -1,6 +1,6 @@
 require_relative 'fulltext_service_response'
 
-class NalFulltextServiceResponse < FulltextServiceResponse
+class NalServiceResponse < FulltextServiceResponse
 
   attr_accessor :url_list
 

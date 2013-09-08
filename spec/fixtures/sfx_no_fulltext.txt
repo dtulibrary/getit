@@ -1,265 +1,108 @@
 HTTP/1.1 200 OK
-Date: Wed, 01 May 2013 10:40:23 GMT
+Date: Sun, 08 Sep 2013 09:46:21 GMT
 Server: Apache
 Content-Type: application/xml
 Transfer-Encoding: chunked
 
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 
-<ctx_obj_set>
- <ctx_obj identifier="">
-  <ctx_obj_attributes>&lt;perldata&gt;
+<sfx_menu>
+ <ctx_obj_set>&lt;ctx_object_1&gt;&lt;perldata&gt;
  &lt;hash&gt;
   &lt;item key="@rft.auinit"&gt;
    &lt;array&gt;
-    &lt;item key="0"&gt;C E&lt;/item&gt;
+    &lt;item key="0"&gt;C&lt;/item&gt;
    &lt;/array&gt;
   &lt;/item&gt;
-  &lt;item key="ctx_tim"&gt;2013-05-01T12:34:20+02:00&lt;/item&gt;
+  &lt;item key="rft.issn"&gt;0025-1216&lt;/item&gt;
   &lt;item key="sfx.show_availability"&gt;1&lt;/item&gt;
-  &lt;item key="sfx.request_id"&gt;36846889&lt;/item&gt;
-  &lt;item key="rft.genre"&gt;journal&lt;/item&gt;
-  &lt;item key="req.ip"&gt;127.0.0.1&lt;/item&gt;
   &lt;item key="_stash"&gt;
    &lt;hash&gt;
    &lt;/hash&gt;
   &lt;/item&gt;
   &lt;item key="ctx_ver"&gt;Z39.88-2004&lt;/item&gt;
-  &lt;item key="rft.year"&gt;2009&lt;/item&gt;
-  &lt;item key="sfx.openurl"&gt;http://sfx.cvt.dk/sfx_local?url_ver=Z39.88-2004&amp;amp;url_ctx_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Actx&amp;amp;ctx_ver=Z39.88-2004&amp;amp;ctx_tim=2013-05-01T12%3A34%3A20%2B02%3A00&amp;amp;ctx_id=&amp;amp;ctx_enc=info%3Aofi%2Fenc%3AUTF-8&amp;amp;rft.au=Kenig%2C%20Carlos%20E.&amp;amp;rft.atitle=An%20alternative%20approach%20to%20regularity%20for%20the%20Navier-Stokes%20equations%20in%20critical%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20spaces%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20&amp;amp;rft.year=2009&amp;amp;rft.data=%7B%22id%22%3A%221%22%7D&amp;amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;amp;req.ip=127.0.0.1&amp;amp;sfx.response_type=multi_obj_xml&lt;/item&gt;
+  &lt;item key="rft.year"&gt;2012&lt;/item&gt;
+  &lt;item key="rft.place"&gt;Victoria,&lt;/item&gt;
+  &lt;item key="@sfx.subcategory"&gt;
+   &lt;array&gt;
+    &lt;item key="0"&gt;Journalism, Mass Communication, Media &amp;amp; Publishing&lt;/item&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
+  &lt;item key="@rft.auinitm"&gt;
+   &lt;array&gt;
+    &lt;item key="0"&gt;&lt;/item&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
+  &lt;item key="svc.fulltext"&gt;yes&lt;/item&gt;
+  &lt;item key="@rft_id"&gt;
+   &lt;array&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
+  &lt;item key="rft.atitle"&gt;Test&lt;/item&gt;
+  &lt;item key="sfx.response_type"&gt;simplexml&lt;/item&gt;
+  &lt;item key="sfx.ignore_char_set"&gt;1&lt;/item&gt;
+  &lt;item key="req.session_id"&gt;s84792AB0-186B-11E3-930D-EE28D7D0744C&lt;/item&gt;
+  &lt;item key="ctx_enc"&gt;UTF-8&lt;/item&gt;
+  &lt;item key="url_ver"&gt;Z39.88-2004&lt;/item&gt;
+  &lt;item key="rft.object_type"&gt;JOURNAL&lt;/item&gt;
+  &lt;item key="rft.language"&gt;eng&lt;/item&gt;
+  &lt;item key="rft.object_id"&gt;110978976475259&lt;/item&gt;
+  &lt;item key="sfx.request_id"&gt;38778912&lt;/item&gt;
+  &lt;item key="rft.genre"&gt;article&lt;/item&gt;
+  &lt;item key="rft.pub"&gt;University of Victoria.&lt;/item&gt;
+  &lt;item key="sfx.openurl"&gt;http://sfx.cvt.dk/sfx_local?ctx_enc=info%3Aofi%2Fenc%3AUTF-8&amp;amp;ctx_id=&amp;amp;ctx_ver=Z39.88-2004&amp;amp;rft.atitle=Test&amp;amp;rft.au=Donahoe%2C%20Chris&amp;amp;rft.date=2012&amp;amp;rft.genre=article&amp;amp;rft.issn=00251216&amp;amp;rft.jtitle=Malahat%20Review&amp;amp;rft_dat=&amp;amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;amp;sfx.response_type=simplexml&amp;amp;svc.fulltext=yes&amp;amp;svc_dat=&amp;amp;url_ctx_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Actx&amp;amp;url_ver=Z39.88-2004&lt;/item&gt;
+  &lt;item key="rft.title"&gt;Malahat review&lt;/item&gt;
   &lt;item key="url_ctx_fmt"&gt;info:ofi/fmt:kev:mtx:ctx&lt;/item&gt;
+  &lt;item key="@rft.stitle"&gt;
+   &lt;array&gt;
+    &lt;item key="0"&gt;MALAHAT REVIEW&lt;/item&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
   &lt;item key="@rfe_id"&gt;
    &lt;array&gt;
    &lt;/array&gt;
   &lt;/item&gt;
   &lt;item key="@rft.aufirst"&gt;
    &lt;array&gt;
-    &lt;item key="0"&gt;Carlos&lt;/item&gt;
-   &lt;/array&gt;
-  &lt;/item&gt;
-  &lt;item key="@rft.auinitm"&gt;
-   &lt;array&gt;
-    &lt;item key="0"&gt;E&lt;/item&gt;
-   &lt;/array&gt;
-  &lt;/item&gt;
-  &lt;item key="@rft_id"&gt;
-   &lt;array&gt;
+    &lt;item key="0"&gt;Chris&lt;/item&gt;
    &lt;/array&gt;
   &lt;/item&gt;
   &lt;item key="@rft.aulast"&gt;
    &lt;array&gt;
-    &lt;item key="0"&gt;Kenig&lt;/item&gt;
+    &lt;item key="0"&gt;Donahoe&lt;/item&gt;
    &lt;/array&gt;
   &lt;/item&gt;
-  &lt;item key="rft.atitle"&gt;An alternative approach to regularity for the Navier-Stokes equations in critical                                 spaces&lt;/item&gt;
-  &lt;item key="sfx.response_type"&gt;multi_obj_xml&lt;/item&gt;
   &lt;item key="sfx.sourcename"&gt;DEFAULT&lt;/item&gt;
-  &lt;item key="sfx.ignore_char_set"&gt;1&lt;/item&gt;
+  &lt;item key="rft.jtitle"&gt;Malahat review&lt;/item&gt;
   &lt;item key="rft_val_fmt"&gt;journal&lt;/item&gt;
   &lt;item key="existing_ts_ids"&gt;
    &lt;array&gt;
-    &lt;item key="0"&gt;110990475507001&lt;/item&gt;
-    &lt;item key="1"&gt;111000147718001&lt;/item&gt;
-    &lt;item key="2"&gt;111069357678001&lt;/item&gt;
-    &lt;item key="3"&gt;1000000000003131&lt;/item&gt;
-    &lt;item key="4"&gt;111026921949001&lt;/item&gt;
-    &lt;item key="5"&gt;1000000000000009&lt;/item&gt;
-    &lt;item key="6"&gt;110974985005474&lt;/item&gt;
    &lt;/array&gt;
   &lt;/item&gt;
-  &lt;item key="req.session_id"&gt;s87CC5844-B24B-11E2-9B19-A2DED6D0744C&lt;/item&gt;
   &lt;item key="sfx.sid"&gt;DEFAULT&lt;/item&gt;
+  &lt;item key="rft.date"&gt;2012&lt;/item&gt;
   &lt;item key="@rft.au"&gt;
    &lt;array&gt;
-    &lt;item key="0"&gt;Kenig, Carlos E&lt;/item&gt;
+    &lt;item key="0"&gt;Donahoe, Chris&lt;/item&gt;
    &lt;/array&gt;
   &lt;/item&gt;
-  &lt;item key="url_ver"&gt;Z39.88-2004&lt;/item&gt;
-  &lt;item key="ctx_enc"&gt;UTF-8&lt;/item&gt;
+  &lt;item key="@sfx.category"&gt;
+   &lt;array&gt;
+    &lt;item key="0"&gt;Social Sciences&lt;/item&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
   &lt;item key="@rft.auinit1"&gt;
    &lt;array&gt;
     &lt;item key="0"&gt;C&lt;/item&gt;
    &lt;/array&gt;
   &lt;/item&gt;
+  &lt;item key="@svc.constraints"&gt;
+   &lt;array&gt;
+    &lt;item key="0"&gt;getFullTxt&lt;/item&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
  &lt;/hash&gt;
 &lt;/perldata&gt;
-</ctx_obj_attributes>
-  <ctx_obj_targets>
-   <target>
-    <target_name>MESSAGE_NO_FULLTXT</target_name>
-    <target_public_name>No full text available for this item</target_public_name>
-    <object_portfolio_id></object_portfolio_id>
-    <target_id>111026921949000</target_id>
-    <target_service_id>111026921949001</target_service_id>
-    <service_type>getMessageNoFullTxt</service_type>
-    <parser></parser>
-    <parse_param></parse_param>
-    <proxy>yes</proxy>
-    <crossref>no</crossref>
-    <note></note>
-    <authentication></authentication>
-    <char_set></char_set>
-    <displayer></displayer>
-    <target_url></target_url>
-    <is_related>no</is_related>
-    <coverage>
-     <coverage_text>
-      <threshold_text></threshold_text>
-      <embargo_text></embargo_text>
-     </coverage_text>
-     <embargo></embargo>
-    </coverage>
-   </target>
-   <target>
-    <target_name>DOCDEL_LOCAL</target_name>
-    <target_public_name>DTU Library</target_public_name>
-    <object_portfolio_id></object_portfolio_id>
-    <target_id>110990475507000</target_id>
-    <target_service_id>110990475507001</target_service_id>
-    <service_type>getDocumentDelivery</service_type>
-    <parser>DOCUMENT_DELIVERY::DDL</parser>
-    <parse_param>url=https://docdel.cvt.dk/request</parse_param>
-    <proxy>no</proxy>
-    <crossref>no</crossref>
-    <note></note>
-    <authentication></authentication>
-    <char_set>utf8</char_set>
-    <displayer></displayer>
-    <target_url>https://docdel.cvt.dk/request?source=DEFAULT&amp;ISSN=&amp;recipient=&amp;ISBN=&amp;sender=&amp;article=An+alternative+approach+to+regularity+for+the+Navier-Stokes+equations+in+critical+++++++++++++++++++++++++++++++++spaces&amp;author=Kenig%2C+C+E&amp;genre=journal&amp;year=2009</target_url>
-    <is_related>no</is_related>
-    <coverage>
-     <coverage_text>
-      <threshold_text></threshold_text>
-      <embargo_text></embargo_text>
-     </coverage_text>
-     <embargo></embargo>
-    </coverage>
-   </target>
-   <target>
-    <target_name>LOCAL_FEEDBACK</target_name>
-    <target_public_name>DTU Link</target_public_name>
-    <object_portfolio_id></object_portfolio_id>
-    <target_id>111000147718000</target_id>
-    <target_service_id>111000147718001</target_service_id>
-    <service_type>getWebService</service_type>
-    <parser>FEEDBACK::FEEDBACK</parser>
-    <parse_param>url=http://sfx.cvt.dk/sfx_local/cgi/public/feedback.cgi &amp;email=eaccess@dtic.dtu.dk</parse_param>
-    <proxy>yes</proxy>
-    <crossref>no</crossref>
-    <note></note>
-    <authentication></authentication>
-    <char_set>UTF8</char_set>
-    <displayer></displayer>
-    <target_url>http://globalproxy.cvt.dk/login?url=http://sfx.cvt.dk/sfx_local/cgi/public/feedback.cgi?sid=DEFAULT&amp;source=DEFAULT+(Via+SFX)&amp;author=Kenig%2C+C+E%2C+Carlos&amp;genre=journal&amp;em=eaccess%40dtic.dtu.dk&amp;articlet=An+alternative+approach+to+regularity+for+the+Navier-Stokes+equations+in+critical+++++++++++++++++++++++++++++++++spaces&amp;openurl=http%3A%2F%2Fsfx.cvt.dk%2Fsfx_local%3Furl_ver%3DZ39.88-2004%26url_ctx_fmt%3Dinfo%253Aofi%252Ffmt%253Akev%253Amtx%253Actx%26ctx_ver%3DZ39.88-2004%26ctx_tim%3D2013-05-01T12%253A34%253A20%252B02%253A00%26ctx_id%3D%26ctx_enc%3Dinfo%253Aofi%252Fenc%253AUTF-8%26rft.au%3DKenig%252C%2520Carlos%2520E.%26rft.atitle%3DAn%2520alternative%2520approach%2520to%2520regularity%2520for%2520the%2520Navier-Stokes%2520equations%2520in%2520critical%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520spaces%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%26rft.year%3D2009%26rft.data%3D%257B%2522id%2522%253A%25221%2522%257D%26rft_val_fmt%3Dinfo%253Aofi%252Ffmt%253Akev%253Amtx%253Ajournal%26req.ip%3D127.0.0.1%26sfx.response_type%3Dmulti_obj_xml&amp;year=2009</target_url>
-    <is_related>no</is_related>
-    <coverage>
-     <coverage_text>
-      <threshold_text></threshold_text>
-      <embargo_text></embargo_text>
-     </coverage_text>
-     <embargo></embargo>
-    </coverage>
-   </target>
-   <target>
-    <target_name>REFWORKS_EXPORT_TOOL</target_name>
-    <target_public_name>RefWorks Direct Export Tool</target_public_name>
-    <object_portfolio_id></object_portfolio_id>
-    <target_id>111069357678000</target_id>
-    <target_service_id>111069357678001</target_service_id>
-    <service_type>getReference</service_type>
-    <parser>REFWORKS::REFWORKS</parser>
-    <parse_param>refworksurl=http://www.refworks.com/express/ExpressImport.asp &amp;providerid =  &amp;shiburl = https://www.refworks.com/RWShibboleth/ShibbolethAuthenticate.asp &amp; exporturl=http://sfx.cvt.dk/sfx_local/cgi/public/refworks.cgi</parse_param>
-    <proxy>no</proxy>
-    <crossref>yes</crossref>
-    <note></note>
-    <authentication></authentication>
-    <char_set>utf8</char_set>
-    <displayer></displayer>
-    <target_url>http://www.refworks.com/express/ExpressImport.asp?filter=RefWorks+Tagged+Format&amp;vendor=SFX&amp;url=http%3A%2F%2Fsfx.cvt.dk%2Fsfx_local%2Fcgi%2Fpublic%2Frefworks.cgi%3FRT%3DJournal%2C%2BElectronic%26A1%3DKenig%2C%2BCarlos%5E%26T1%3DAn%2Balternative%2Bapproach%2Bto%2Bregularity%2Bfor%2Bthe%2BNavier-Stokes%2Bequations%2Bin%2Bcritical%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2B%2Bspaces%26YR%3D2009%26SN%3D&amp;database=</target_url>
-    <is_related>no</is_related>
-    <coverage>
-     <coverage_text>
-      <threshold_text></threshold_text>
-      <embargo_text></embargo_text>
-     </coverage_text>
-     <embargo></embargo>
-    </coverage>
-   </target>
-   <target>
-    <target_name>WWW_SEARCH_ENGINES_FREE</target_name>
-    <target_public_name>a Web Search Engine</target_public_name>
-    <object_portfolio_id></object_portfolio_id>
-    <target_id>110974985005473</target_id>
-    <target_service_id>110974985005474</target_service_id>
-    <service_type>getWebSearch</service_type>
-    <parser>WWW::ALL</parser>
-    <parse_param></parse_param>
-    <proxy>yes</proxy>
-    <crossref>no</crossref>
-    <note></note>
-    <authentication></authentication>
-    <char_set>iso-8859-1</char_set>
-    <displayer>WWW::ALL</displayer>
-    <target_url></target_url>
-    <is_related>no</is_related>
-    <coverage>
-     <coverage_text>
-      <threshold_text></threshold_text>
-      <embargo_text></embargo_text>
-     </coverage_text>
-     <embargo></embargo>
-    </coverage>
-   </target>
-   <target>
-    <target_name>GOOGLE_PATENT_SEARCH</target_name>
-    <target_public_name>Google Patent Search</target_public_name>
-    <object_portfolio_id></object_portfolio_id>
-    <target_id>1000000000002438</target_id>
-    <target_service_id>1000000000003131</target_service_id>
-    <service_type>getWebSearch</service_type>
-    <parser>GooglePatent::Search</parser>
-    <parse_param>url = http://www.google.com</parse_param>
-    <proxy>no</proxy>
-    <crossref>no</crossref>
-    <note></note>
-    <authentication></authentication>
-    <char_set>iso-8859-1</char_set>
-    <displayer></displayer>
-    <target_url>http://www.google.com/advanced_patent_search</target_url>
-    <is_related>no</is_related>
-    <coverage>
-     <coverage_text>
-      <threshold_text></threshold_text>
-      <embargo_text></embargo_text>
-     </coverage_text>
-     <embargo></embargo>
-    </coverage>
-   </target>
-   <target>
-    <target_name>GOOGLE_SCHOLAR_FREE</target_name>
-    <target_public_name>Open Access Journals</target_public_name>
-    <object_portfolio_id></object_portfolio_id>
-    <target_id>1000000000000009</target_id>
-    <target_service_id>1000000000000009</target_service_id>
-    <service_type>getWebSearch</service_type>
-    <parser>GoogleScholar::Search</parser>
-    <parse_param></parse_param>
-    <proxy>yes</proxy>
-    <crossref>no</crossref>
-    <note>Free full text available for some or all content</note>
-    <authentication></authentication>
-    <char_set>iso-8859-1</char_set>
-    <displayer>GoogleScholar::Search</displayer>
-    <target_url></target_url>
-    <is_related>no</is_related>
-    <coverage>
-     <coverage_text>
-      <threshold_text></threshold_text>
-      <embargo_text></embargo_text>
-     </coverage_text>
-     <embargo></embargo>
-    </coverage>
-   </target>
-  </ctx_obj_targets>
- </ctx_obj>
-</ctx_obj_set>
+&lt;/ctx_object_1&gt;</ctx_obj_set>
+ <targets></targets>
+</sfx_menu>

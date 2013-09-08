@@ -20,18 +20,18 @@ class Reference
   def clean_context_object
     if !defined?(@clean_context_object)
       @clean_context_object = OpenURL::ContextObject.new_from_kev(@context_object.kev)
+      # remove user type
       @clean_context_object.requestor.identifiers.each {|id| clean_context_object.requestor.delete_identifier(id)}        
+      # remove custom service list data
       @clean_context_object.serviceType.first.set_private_data('') if clean_context_object.serviceType.length > 0
+      # remove custom referent data (metastore id)
+      @clean_context_object.referent.set_private_data('')      
     end
     @clean_context_object
   end
 
   def custom_co_data
-    data = {}
-    if @context_object.referent.metadata.has_key?('data')
-      data = JSON.parse(@context_object.referent.metadata['data']) 
-    end
-    data
+    JSON.parse(@context_object.referent.private_data)
   end
 
   def doctype

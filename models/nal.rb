@@ -22,7 +22,7 @@ class Nal
   def parse_response    
     response_list = []
     item_list = JSON.parse(@response[:body]).sort {|x, y| x["public_name_ENG"] <=> y["public_name_ENG"]}
-    response = NalFulltextServiceResponse.new
+    response = NalServiceResponse.new
 
     response.source = "nal"
     response.service_type = "fulltext"                
@@ -39,14 +39,8 @@ class Nal
       end
     end
 
-    lookup_text = "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}"
-    response.short_name = I18n.t lookup_text % "short_name"
-    response.type = I18n.t lookup_text % "type"
-    response.short_explanation = I18n.t lookup_text % "short_explanation"
-    response.lead_text = I18n.t lookup_text % "lead_text"
-    response.explanation = I18n.t lookup_text % "explanation"
-    response.button_text = I18n.t lookup_text % "button_text", n: response.url_list.length.to_s
-    response.tool_tip = I18n.t lookup_text % "tool_tip"
+    response.set_translations(@reference.doctype, response.subtype, @reference.user_type)
+    response.button_text = I18n.t "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}" % "button_text", n: response.url_list.length.to_s    
 
     if response.url_list.length > 0
       response_list << response    

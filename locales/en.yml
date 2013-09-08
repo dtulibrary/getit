@@ -71,7 +71,7 @@ en:
           dtu_student: "Online"
           walkin: "Online"
           public: "Online"
-        short_explanation:
+        short_explanation: &openaccess_short_explanation
           dtu_staff: *dtu_download
           dtu_student: *dtu_download
           walkin: *dtu_download
@@ -104,7 +104,7 @@ en:
       openaccess_remote:
         short_name: *openaccess_short_name
         type: *openaccess_type
-        short_explanation: 
+        short_explanation: &openaccess_remote_short_explanation
           dtu_staff: &remote_download "Download from remote repository for immediate reading"
           dtu_student: *remote_download
           walkin: *remote_download
@@ -219,11 +219,7 @@ en:
           public: *nal_tool_tip
     book:
       license_local:
-        short_name: &book_license_short_name
-          dtu_staff: *download
-          dtu_student: *download
-          walkin: *download
-          public: ""
+        short_name: *license_short_name
         type: *license_type
         short_explanation: *license_short_explanation
         lead_text: *license_lead_text
@@ -232,7 +228,7 @@ en:
         tool_tip: *license_tool_tip
         icon: *license_icon
       license_remote:
-        short_name: *book_license_short_name
+        short_name: *license_short_name
         type: *license_type
         short_explanation:
           dtu_staff: *license_remote_short
@@ -244,6 +240,28 @@ en:
         button_text: *license_button_text
         tool_tip: *license_remote_tool_tip
         icon: *license_icon
+      openaccess_local:
+        short_name: *openaccess_short_name
+        type: *openaccess_type
+        short_explanation: *openaccess_short_explanation
+        lead_text: *openaccess_lead_text
+        explanation: *openaccess_explanation
+        button_text: *openaccess_button_text
+        tool_tip: &openaccess_book_tool_tip
+          dtu_staff: &openaccess_book_text "Open Access book"
+          dtu_student: *openaccess_book_text
+          walkin: *openaccess_book_text
+          public: *openaccess_book_text
+        icon: *openacces_icon
+      openaccess_remote:
+        short_name: *openaccess_short_name
+        type: *openaccess_type
+        short_explanation: *openaccess_remote_short_explanation
+        lead_text: *openaccess_lead_text
+        explanation: *openaccess_explanation
+        button_text: *openaccess_button_text
+        tool_tip: *openaccess_book_tool_tip
+        icon: *openacces_icon
       nal: *nal
       catalog:
         short_name: 
@@ -252,39 +270,86 @@ en:
           walkin: *borrow
           public: *borrow
         type: 
-          dtu_staff: "..."
-          dtu_student: "..."
-          walkin: "..."
-          public: "..."
+          dtu_staff: &bookinprint "Book in print"
+          dtu_student: *bookinprint 
+          walkin: *bookinprint 
+          public: *bookinprint 
         short_explanation:
-          dtu_staff: "..."
-          dtu_student: "..." 
-          walkin: "..."
-          public: "..."
-        lead_text:
-          dtu_staff: "..."
-          dtu_student: "..."
-          walkin: "..."
-          public: "..."
-        explanation: 
-          dtu_staff: "..."
-          dtu_student: "..."
-          walkin: "..."
-          public: "..."
+          dtu_staff: &printcollection "Requires login to DTU Library Printed Collections"
+          dtu_student: *printcollection 
+          walkin: *printcollection
+          public: *printcollection
         button_text:
           dtu_staff: &borrow "Borrow"
           dtu_student: *borrow
           walkin: *borrow
           public: *borrow
-        tool_tip: 
-          dtu_staff: "..."
-          dtu_student: "..."
-          walkin: "..."
-          public: "..."
         icon: 
           dtu_staff: &catalog-icon "icon-book"
           dtu_student: *catalog-icon
           walkin: *catalog-icon
           public: *catalog-icon
     journal:
-      license_remote: *license_remote
+      license_remote: &journal_license_remote
+        short_name: 
+          dtu_staff: "Journal homepage"
+          dtu_student: "Journal homepage"
+          walkin: "Journal homepage"
+          public: "Journal homepage"
+        type: 
+          dtu_staff: "Online"
+          dtu_student: "Online"
+          walkin: "Online"
+          public: "Online"
+        short_explanation:
+          dtu_staff: "Go to journal homepage"
+          dtu_student: "Go to journal homepage"
+          walkin: "Go to journal homepage"
+          public: "Go to journal homepage"
+        lead_text:
+          dtu_staff: "No charge"
+          dtu_student: "No charge"
+          walkin: "No charge"
+          public: "No charge"
+        button_text:
+          dtu_staff: "Journal homepage"
+          dtu_student: "Journal homepage"
+          walkin: "Journal homepage"
+          public: "Journal homepage"
+        icon: 
+          dtu_staff: "icon-external-link-sign"
+          dtu_student: "icon-external-link-sign"
+          walkin: "icon-external-link-sign"
+          public: "icon-external-link-sign"
+      openaccess_remote: *journal_license_remote
+      print:
+        short_name: 
+          dtu_staff: "Request article"
+          dtu_student: "Request article"
+          walkin: "On-site use"
+          public: "On-site use"
+        type: 
+          dtu_staff: "Scan"
+          dtu_student: "Scan"
+          walkin: "At DTU"
+          public: "At DTU"
+        short_explanation:
+          dtu_staff: "Fill in form to request article"
+          dtu_student: "Fill in form to request article" 
+          walkin: "On-site use at DTU Library"
+          public: "On-site use at DTU Library"
+        lead_text:
+          dtu_staff: "No charge"
+          dtu_student: "No charge"
+          walkin: "No charge"
+          public: "No charge"
+        button_text:
+          dtu_staff: "Request article"
+          dtu_student: "Request article"
+          walkin: "On-site use"
+          public: "On-site use"
+        icon: 
+          dtu_staff: "icon-file-text"
+          dtu_student: "icon-file-text"
+          walkin: "icon-map-marker"
+          public: "icon-map-marker"

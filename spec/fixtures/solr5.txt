@@ -1,0 +1,26 @@
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Cache-Control: max-age=86400, public, must-revalidate
+Expires: Sun, 08 Sep 2013 08:27:31 GMT
+Last-Modified: Thu, 29 Aug 2013 08:25:15 GMT
+ETag: "OTgwNWEwMDAwMDAwMDAwMFNvbHI="
+Content-Type: application/json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Sat, 07 Sep 2013 08:27:31 GMT
+
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":11,
+    "params":{
+      "facet":"false",
+      "fl":"holdings_ssf",
+      "indent":"true",
+      "q":"cluster_id_ss:189829043",
+      "wt":"json"}},
+  "response":{"numFound":1,"start":0,"maxScore":17.356848,"docs":[
+      {
+        "holdings_ssf":["{\"tovolume\":\"4\",\"fromvolume\":\"1\",\"fromyear\":\"1963\",\"toyear\":\"1969\",\"type\":\"printed\"}",
+          "{\"tovolume\":\"112\",\"fromvolume\":\"31\",\"fromyear\":\"1885\",\"toyear\":\"1923\",\"type\":\"printed\"}",
+          "{\"tovolume\":\"438\",\"fromvolume\":\"159\",\"fromyear\":\"1947\",\"toyear\":\"2005\",\"type\":\"printed\"}"]}]
+  }}

@@ -38,54 +38,23 @@ class Sfx
     service_responses = []
     doc = Nokogiri::XML(@response[:body])     
 
-    unless doc.at('/ctx_obj_set')      
-      return []
+    if doc.at('/ctx_obj_set')
+      # response type multi_obj_xml
+      node_list = doc.search('/ctx_obj_set/ctx_obj/ctx_obj_targets/target')
+    elsif doc.at('/sfx_menu')
+      # response type simplexml
+      node_list = doc.search('/sfx_menu/targets/target')
+    else
+      node_list = []
     end
 
-    # multiple context objects can be returned
-    sfx_objs = doc.search('/ctx_obj_set/ctx_obj')
+    node_list.each do |target|
 
-    sfx_objs.each do |context_object| 
+      response = parse_target(target)
 
-      context_object.search('./ctx_obj_targets/target').each do |target|
-
-        service_type = target.at("./service_type").inner_text
-
-        if @configuration["service_types"].include?(@sfx_to_getit_types[service_type])
-
-          response = FulltextServiceResponse.new
-          response.url = target.at("./target_url").inner_text.chomp("/")
-          response.service_type = @sfx_to_getit_types[service_type]
-          response.source = "sfx"
-          response.source_priority = @configuration["priority"]
-          response.priority = @sfx_target_priority[target.at("./target_name").inner_text]
-
-          if (target/"./target_public_name").inner_text =~ /open access/i
-            response.subtype = "openaccess_remote"
-          else
-            response.subtype = "license_remote"
-          end
-
-          if response.subtype.start_with?("license") && @reference.user_type == "public"
-            response.url = "http://www.dtic.dtu.dk/english/servicemenu/visit/opening#lyngby"
-          end
-
-          lookup_text = "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}"
-
-          response.short_name = I18n.t lookup_text % "short_name"
-          response.type = I18n.t lookup_text % "type"
-          response.short_explanation = I18n.t lookup_text % "short_explanation"
-          response.lead_text = I18n.t lookup_text % "lead_text"
-          response.explanation = I18n.t lookup_text % "explanation"
-          response.button_text = I18n.t lookup_text % "button_text"
-          response.tool_tip = I18n.t lookup_text % "tool_tip"
-          response.icon = I18n.t lookup_text % "icon"          
-
-          # only include response if it's not a duplicate (i.e. different target names but identical URLs)
-          if !duplicate?(response, service_responses)
-            service_responses << response
-          end
-        end
+      # only include response if it's not a duplicate (i.e. different target names but identical URLs)
+      if !duplicate?(response, service_responses)
+        service_responses << response
       end
     end
 
@@ -97,17 +66,66 @@ class Sfx
     service_responses
   end
 
+  def parse_target(target)
+
+    service_type = target.at("./service_type").inner_text
+
+    response = FulltextServiceResponse.new      
+    response.url = target.at("./target_url").inner_text.chomp("/")
+    response.service_type = @sfx_to_getit_types[service_type]
+    response.source = "sfx"
+    response.source_priority = @configuration["priority"]
+    response.priority = @sfx_target_priority[target.at("./target_name").inner_text]
+
+    if (target/"./target_public_name").inner_text =~ /open access/i
+      response.subtype = "openaccess_remote"
+    else
+      response.subtype = "license_remote"
+    end
+
+    if response.subtype.start_with?("license") && @reference.user_type == "public"
+      response.url = "http://www.dtic.dtu.dk/english/servicemenu/visit/opening#lyngby"
+    end
+
+    unless (target/"./coverage").nil?
+      holding = {}            
+      from = target.xpath(".//coverage/from")
+      from.each do |node|
+        node.element_children.each do |c|
+          holding["from#{c.name}"] = c.content
+        end
+      end
+      to = target.xpath(".//coverage/to")
+      to.each do |node|
+        node.element_children.each do |c|
+          holding["to#{c.name}"] = c.content
+        end
+      end
+      response.holdings_list << holding unless holding.empty?
+    end
+
+    response.set_translations(@reference.doctype, response.subtype, @reference.user_type)
+
+    response
+  end
+
   def get_query    
     co = @reference.clean_context_object
     co.serviceType.push(OpenURL::ContextObjectEntity.new) if co.serviceType.length == 0
     @sfx_to_getit_types.values.each do |service_type|
       co.serviceType.first.set_metadata(service_type, "yes")
     end    
-    co_h = co.to_hash.merge({"req.ip" => "127.0.0.1", "sfx.response_type" => "multi_obj_xml"})
+    co_h = co.to_hash.merge({"sfx.response_type" => "simplexml"})
     # remove timestamp so it can be used as cache key    
     co_h.delete("ctx_tim")
     if @reference.doctype == "journal"
       co_h["sfx.ignore_date_threshold"] = 1
+      co_h["sfx.show_availability"] = 1
+      co_h["sfx.response_type"] = "multi_obj_xml"
+    else
+      # the multi_obj_xml response type does not resolve for all articles and books
+      # but the simplexml response type does not include coverage for journals
+      co_h["sfx.response_type"] = "simplexml"
     end
     co_h
   end

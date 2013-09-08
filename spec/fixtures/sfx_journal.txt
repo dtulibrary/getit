@@ -1,0 +1,164 @@
+HTTP/1.1 200 OK
+Date: Sun, 08 Sep 2013 10:17:37 GMT
+Server: Apache
+Content-Type: application/xml
+Transfer-Encoding: chunked
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<ctx_obj_set>
+ <ctx_obj identifier="">
+  <ctx_obj_attributes>&lt;perldata&gt;
+ &lt;hash&gt;
+  &lt;item key="rft.issn"&gt;0028-0836&lt;/item&gt;
+  &lt;item key="sfx.show_availability"&gt;1&lt;/item&gt;
+  &lt;item key="_stash"&gt;
+   &lt;hash&gt;
+   &lt;/hash&gt;
+  &lt;/item&gt;
+  &lt;item key="ctx_ver"&gt;Z39.88-2004&lt;/item&gt;
+  &lt;item key="rft.eissn"&gt;1476-4687&lt;/item&gt;
+  &lt;item key="rft.place"&gt;[London, etc.,]&lt;/item&gt;
+  &lt;item key="@sfx.subcategory"&gt;
+   &lt;array&gt;
+    &lt;item key="0"&gt;General and Others&lt;/item&gt;
+    &lt;item key="1"&gt;General and Others&lt;/item&gt;
+    &lt;item key="2"&gt;General and Others&lt;/item&gt;
+    &lt;item key="3"&gt;Biology&lt;/item&gt;
+    &lt;item key="4"&gt;Astronomy&lt;/item&gt;
+    &lt;item key="5"&gt;General and Others&lt;/item&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
+  &lt;item key="rft.lccn"&gt;   12037118 &lt;/item&gt;
+  &lt;item key="svc.fulltext"&gt;yes&lt;/item&gt;
+  &lt;item key="@rft_id"&gt;
+   &lt;array&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
+  &lt;item key="sfx.response_type"&gt;multi_obj_xml&lt;/item&gt;
+  &lt;item key="sfx.ignore_char_set"&gt;1&lt;/item&gt;
+  &lt;item key="req.session_id"&gt;sE2B87D70-186F-11E3-942A-C52AD7D0744C&lt;/item&gt;
+  &lt;item key="ctx_enc"&gt;UTF-8&lt;/item&gt;
+  &lt;item key="url_ver"&gt;Z39.88-2004&lt;/item&gt;
+  &lt;item key="rft.object_type"&gt;JOURNAL&lt;/item&gt;
+  &lt;item key="rft.language"&gt;eng&lt;/item&gt;
+  &lt;item key="sfx.has_full_text"&gt;yes&lt;/item&gt;
+  &lt;item key="rft.object_id"&gt;954925427238&lt;/item&gt;
+  &lt;item key="sfx.request_id"&gt;38779114&lt;/item&gt;
+  &lt;item key="rft.genre"&gt;journal&lt;/item&gt;
+  &lt;item key="sfx.ignore_date_threshold"&gt;1&lt;/item&gt;
+  &lt;item key="rft.pub"&gt;[Macmillan Journals Ltd., etc.]&lt;/item&gt;
+  &lt;item key="sfx.openurl"&gt;http://sfx.cvt.dk/sfx_local?ctx_enc=info%3Aofi%2Fenc%3AUTF-8&amp;amp;ctx_id=&amp;amp;ctx_ver=Z39.88-2004&amp;amp;rft.genre=journal&amp;amp;rft.issn=14764687&amp;amp;rft.jtitle=Nature.&amp;amp;rft_dat=&amp;amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;amp;sfx.ignore_date_threshold=1&amp;amp;sfx.response_type=multi_obj_xml&amp;amp;sfx.show_availability=1&amp;amp;svc.fulltext=yes&amp;amp;svc_dat=&amp;amp;url_ctx_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Actx&amp;amp;url_ver=Z39.88-2004&lt;/item&gt;
+  &lt;item key="rft.title"&gt;Nature&lt;/item&gt;
+  &lt;item key="url_ctx_fmt"&gt;info:ofi/fmt:kev:mtx:ctx&lt;/item&gt;
+  &lt;item key="@rft.stitle"&gt;
+   &lt;array&gt;
+    &lt;item key="0"&gt;NATURE (LOND)&lt;/item&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
+  &lt;item key="@rfe_id"&gt;
+   &lt;array&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
+  &lt;item key="rft.jtitle"&gt;Nature&lt;/item&gt;
+  &lt;item key="rft.coden"&gt;NATUAS&lt;/item&gt;
+  &lt;item key="sfx.sourcename"&gt;DEFAULT&lt;/item&gt;
+  &lt;item key="rft_val_fmt"&gt;journal&lt;/item&gt;
+  &lt;item key="existing_ts_ids"&gt;
+   &lt;array&gt;
+    &lt;item key="0"&gt;110974981369254&lt;/item&gt;
+    &lt;item key="1"&gt;110976638852341&lt;/item&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
+  &lt;item key="sfx.sid"&gt;DEFAULT&lt;/item&gt;
+  &lt;item key="@sfx.category"&gt;
+   &lt;array&gt;
+    &lt;item key="0"&gt;Chemistry&lt;/item&gt;
+    &lt;item key="1"&gt;Earth Sciences&lt;/item&gt;
+    &lt;item key="2"&gt;Environmental Sciences&lt;/item&gt;
+    &lt;item key="3"&gt;Life Sciences&lt;/item&gt;
+    &lt;item key="4"&gt;Physics&lt;/item&gt;
+    &lt;item key="5"&gt;Physics&lt;/item&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
+  &lt;item key="@svc.constraints"&gt;
+   &lt;array&gt;
+    &lt;item key="0"&gt;getFullTxt&lt;/item&gt;
+   &lt;/array&gt;
+  &lt;/item&gt;
+ &lt;/hash&gt;
+&lt;/perldata&gt;
+</ctx_obj_attributes>
+  <ctx_obj_targets>
+   <target>
+    <target_name>NATURE</target_name>
+    <target_public_name>Nature</target_public_name>
+    <object_portfolio_id>110974981369255</object_portfolio_id>
+    <target_id>110974981369253</target_id>
+    <target_service_id>110974981369254</target_service_id>
+    <service_type>getFullTxt</service_type>
+    <parser>NATURE::NATURE</parser>
+    <parse_param>url=http://www.nature.com&amp;jkey=nature &amp; ltitle=Nature</parse_param>
+    <proxy>yes</proxy>
+    <crossref>yes</crossref>
+    <note></note>
+    <authentication></authentication>
+    <char_set></char_set>
+    <displayer></displayer>
+    <target_url>http://globalproxy.cvt.dk/login?url=http://www.nature.com/nature/archive/index.html</target_url>
+    <is_related>no</is_related>
+    <coverage>
+     <coverage_text>
+      <threshold_text>
+       <coverage_statement>Available from 1950 volume: 165 issue: 4184</coverage_statement>
+      </threshold_text>
+      <embargo_text></embargo_text>
+     </coverage_text>
+     <from>
+      <year>1950</year>
+      <volume>165</volume>
+      <issue>4184</issue>
+     </from>
+     <embargo></embargo>
+    </coverage>
+   </target>
+   <target>
+    <target_name>MISCELLANEOUS_FREE_EJOURNALS</target_name>
+    <target_public_name>Open Access Journals</target_public_name>
+    <object_portfolio_id>2920000000000283</object_portfolio_id>
+    <target_id>110976638852340</target_id>
+    <target_service_id>110976638852341</target_service_id>
+    <service_type>getFullTxt</service_type>
+    <parser>Bulk::BULK</parser>
+    <parse_param>jkey=http://digital.library.wisc.edu/1711.dl/HISTSCITECH.NATURE</parse_param>
+    <proxy>no</proxy>
+    <crossref>no</crossref>
+    <note>Free full text available for some or all content</note>
+    <authentication></authentication>
+    <char_set>iso-8859-1</char_set>
+    <displayer>FT::NO_FILL_IN</displayer>
+    <target_url>http://digital.library.wisc.edu/1711.dl/HISTSCITECH.NATURE</target_url>
+    <is_related>no</is_related>
+    <coverage>
+     <coverage_text>
+      <threshold_text>
+       <coverage_statement>Available from 1869 volume: 1 issue: 1  until 1875 volume: 12 issue: 313</coverage_statement>
+      </threshold_text>
+      <embargo_text></embargo_text>
+     </coverage_text>
+     <from>
+      <year>1869</year>
+      <volume>1</volume>
+      <issue>1</issue>
+     </from>
+     <to>
+      <year>1875</year>
+      <volume>12</volume>
+      <issue>313</issue>
+     </to>
+     <embargo></embargo>
+    </coverage>
+   </target>
+  </ctx_obj_targets>
+ </ctx_obj>
+</ctx_obj_set>

@@ -39,8 +39,15 @@ class Nal
       end
     end
 
+    count_text = "#{response.url_list.length} "
+    if response.url_list.length == 1
+      count_text << I18n.t('general.library')
+    else
+      count_text << I18n.t('general.libraries')
+    end
+
     response.set_translations(@reference.doctype, response.subtype, @reference.user_type)
-    response.button_text = I18n.t "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}" % "button_text", n: response.url_list.length.to_s    
+    response.button_text = I18n.t "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}" % "button_text", n: count_text
 
     if response.url_list.length > 0
       response_list << response    

@@ -15,6 +15,7 @@ describe Nal do
       nal = Nal.new(reference, configuration)
       nal.callback { |result|                
         result.first.url_list.size.must_be :==, 3
+        result.first.button_text.must_equal "At 3 libraries"
       }
       nal.errback { |error| 
         flunk error
@@ -28,6 +29,7 @@ describe Nal do
       nal = Nal.new(reference, configuration)
       nal.callback { |result|        
         result.first.url_list.size.must_be :==, 1
+        result.first.button_text.must_equal "At 1 library"
       }
       nal.errback { |error| 
         flunk error

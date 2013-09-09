@@ -295,6 +295,37 @@ en:
           dtu_staff: "Journal homepage"
           dtu_student: "Journal homepage"
           walkin: "Journal homepage"
+          public: "On-site use"
+        type: 
+          dtu_staff: "Online"
+          dtu_student: "Online"
+          walkin: "Online"
+          public: "At DTU"
+        short_explanation:
+          dtu_staff: "Go to journal homepage"
+          dtu_student: "Go to journal homepage"
+          walkin: "Go to journal homepage"
+          public: "On-site use at DTU Library"
+        lead_text:
+          dtu_staff: "No charge"
+          dtu_student: "No charge"
+          walkin: "No charge"
+          public: "No charge"
+        button_text:
+          dtu_staff: "Journal homepage"
+          dtu_student: "Journal homepage"
+          walkin: "Journal homepage"
+          public: "On-site use"
+        icon: 
+          dtu_staff: "icon-external-link-sign"
+          dtu_student: "icon-external-link-sign"
+          walkin: "icon-external-link-sign"
+          public: "icon-map-marker"
+      openaccess_remote: 
+        short_name: 
+          dtu_staff: "Journal homepage"
+          dtu_student: "Journal homepage"
+          walkin: "Journal homepage"
           public: "Journal homepage"
         type: 
           dtu_staff: "Online"
@@ -321,22 +352,21 @@ en:
           dtu_student: "icon-external-link-sign"
           walkin: "icon-external-link-sign"
           public: "icon-external-link-sign"
-      openaccess_remote: *journal_license_remote
       print:
         short_name: 
           dtu_staff: "Request article"
           dtu_student: "Request article"
-          walkin: "On-site use"
+          walkin: "Request article"
           public: "On-site use"
         type: 
           dtu_staff: "Scan"
           dtu_student: "Scan"
-          walkin: "At DTU"
+          walkin: "Scan"
           public: "At DTU"
         short_explanation:
           dtu_staff: "Fill in form to request article"
           dtu_student: "Fill in form to request article" 
-          walkin: "On-site use at DTU Library"
+          walkin: "Fill in form to request article"
           public: "On-site use at DTU Library"
         lead_text:
           dtu_staff: "No charge"
@@ -346,10 +376,10 @@ en:
         button_text:
           dtu_staff: "Request article"
           dtu_student: "Request article"
-          walkin: "On-site use"
+          walkin: "Request article"
           public: "On-site use"
         icon: 
           dtu_staff: "icon-file-text"
           dtu_student: "icon-file-text"
-          walkin: "icon-map-marker"
+          walkin: "icon-file-text"
           public: "icon-map-marker"

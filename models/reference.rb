@@ -11,6 +11,7 @@ class Reference
     # create context object from parameters
     # note that no validity check on openurl parameters are made     
     @context_object = OpenURL::ContextObject.new_from_form_vars(params)
+    @logger = Kyandi.logger
   end
 
   def service_list_name
@@ -31,7 +32,12 @@ class Reference
   end
 
   def custom_co_data
-    JSON.parse(@context_object.referent.private_data)
+    begin    
+      JSON.parse(@context_object.referent.private_data)
+    rescue
+      @logger.warn("Could not parse referent data from context object #{@context_object.inspect}")
+      {}
+    end
   end
 
   def doctype

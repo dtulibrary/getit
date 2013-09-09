@@ -62,14 +62,14 @@ describe Scan do
     "rft_dat" => "{\"id\":\"13367718\"}",
     "req_id" => "anonymous"
   }
-
-  configuration = {"url" => "http://example.com", "enable_dtic" => true}
+  
 
   describe "holdings in print collection exists for journal" do
 
     it "chooses RD scan if the article is not in the holdings range" do
 
       reference = Reference.new(params_local_not_in_range)
+      configuration = {"url" => "http://example.com", "enable_dtic" => true}
         
       EM.run_block {
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings.txt"))
@@ -86,6 +86,7 @@ describe Scan do
     it "chooses local scan if the article is in the holdings scan" do
 
       reference = Reference.new(params_local_in_range)
+      configuration = {"url" => "http://example.com", "enable_dtic" => true}
         
       EM.run_block {
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings.txt"))
@@ -100,11 +101,10 @@ describe Scan do
     end
 
     it "does not choose local scan if local scan is disabled" do
-
-      configuration["enable_dtic"] = false
-
+      
       reference = Reference.new(params_local_in_range)
-        
+      configuration = {"url" => "http://example.com", "enable_dtic" => false}
+
       EM.run_block {
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings.txt"))
         scan = Scan.new(reference, configuration)
@@ -123,6 +123,7 @@ describe Scan do
     it "does not find a local scan option" do
       
       reference = Reference.new(params_no_local)
+      configuration = {"url" => "http://example.com", "enable_dtic" => true}
 
       EM.run_block {
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings_no_result.txt"))

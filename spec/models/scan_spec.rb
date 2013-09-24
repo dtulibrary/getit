@@ -63,6 +63,23 @@ describe Scan do
     "req_id" => "anonymous"
   }
   
+  params_local_in_range_year = {    
+    "url_ver" => "Z39.88-2004",
+    "url_ctx_fmt" => "info:ofi/fmt:kev:mtx:ctx",
+    "ctx_ver" => "Z39.88-2004",
+    "ctx_enc" => "info:ofi/enc:UTF-8",
+    "rft.genre" => "article",
+    "rft.atitle" => "Design testing and analyses of the Nanjing TV tower",
+    "rft.jtitle" => "Concrete International",
+    "rft.volume" => "16",
+    "rft.spage" => "11",
+    "rft.spage" => "42",
+    "rft.epage" => "44",
+    "rft.date" => "1994",
+    "rft.issn" => "19447388",
+    "rft_dat" => "{\"id\":\"1234\"}",
+    "req_id" => "anonymous"
+  }
 
   describe "holdings in print collection exists for journal" do
 
@@ -90,6 +107,23 @@ describe Scan do
         
       EM.run_block {
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings.txt"))
+        scan = Scan.new(reference, configuration)
+        scan.callback { |result|
+          result.first.subtype.must_equal "dtic_scan"
+        }
+        scan.errback { |error| 
+          flunk error
+        }
+      }
+    end
+
+    it "chooses local scan if the article is in the holdings scan where holdings only include year" do
+
+      reference = Reference.new(params_local_in_range_year)
+      configuration = {"url" => "http://example.com", "enable_dtic" => true}
+        
+      EM.run_block {
+        stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings_only_year.txt"))
         scan = Scan.new(reference, configuration)
         scan.callback { |result|
           result.first.subtype.must_equal "dtic_scan"

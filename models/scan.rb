@@ -39,17 +39,20 @@ class Scan
               
                 if article_year != 0 && holdings["fromyear"].to_i <= article_year && holdings["toyear"].to_i >= article_year
                   has_local = true
-                             
+                  
                   if
-                    # article in volume/issue before holding
-                    (article_year == holdings["fromyear"].to_i && 
-                    (article_volume < holdings["fromvolume"].to_i ||
-                     article_issue < holdings["fromissue"].to_i)) || 
-                    # article in volume/issue after holding
-                    (article_year == holdings["toyear"].to_i &&
-                    (article_volume > holdings["tovolume"].to_i || 
-                     article_issue > holdings["toissue"].to_i))
-                    has_local = false
+                    # holdings volume or issue is set
+                    (holdings["fromvolume"] != nil || holdings["tovolume"] != nil ||
+                    holdings["fromissue"] != nil || holdings["toissue"] != nil) &&
+                    (# article in volume/issue before holding
+                      (article_year == holdings["fromyear"].to_i && 
+                      (article_volume < holdings["fromvolume"].to_i ||
+                       article_issue < holdings["fromissue"].to_i)) || 
+                      # article in volume/issue after holding
+                      (article_year == holdings["toyear"].to_i &&
+                      (article_volume > holdings["tovolume"].to_i || 
+                       article_issue > holdings["toissue"].to_i)))
+                    has_local = false                    
                   end
                 end 
               end            

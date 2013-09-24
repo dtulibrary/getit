@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Cache-Control: max-age=86400, public, must-revalidate
+Expires: Wed, 25 Sep 2013 10:25:46 GMT
+Last-Modified: Thu, 29 Aug 2013 08:25:15 GMT
+ETag: "OTgwNWEwMDAwMDAwMDAwMFNvbHI="
+Content-Type: application/json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Tue, 24 Sep 2013 10:25:46 GMT
+
+{"responseHeader":{"status":0,"QTime":7,"params":{"facet":"false","fl":"holdings_ssf","q":"issn_ss:01624075","wt":"json","fq":"format:journal"}},"response":{"numFound":2,"start":0,"maxScore":11.592925,"docs":[{"holdings_ssf":["{\"fromyear\":\"1986\",\"toyear\":\"1994\",\"type\":\"printed\"}"]},{}]}}

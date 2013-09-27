@@ -111,11 +111,14 @@ class Sfx
 
   def get_query    
     co = @reference.clean_context_object
+    
     co.serviceType.push(OpenURL::ContextObjectEntity.new) if co.serviceType.length == 0
     @sfx_to_getit_types.values.each do |service_type|
       co.serviceType.first.set_metadata(service_type, "yes")
     end    
-    co_h = co.to_hash.merge({"sfx.response_type" => "simplexml"})
+    
+    co_h = co.to_hash
+
     # remove timestamp so it can be used as cache key    
     co_h.delete("ctx_tim")
     if @reference.doctype == "journal"
@@ -127,7 +130,17 @@ class Sfx
       # but the simplexml response type does not include coverage for journals
       co_h["sfx.response_type"] = "simplexml"
     end
-    co_h
+
+    params = co_h.collect do |k, v|      
+      # flatten array params
+      if v.is_a? Array
+        v.collect{|e| "#{k}=#{e}"}.join('&')        
+      else
+        "#{k}=#{v}"  
+      end
+    end
+
+    URI.escape(params.join('&'))
   end
 
   private

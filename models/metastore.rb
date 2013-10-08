@@ -7,7 +7,12 @@ class Metastore
 
   def initialize(reference, configuration, cache_settings = {})    
     @category = configuration['category']
-    super(reference, configuration, cache_settings)
+
+    if skip?(reference)
+      self.succeed([])
+    else
+      super(reference, configuration, cache_settings)
+    end
   end
 
   def parse_response
@@ -85,4 +90,19 @@ class Metastore
     return "holdings_ssf" if @category == "holdings"
     "fulltext_list_ssf" # fulltext
   end
+
+  def self.issn_list
+    ["13555855","10650741","14777274","01604953","13527606","14777282","09653562","20407149","14601060","03090566","03090590","17542413","02635577","02641615",
+     "0951354X","13552554","09526862","1754243X","01437720","01443577","0265671X","09590552","0144333X","14676370","08858624","07363761","01443585","09578234",
+     "17410398","13673270","02621711","1741038X","09534814","1463578X","17575818","13665626","09696474","01435124","20408269","02686902","03074358","09604529",
+     "1065075X","00483486","1363951X","02637472","02580543","13527592"]
+  end
+
+  def skip?(reference)        
+    @category == "fulltext" && 
+    reference.context_object.referent.metadata["date"].to_i >= 2013 &&
+    self.class.issn_list.include?(reference.context_object.referent.metadata["issn"])
+  end
+
 end
+  

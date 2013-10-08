@@ -12,7 +12,7 @@ describe Metastore do
       "rft_val_fmt" => "info:ofi/fmt:kev:mtx:journal",
       "rft.au"      => "Baillot, Patrick",
       "rft.atitle"  => "Linear+Logic+by+Levels+and+Bounded+Time+Complexity",
-      "rft.year"    => "2008",
+      "rft.date"    => "2008",
       "rft.doi"     => "10.1016%2Fj.tcs.2009.09.015",
       "rft_dat"    => "{\"id\":\"1\"}",
       "rft.genre"   => "article",
@@ -75,6 +75,22 @@ describe Metastore do
         }
         metastore.errback { |error| 
           error.must_match /^Service Metastore failed with status 404*/
+        }
+      }
+    end
+
+    it "skips references that should be excluded" do
+
+      reference = Reference.new(params.merge({"rft.date" => "2013", "rft.issn" => "01443577"}))
+
+      EM.run_block {
+        stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr1.txt"))
+        metastore = Metastore.new(reference, configuration)
+        metastore.callback { |result|     
+          result.must_be_empty          
+        }
+        metastore.errback { |error| 
+          flunk error
         }
       }
     end

@@ -62,8 +62,9 @@ describe Sfx do
       "rft.genre"   => "journal",
       "rft.jtitle"  => "Nature.",
       "rft.issn"    => "14764687",
+      "rft_id"      => "urn:issn:14764687",
       "rft_val_fmt" => "info:ofi/fmt:kev:mtx:journal",
-      "rft_dat"    => "{\"id\":\"189829043\"}",
+      "rft_dat"     => "{\"id\":\"189829043\"}",
       "req_id"      => "dtu_staff",
       "svc_dat"     => "fulltext"
     }

@@ -111,13 +111,21 @@ class Sfx
 
   def get_query    
     co = @reference.clean_context_object
-    
+
     co.serviceType.push(OpenURL::ContextObjectEntity.new) if co.serviceType.length == 0
     @sfx_to_getit_types.values.each do |service_type|
       co.serviceType.first.set_metadata(service_type, "yes")
     end    
     
     co_h = co.to_hash
+
+    # Only use issn and isbn in rft_id:
+    # If an issn or isbn is set in metadata (only one value), this will, in SFX, take
+    # precedence over issn's and isbn's set in rft_id (which can have several values). 
+    # If SFX does not have all issn/isbn's registered and it doesn't include the one listed
+    # in rft metadata, it will not resolve
+    co_h.delete('rft.isbn')
+    co_h.delete('rft.issn')
 
     # remove timestamp so it can be used as cache key    
     co_h.delete("ctx_tim")

@@ -9,8 +9,8 @@ class ResolveController < ApplicationController
 
     headers "Cache-Control" => "no-cache",
             "Access-Control-Allow-Origin" => "*"
-
-    reference = Reference.new(params)    
+            
+    reference = Reference.new(CGI::parse(request.query_string))
     service_list_name = reference.service_list_name || settings.service_list_default
     service_list = settings.service_lists[service_list_name][reference.doctype]
     decider = DispatchDecider.new(service_list_name, reference)

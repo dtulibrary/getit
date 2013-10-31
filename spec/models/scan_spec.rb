@@ -81,6 +81,20 @@ describe Scan do
     "req_id" => "anonymous"
   }
 
+  params_sparse_metadata = {    
+    "url_ver" => "Z39.88-2004",
+    "url_ctx_fmt" => "info:ofi/fmt:kev:mtx:ctx",
+    "ctx_ver" => "Z39.88-2004",
+    "ctx_enc" => "info:ofi/enc:UTF-8",
+    "rft.genre" => "article",
+    "rft.atitle" => "Application conditions for interval constraint propagation",
+    "rft.au" => "Hyvonen",
+    "rft.date" => "1991",
+    "rft_val_fmt" => "info:ofi/fmt:kev:mtx:journal",
+    "rft_dat" => "{\"id\":\"1234\"}",
+    "req_id" => "anonymous"
+  }
+
   describe "holdings in print collection exists for journal" do
 
     it "chooses RD scan if the article is not in the holdings range" do
@@ -171,4 +185,21 @@ describe Scan do
       }
     end
   end
+
+  it "returns an rd scan option when metadata is too sparse to detect whether a local scan option exists or not" do
+
+    reference = Reference.new(params_sparse_metadata)
+    configuration = {"url" => "http://example.com", "enable_dtic" => true}
+
+    EM.run_block {
+      scan = Scan.new(reference, configuration)
+      scan.callback { |result|
+        result.first.subtype.must_equal "rd_scan"
+      }
+      scan.errback { |error| 
+        flunk error
+      }
+    }
+  end
+
 end

@@ -18,33 +18,38 @@ module Service
 
   def call         
     query = get_query
-    cache_key = Zlib.crc32(query.to_s)
 
-    @response = @cache_client.get(cache_key)
-    if !@response.nil?
-      @logger.info "#{self.class} cache hit with #{cache_key}"
-      self.succeed(parse_response)      
-    else
-      @logger.info "#{self.class} cache miss with #{cache_key}"
-      @response = {}
-      @logger.info "#{self.class} call service with #{get_query}"
-      request = EM::HttpRequest.new(@configuration["url"]).get({
-        :query => query
-      })      
-      request.callback {      
-        if request.response_header.status == 200        
-          @response[:status] = request.response_header.status
-          @response[:header] = request.response_header
-          @response[:body] = request.response        
-          @cache_client.add(cache_key, @response)
-          self.succeed(parse_response)          
-        else
-          self.fail("Service #{self.class} failed with status #{request.response_header.status} for url: #{@configuration['url']}, query: #{get_query}")
-        end
-      }
-      request.errback {
-        self.fail("Error making API call for #{self.class}: #{request.error}")
-      }
+    if query.nil?
+      self.succeed(response_alternative)
+    else  
+      cache_key = Zlib.crc32(query.to_s)
+
+      @response = @cache_client.get(cache_key)
+      if !@response.nil?
+        @logger.info "#{self.class} cache hit with #{cache_key}"
+        self.succeed(parse_response)      
+      else
+        @logger.info "#{self.class} cache miss with #{cache_key}"
+        @response = {}
+        @logger.info "#{self.class} call service with #{get_query}"
+        request = EM::HttpRequest.new(@configuration["url"]).get({
+          :query => query
+        })      
+        request.callback {      
+          if request.response_header.status == 200        
+            @response[:status] = request.response_header.status
+            @response[:header] = request.response_header
+            @response[:body] = request.response        
+            @cache_client.add(cache_key, @response)
+            self.succeed(parse_response)          
+          else
+            self.fail("Service #{self.class} failed with status #{request.response_header.status} for url: #{@configuration['url']}, query: #{get_query}")
+          end
+        }
+        request.errback {
+          self.fail("Error making API call for #{self.class}: #{request.error}")
+        }
+      end
     end
   end
 
@@ -83,6 +88,10 @@ module Service
   def parse_response
     ServiceResponse.new
   end    
+
+  def response_alternative
+    ServiceResponse.new
+  end
 
   def get_query
     {}

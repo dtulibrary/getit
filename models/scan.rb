@@ -12,11 +12,7 @@ class Scan
       return []
     end
 
-    service_response = FulltextServiceResponse.new
-    service_response.service_type = "fulltext"
-    service_response.source = "scan"
-    service_response.source_priority = @configuration["priority"]
-    service_response.subtype = "rd_scan"
+    service_response = rd_service_response
 
     if @configuration["enable_dtic"]
 
@@ -61,19 +57,36 @@ class Scan
           end
         end
       end
-    end 
+    end
 
     service_response.set_translations(@reference.doctype, service_response.subtype, @reference.user_type)
 
     [service_response]
   end  
 
+  def response_alternative    
+    service_response = rd_service_response
+    service_response.set_translations(@reference.doctype, service_response.subtype, @reference.user_type)
+    [service_response]
+  end
+
   def get_query    
-    #TODO only make request if we have something meaningful to query with   
     query = ""
     query = "issn_ss:#{@reference.context_object.referent.metadata['issn']}" if !@reference.context_object.referent.metadata['issn'].nil?
     query ||= "isbn_ss:#{@reference.context_object.referent.metadata['isbn']}" if !@reference.context_object.referent.metadata['isbn'].nil?
-    query ||= "journal_title_ts:#{@reference.context_object.referent.metadata['jtitle']}" if !@reference.context_object.referent.metadata['jtitle'].nil?
-    {"q" => query, "fq" => "format:journal",  "fl" => "holdings_ssf", "wt" => "json"}
+    query ||= "journal_title_ts:#{@reference.context_object.referent.metadata['jtitle']}" if !@reference.context_object.referent.metadata['jtitle'].nil?    
+
+    query.empty? ? nil : {"q" => query, "fq" => "format:journal",  "fl" => "holdings_ssf", "wt" => "json"}
+  end
+
+  private
+
+  def rd_service_response
+    service_response = FulltextServiceResponse.new
+    service_response.service_type = "fulltext"
+    service_response.source = "scan"
+    service_response.source_priority = @configuration["priority"]
+    service_response.subtype = "rd_scan"
+    service_response
   end
 end

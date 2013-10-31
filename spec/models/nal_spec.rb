@@ -23,6 +23,23 @@ describe Nal do
     }
   end
 
+  it "returns the proper fields in NAL responses" do
+    EM.run_block {
+      stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/nal.txt"))
+      nal = Nal.new(reference, configuration)
+      nal.callback { |result|                
+        result.first.urls.each do |item|
+          [:id, :label, :url].each do |key|
+            item[key].wont_be_nil
+          end
+        end
+      }
+      nal.errback { |error| 
+        flunk error
+      }
+    }
+  end
+
   it "ignore errors in nal responses" do
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/nal_with_error.txt"))

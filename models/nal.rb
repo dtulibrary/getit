@@ -33,6 +33,11 @@ class Nal
       unless item["errorMessage"]
         unless item["id"] == "dtu"          
           response.url_list[item["public_name_ENG"]] = item["providerHTMLOpenUrl"]
+          response.urls << {
+            :id    => item["id"],
+            :url   => item["providerHTMLOpenUrl"],
+            :label => item["public_name_ENG"]
+          }
         end
       else     
         @logger.info("Link provider #{item['id']} could not resolve link: #{item['errorMessage']}")

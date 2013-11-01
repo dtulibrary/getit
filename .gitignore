@@ -1,3 +1,4 @@
 config/*.local.yml
 log/*
 .*.swp
+coverage*

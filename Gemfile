@@ -16,4 +16,7 @@ group :test do
   gem "rack-test"
   gem "turn"
   gem "m"
+  gem "simplecov", :require => false
+  gem "simplecov-html", :require => false
+  gem "simplecov-rcov", :require => false
 end

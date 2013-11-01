@@ -15,7 +15,7 @@ class Metastore
     end
   end
 
-  def parse_response
+  def parse_response    
     metastore_response = JSON.parse(@response[:body])["response"]
     count = metastore_response["numFound"]
 
@@ -24,58 +24,39 @@ class Metastore
 
     if count > 0 && metastore_response["docs"].first.has_key?(key)
 
-      response = FulltextServiceResponse.new
-      response.source = "metastore"
-      response.service_type = @configuration["service_type"]      
-      response.source_priority = @configuration["priority"]
-
       case @category
-      when "fulltext"
-        fulltext = JSON.parse(metastore_response["docs"].first[key].first)    
-        local = fulltext["local"] == true
+      when "fulltext"        
         
-        url = fulltext["url"]
-        if local && /http/.match(url).nil? 
-          url.prepend(@configuration["dtic_url"])         
-        end
-        response.url = url
-
-        if fulltext["type"] == "openaccess"
-          response.subtype = "openaccess"
-        else
-          response.subtype = "license"
-        end
-        if local
-          response.subtype << "_local"
-        else
-         response.subtype << "_remote"
-        end
-
-        if response.subtype.start_with?("license") && @reference.user_type == "public"
-          response.url = "http://www.dtic.dtu.dk/english/servicemenu/visit/opening#lyngby"
+        metastore_response["docs"].first[key].each do |f|          
+          service_responses << metastore_fulltext_response(JSON.parse(f))
         end
 
       when "alis"
+        response = metastore_service_response
         alis_key = metastore_response["docs"].first[key].first
 
         response.url = "#{@configuration['alis_url']}#{alis_key}"
         response.subtype = "catalog"
         response.set_translations(@reference.doctype, response.subtype, @reference.user_type)
+        
+        service_responses << response      
 
       when "holdings"                
+        response = metastore_service_response
+        
         metastore_response["docs"].first[key].each do |holdings_item|
           parsed_item = JSON.parse(holdings_item)
           parsed_item.delete("type")
           response.holdings_list << parsed_item
         end
+        
         issn = @reference.context_object.referent.metadata["issn"]
         response.url = "#{@configuration['order_url']}"
         response.subtype = "print"
+        
+        response.set_translations(@reference.doctype, response.subtype, @reference.user_type)
+        service_responses << response      
       end
-
-      response.set_translations(@reference.doctype, response.subtype, @reference.user_type)
-
-      service_responses << response      
     end
 
     service_responses
@@ -96,13 +77,63 @@ class Metastore
      "0951354X","13552554","09526862","1754243X","01437720","01443577","0265671X","09590552","0144333X","14676370","08858624","07363761","01443585","09578234",
      "17410398","13673270","02621711","1741038X","09534814","1463578X","17575818","13665626","09696474","01435124","20408269","02686902","03074358","09604529",
      "1065075X","00483486","1363951X","02637472","02580543","13527592"]
-  end
+  end  
 
-  def skip?(reference)        
+  def skip?(reference)
+    # exclude some titles from Emerald with publication year from 2013
     @category == "fulltext" && 
     reference.context_object.referent.metadata["date"].to_i >= 2013 &&
-    self.class.issn_list.include?(reference.context_object.referent.metadata["issn"])
+    reference.context_object.referent.identifiers.any? do |identifier|       
+      if identifier.match(/urn:issn:(\S*)/)
+        self.class.issn_list.include?($1)
+      end
+    end
   end
 
-end
-  
+  private
+
+  def metastore_fulltext_response(fulltext)
+
+    response = metastore_service_response
+    local = fulltext["local"] == true
+
+    url = fulltext["url"]    
+    if local && /http/.match(url).nil? 
+      url.prepend(@configuration["dtic_url"])
+    end
+
+    response.url = url
+
+    if fulltext["type"] == "openaccess"
+      response.subtype = "openaccess"
+    else
+      response.subtype = "license"
+    end
+    if local
+      response.subtype << "_local"
+    else
+     response.subtype << "_remote"
+    end
+
+    if response.subtype.start_with?("license") && @reference.user_type == "public"
+      response.url = "http://www.dtic.dtu.dk/english/servicemenu/visit/opening#lyngby"
+    end
+
+    response.set_translations(@reference.doctype, response.subtype, @reference.user_type)
+
+    if @reference.doctype == "thesis" 
+      response.explanation = I18n.t "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}" % "explanation", filename: fulltext["name"]
+    end
+
+    response
+  end
+
+  def metastore_service_response
+    response = FulltextServiceResponse.new
+    response.source = "metastore"
+    response.service_type = @configuration["service_type"]      
+    response.source_priority = @configuration["priority"]
+    response
+  end
+
+end  

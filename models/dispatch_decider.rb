@@ -14,11 +14,11 @@ class DispatchDecider
 
     case service_list_name
     when "fulltext"
-      if @reference.doctype == "article"
+      if ["article", "thesis"].include?(@reference.doctype)
         add_fulltext_rules 
       end
     when "fulltext_info"
-      if @reference.doctype == "article"
+      if ["article", "thesis"].include?(@reference.doctype)
         add_fulltext_info_rules
       end
     when "fulltext_short"

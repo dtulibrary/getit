@@ -386,3 +386,21 @@ en:
           dtu_student: "icon-file-text"
           walkin: "icon-file-text"
           public: "icon-map-marker"
+    thesis:
+      license_local:
+        short_name: *license_short_name
+        type: *license_type
+        short_explanation: *license_short_explanation
+        lead_text:
+          dtu_staff: ""
+          dtu_student: ""
+          walkin: ""
+          public: ""
+        explanation: 
+          dtu_staff: "%{filename}"
+          dtu_student: "%{filename}"
+          walkin: "%{filename}"
+          public: "%{filename}"
+        button_text: *license_button_text
+        tool_tip: *license_tool_tip
+        icon: *license_icon

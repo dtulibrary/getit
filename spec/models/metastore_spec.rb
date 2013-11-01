@@ -19,17 +19,17 @@ describe Metastore do
       "req_id"      => "dtu_staff"
     }
 
-    configuration = {"url" => "http://example.com", "category" => "fulltext", "service_type" => "fulltext"}
-    reference = Reference.new(params)
+    configuration = {"url" => "http://example.com", "category" => "fulltext", "service_type" => "fulltext"}    
 
     it "fetches a fulltext url" do
 
       EM.run_block {
+        reference = Reference.new(params)
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr1.txt"))
         metastore = Metastore.new(reference, configuration)
         metastore.callback { |result|     
           result.first.url.must_equal("http://arxiv.org/abs/0801.1253")
-          result.first.service_type.must_equal("fulltext")
+          result.first.service_type.must_equal("fulltext")          
         }
         metastore.errback { |error| 
           flunk error
@@ -40,6 +40,7 @@ describe Metastore do
     it "has no fulltext list" do
 
       EM.run_block {
+        reference = Reference.new(params)
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr2.txt"))
         metastore = Metastore.new(reference, configuration)
         metastore.callback { |result|        
@@ -54,6 +55,7 @@ describe Metastore do
     it "does not exists" do    
 
       EM.run_block {
+        reference = Reference.new(params)
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr3.txt"))
         metastore = Metastore.new(reference, configuration)
         metastore.callback { |result|        
@@ -68,6 +70,7 @@ describe Metastore do
     it "points at wrong server" do
 
       EM.run_block {
+        reference = Reference.new(params)
         stub_request(:get, /#{configuration['url']}.*/).to_return(:status => 404)
         metastore = Metastore.new(reference, configuration)
         metastore.callback { |result|        
@@ -81,9 +84,8 @@ describe Metastore do
 
     it "skips references that should be excluded" do
 
-      reference = Reference.new(params.merge({"rft.date" => "2013", "rft.issn" => "01443577"}))
-
-      EM.run_block {
+      EM.run_block {        
+        reference = Reference.new(params.merge({"rft.date" => "2013", "rft.issn" => "01443577", "rft_id" => "urn:issn:01443577"}))
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr1.txt"))
         metastore = Metastore.new(reference, configuration)
         metastore.callback { |result|     

@@ -59,10 +59,13 @@ class Sfx
     end
 
     # sort and return, max one open access & one licensed
-    sr_licensed, sr_openaccess = service_responses.partition {|sr| sr.subtype.match("license") }
-    service_responses = []
-    service_responses << sr_licensed.sort_by(&:priority).first if !sr_licensed.nil? && !sr_licensed.empty?
-    service_responses << sr_openaccess.sort_by(&:priority).first if !sr_openaccess.nil? && !sr_openaccess.empty?
+    if @reference.doctype != 'journal'
+      sr_licensed, sr_openaccess = service_responses.partition {|sr| sr.subtype.match("license") }
+      service_responses = []
+      service_responses << sr_licensed.sort_by(&:priority).first if !sr_licensed.nil? && !sr_licensed.empty?
+      service_responses << sr_openaccess.sort_by(&:priority).first if !sr_openaccess.nil? && !sr_openaccess.empty?
+    end
+
     service_responses
   end
 

@@ -397,10 +397,14 @@ en:
           walkin: ""
           public: ""
         explanation: 
+          dtu_staff: ""
+          dtu_student: ""
+          walkin: ""
+          public: ""
+        button_text: *license_button_text
+        tool_tip: 
           dtu_staff: "%{filename}"
           dtu_student: "%{filename}"
           walkin: "%{filename}"
           public: "%{filename}"
-        button_text: *license_button_text
-        tool_tip: *license_tool_tip
         icon: *license_icon

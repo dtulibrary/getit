@@ -122,7 +122,7 @@ class Metastore
     response.set_translations(@reference.doctype, response.subtype, @reference.user_type)
 
     if @reference.doctype == "thesis" 
-      response.explanation = I18n.t "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}" % "explanation", filename: fulltext["name"]
+      response.tool_tip = I18n.t "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}" % "tool_tip", filename: fulltext["name"]
     end
 
     response

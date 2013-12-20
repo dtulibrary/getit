@@ -6,7 +6,7 @@ require_relative 'service'
 class Scan
   include Service
 
-  def parse_response
+  def parse_response(resp)
 
     unless @reference.doctype == "article"
       return []
@@ -20,7 +20,7 @@ class Scan
       article_volume = @reference.context_object.referent.metadata["volume"].to_i
       article_issue = @reference.context_object.referent.metadata["issue"].to_i
 
-      response = JSON.parse(@response[:body])["response"]
+      response = JSON.parse(resp[:body])["response"]
 
       if response["numFound"] > 0
         response["docs"].each do |doc|

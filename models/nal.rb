@@ -19,9 +19,9 @@ class Nal
     end
   end
 
-  def parse_response    
+  def parse_response(response)
     response_list = []
-    item_list = JSON.parse(@response[:body]).sort {|x, y| x["public_name_ENG"] <=> y["public_name_ENG"]}
+    item_list = JSON.parse(response[:body]).sort {|x, y| x["public_name_ENG"] <=> y["public_name_ENG"]}
     response = NalServiceResponse.new
 
     response.source = "nal"

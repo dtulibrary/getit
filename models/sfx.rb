@@ -33,10 +33,10 @@ class Sfx
 
   end
 
-  def parse_response
+  def parse_response(response)
 
     service_responses = []
-    doc = Nokogiri::XML(@response[:body])     
+    doc = Nokogiri::XML(response[:body])
 
     if doc.at('/ctx_obj_set')
       # response type multi_obj_xml
@@ -112,26 +112,21 @@ class Sfx
     response
   end
 
-  def get_query    
+  def get_query
+    queries = []
+
     co = @reference.clean_context_object
 
     co.serviceType.push(OpenURL::ContextObjectEntity.new) if co.serviceType.length == 0
     @sfx_to_getit_types.values.each do |service_type|
       co.serviceType.first.set_metadata(service_type, "yes")
-    end    
+    end
     
     co_h = co.to_hash
 
-    # Only use issn and isbn in rft_id:
-    # If an issn or isbn is set in metadata (only one value), this will, in SFX, take
-    # precedence over issn's and isbn's set in rft_id (which can have several values). 
-    # If SFX does not have all issn/isbn's registered and it doesn't include the one listed
-    # in rft metadata, it will not resolve
-    co_h.delete('rft.isbn')
-    co_h.delete('rft.issn')
-
-    # remove timestamp so it can be used as cache key    
+    # remove timestamp so it can be used as cache key
     co_h.delete("ctx_tim")
+
     if @reference.doctype == "journal"
       co_h["sfx.ignore_date_threshold"] = 1
       co_h["sfx.show_availability"] = 1
@@ -142,22 +137,54 @@ class Sfx
       co_h["sfx.response_type"] = "simplexml"
     end
 
-    params = co_h.collect do |k, v|      
-      # flatten array params
-      if v.is_a? Array
-        v.collect{|e| "#{k}=#{e}"}.join('&')        
-      else
-        "#{k}=#{v}"  
+    # collect standard numbers (issn+isbn) to identify if multiple queries should be created,
+    # one for each number
+    standard_numbers = {}
+    if co_h.key? 'rft_id'
+
+      ids = (co_h['rft_id'].is_a? Array) ? co_h['rft_id'] : [co_h['rft_id']]
+      ids.each do |id|
+        if m = /urn:isbn:(.*)/.match(id)
+          standard_numbers[m[1]] = :isbn
+        elsif m = /urn:issn:(.*)/.match(id)
+          standard_numbers[m[1]] = :issn
+        end
       end
     end
 
-    URI.escape(params.join('&'))
+    # create a query for each of the issns/isbns
+    if standard_numbers.empty?
+      queries << URI.escape(flatten_params(co_h).join('&'))
+    else
+      co_h.delete("rft.isbn")
+      co_h.delete("rft.issn")
+      params = flatten_params(co_h)
+
+      standard_numbers.sort.map do |number, type|
+        query_params = params.dup
+        query_params << "rft.#{type.to_s}=#{number}"
+        queries << URI.escape(query_params.join('&'))
+      end
+    end
+
+    queries
   end
 
   private
 
+  def flatten_params(params)
+    params.collect do |k, v|
+      # flatten array params
+      if v.is_a? Array
+        v.collect{|e| "#{k}=#{e}"}.join('&')
+      else
+        "#{k}=#{v}"
+      end
+    end
+  end
+
   def duplicate?(response, service_responses)
-    service_responses.select { |r| r.url == response.url && r.service_type == response.service_type }.size > 0   
+    service_responses.select { |r| r.url == response.url && r.service_type == response.service_type }.size > 0
   end
 
 end

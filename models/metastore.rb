@@ -15,8 +15,8 @@ class Metastore
     end
   end
 
-  def parse_response    
-    metastore_response = JSON.parse(@response[:body])["response"]
+  def parse_response(response)
+    metastore_response = JSON.parse(response[:body])["response"]
     count = metastore_response["numFound"]
 
     service_responses = []

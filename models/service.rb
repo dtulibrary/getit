@@ -9,46 +9,65 @@ module Service
 
   def initialize(reference, configuration, cache_settings = {})
     @logger = Kyandi.logger
-    # TODO configuration validation
     @configuration = configuration
-    @reference = reference    
+    @reference = reference
     @cache_client = ServiceCache.new(cache_settings, @configuration["cache_timeout"])
-    call
+
+    call(get_query)
   end
 
-  def call         
-    query = get_query
+  # query can either be a string, hash or array of either
+  def call(query)
 
     if query.nil?
       self.succeed(response_alternative)
-    else  
+    else
+      queries = []
+      queries << query
+      queries.flatten!
+
+      query_str = queries.shift
+
       cache_key = Zlib.crc32(query.to_s)
 
-      @response = @cache_client.get(cache_key)
-      if !@response.nil?
-        @logger.info "#{self.class} cache hit with #{cache_key}"
-        self.succeed(parse_response)      
-      else
+      response = @cache_client.get(cache_key)
+
+      if response.nil?
         @logger.info "#{self.class} cache miss with #{cache_key}"
-        @response = {}
-        @logger.info "#{self.class} call service with #{get_query}"
+        @logger.info "#{self.class} call service with #{query_str}"
+
+        response = {}
         request = EM::HttpRequest.new(@configuration["url"]).get({
-          :query => query
-        })      
-        request.callback {      
-          if request.response_header.status == 200        
-            @response[:status] = request.response_header.status
-            @response[:header] = request.response_header
-            @response[:body] = request.response        
-            @cache_client.add(cache_key, @response)
-            self.succeed(parse_response)          
+          :query => query_str
+        })
+
+        request.callback do
+
+          if request.response_header.status == 200
+            response[:status] = request.response_header.status
+            response[:header] = request.response_header
+            response[:body] = request.response
+            @cache_client.add(cache_key, response)
+            service_responses = parse_response(response)
+            # try again since no service responses were found
+            # and all queries haven't been tried yet
+            if service_responses.empty? && queries.length > 0
+              @logger.info("Retry service #{self.class} with new query")
+              call(queries)
+            else
+              self.succeed(service_responses)
+            end
           else
-            self.fail("Service #{self.class} failed with status #{request.response_header.status} for url: #{@configuration['url']}, query: #{get_query}")
+            self.fail("Service #{self.class} failed with status #{request.response_header.status} for url: #{@configuration['url']}, query: #{query_str}")
           end
-        }
-        request.errback {
+        end
+
+        request.errback do
           self.fail("Error making API call for #{self.class}: #{request.error}")
-        }
+        end
+      else
+        @logger.info "#{self.class} cache hit with #{cache_key}"
+        self.succeed(parse_response(response))
       end
     end
   end
@@ -57,21 +76,21 @@ module Service
     attr_reader :client
 
     def initialize(settings, timeout)
-      @enabled = false  
+      @enabled = false
       if settings["enabled"]
-        @enabled = true 
-        options = {:expires_in => timeout, :compress => true}        
+        @enabled = true
+        options = {:expires_in => timeout, :compress => true}
         begin
-          @client = Dalli::Client.new(settings["hosts"] || 'localhost:11211', options) 
+          @client = Dalli::Client.new(settings["hosts"] || 'localhost:11211', options)
         rescue Dalli::RingError
           @enabled = false
           # TODO log a warning
-        end  
+        end
       end
     end
 
-    def get(key)      
-      @client.get(key) if @enabled   
+    def get(key)
+      @client.get(key) if @enabled
     rescue Dalli::RingError
       nil
     end
@@ -83,16 +102,17 @@ module Service
     end
   end
 
-  # Override methods below in including class 
+  # Override methods below in including class
 
-  def parse_response
+  def parse_response(response)
     ServiceResponse.new
-  end    
+  end
 
   def response_alternative
     ServiceResponse.new
   end
 
+  # return string, hash or array of either
   def get_query
     {}
   end

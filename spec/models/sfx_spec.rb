@@ -1,3 +1,5 @@
+# -*- encoding : utf-8 -*-
+
 require_relative '../test_helper'
 
 describe Sfx do
@@ -23,32 +25,32 @@ describe Sfx do
 
     it "has a fulltext" do
 
-      EM.run_block {
+      EM.run_block do
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_fulltext.txt"))
         sfx = Sfx.new(reference, configuration)
-        sfx.callback { |result|        
+        sfx.callback do |result|
           result.first.url.must_be :==, "http://globalproxy.cvt.dk/login?url=http://link.springer.com/article/10.1145/2441776.2441941"
           result.first.service_type.must_be :==, "fulltext"
           result.size.must_be :==, 1 
-        }
-        sfx.errback { |error| 
+        end
+        sfx.errback do |error|
           flunk error
-        }
-      }
+        end
+      end
     end
 
     it "does not have a fulltext" do
 
-      EM.run_block {
+      EM.run_block do
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_no_fulltext.txt"))
         sfx = Sfx.new(reference, configuration)
-        sfx.callback { |result|
+        sfx.callback do |result|
           result.must_be_empty
-        }
-        sfx.errback { |error| 
+        end
+        sfx.errback do |error|
           flunk error
-        }
-      }
+        end
+      end
     end
   end
 
@@ -74,10 +76,10 @@ describe Sfx do
 
     it "includes coverage information" do
 
-      EM.run_block {
+      EM.run_block do
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_journal.txt"))
         sfx = Sfx.new(reference, configuration)
-        sfx.callback { |result|        
+        sfx.callback do |result|
           result.first.holdings_list.length.must_equal 1          
           result.last.holdings_list.first["fromyear"].must_equal "1869"
           result.last.holdings_list.first["fromvolume"].must_equal "1"
@@ -85,11 +87,67 @@ describe Sfx do
           result.last.holdings_list.first["toyear"].must_equal "1875"
           result.last.holdings_list.first["tovolume"].must_equal "12"
           result.last.holdings_list.first["toissue"].must_equal "313"
-        }
-        sfx.errback { |error| 
+        end
+        sfx.errback do |error|
           flunk error
-        }
-      }
+        end
+      end
+    end
+  end
+
+  describe "book" do
+
+    params = {
+      "url_ver"     => "Z39.88-2004",
+      "url_ctx_fmt" => "info:ofi/fmt:kev:mtx:ctx",
+      "ctx_ver"     => "Z39.88-2004",
+      "ctx_enc"     => "info:ofi/enc:UTF-8",
+      "rft.genre"   => "book",
+      "rft.btitle"  => "Women entrepreneurs : inspiring stories from emerging economies and developing countries",
+      "rft.au"      => "Guillén, Mauro F.",
+      "rft.date"    => "2014",
+      "rft.isbn"    => "9780203120989",
+      "rft_val_fmt" => "info:ofi/fmt:kev:mtx:book",
+      "rft_id"      => ["urn:isbn:1136324593", "urn:isbn:9781136324598", "urn:isbn:9780415523479", "urn:isbn:9780415523486", "urn:isbn:9780203120989"],
+      "req_id"      => "dtu_staff"
+    }
+
+    configuration = {"url" => "http://example.com", "service_type" => 'fulltext'}
+    reference = Reference.new(params)
+
+    it "makes a request per identifier until a response is found" do
+      # run_block terminates too early
+      EM.run do
+        stub_request(:get, /#{configuration['url']}.*rft.isbn=1136324593.*/).to_return(File.new("spec/fixtures/sfx_book_1136324593.txt"))
+        stub_request(:get, /#{configuration['url']}.*rft.isbn=9780203120989.*/).to_return(File.new("spec/fixtures/sfx_book_9780203120989.txt"))
+        sfx = Sfx.new(reference, configuration)
+        sfx.callback do |result|
+          result.first.url.must_be :==, "http://globalproxy.cvt.dk/login?url=http://proquestcombo.safaribooksonline.com?xmlId=9780415523479"
+          result.first.service_type.must_be :==, "fulltext"
+          result.size.must_be :==, 1
+          EM.stop
+        end
+        sfx.errback do |error|
+          flunk error
+          EM.stop
+        end
+      end
+    end
+
+    it "makes a request per identifier and no response is found" do
+      # run_block terminates too early
+      EM.run do
+        stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_book_1136324593.txt"))
+        sfx = Sfx.new(reference, configuration)
+        sfx.callback do |result|
+          result.must_be_empty
+          EM.stop
+        end
+        sfx.errback do |error|
+          flunk error
+          EM.stop
+        end
+      end
     end
   end
 end

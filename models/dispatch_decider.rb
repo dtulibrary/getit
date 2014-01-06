@@ -76,11 +76,13 @@ class DispatchDecider
     def update(response, status)
       case status
       when :yes
-        @sent[response.source] = response.subtype
+        @sent[response.source] = [] unless @sent.has_key?(response.source)
+        @sent[response.source] << response.subtype
         @responses << response
         @count += 1
       when :maybe
-        @onhold[response.source] = response.subtype
+        @onhold[response.source] = [] unless @onhold.has_key?(response.source)
+        @onhold[response.source]<< response.subtype
       else
         if response.kind_of?(ServiceResponse)
           @ignore << response.source

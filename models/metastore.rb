@@ -27,9 +27,15 @@ class Metastore
       case @category
       when "fulltext"        
         
+        responses = []
         metastore_response["docs"].first[key].each do |f|          
-          service_responses << metastore_fulltext_response(JSON.parse(f))
+          responses << metastore_fulltext_response(JSON.parse(f))
         end
+
+        sr_licensed, sr_openaccess = responses.partition {|sr| sr.subtype.match("license") }
+        # sort on subtype - pick local over remote
+        service_responses << sr_licensed.sort_by(&:subtype).first unless sr_licensed.empty?
+        service_responses << sr_openaccess.first unless sr_openaccess.empty?
 
       when "alis"
         response = metastore_service_response
@@ -62,8 +68,13 @@ class Metastore
     service_responses
   end    
   
-  def get_query    
-    {"q" => "{!raw f=cluster_id_ss v=$id}", "id" => "#{@reference.custom_co_data["id"] || nil}", "fl" => "#{metastore_key}", "wt" => "json"}
+  def get_query
+    {
+      "q" => "{!raw f=cluster_id_ss v=$id}", "id" => "#{@reference.custom_co_data["id"] || nil}", 
+      "fl" => "#{metastore_key}", 
+      "fq" => "access_ss:#{@reference.dtu? ? 'dtu' : 'dtupub'}",
+      "wt" => "json"
+    }
   end
 
   def metastore_key     

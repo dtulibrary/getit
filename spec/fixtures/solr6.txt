@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Cache-Control: max-age=86400, public, must-revalidate
+Expires: Sat, 21 Dec 2013 12:31:11 GMT
+Last-Modified: Thu, 19 Dec 2013 22:04:17 GMT
+ETag: "MWJjNjQwMDAwMDAwMDAwMFNvbHI="
+Content-Type: application/json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Fri, 20 Dec 2013 12:31:11 GMT
+
+{"responseHeader":{"status":0,"QTime":12,"params":{"facet":"false","fl":"fulltext_list_ssf","q":"cluster_id_ss:11433271","wt":"json","fq":"access_ss:dtupub"}},"response":{"numFound":2,"start":0,"maxScore":17.410902,"docs":[{"fulltext_list_ssf":["{\"source\":\"cup\",\"local\":true,\"type\":\"publisher\",\"url\":\"cup?pi=%2Fs0266%2F4674%2F0999%2F0514.pdf&key=140017028\"}","{\"source\":\"jstor\",\"local\":false,\"type\":\"aggregator\",\"url\":\"http://www.jstor.org/stable/10.2307/27751670?origin=api\"}"]},{"fulltext_list_ssf":["{\"source\":\"cup\",\"local\":true,\"type\":\"publisher\",\"url\":\"cup?pi=%2Fs0266%2F4674%2F0999%2F0514.pdf&key=140017028\"}"]}]}}

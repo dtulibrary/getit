@@ -19,82 +19,83 @@ describe Metastore do
       "req_id"      => "dtu_staff"
     }
 
-    configuration = {"url" => "http://example.com", "category" => "fulltext", "service_type" => "fulltext"}    
+    configuration = {"url" => "http://example.com", "category" => "fulltext", "service_type" => "fulltext", "dtic_url" => "http://example.com/"}
 
     it "fetches a fulltext url" do
 
-      EM.run_block {
+      EM.run_block do
         reference = Reference.new(params)
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr1.txt"))
         metastore = Metastore.new(reference, configuration)
-        metastore.callback { |result|     
+        metastore.callback do |result|     
           result.first.url.must_equal("http://arxiv.org/abs/0801.1253")
-          result.first.service_type.must_equal("fulltext")          
-        }
-        metastore.errback { |error| 
+          result.first.service_type.must_equal("fulltext")
+        end
+        metastore.errback do |error| 
           flunk error
-        }
-      }
+        end
+      end
+    end
+
+    it "choses a local fulltext url over an external" do
+
+      EM.run_block do
+        reference = Reference.new(params)
+        stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr6.txt"))
+        metastore = Metastore.new(reference, configuration)
+        metastore.callback do |result|     
+          result.first.url.must_equal("#{configuration['dtic_url']}cup?pi=%2Fs0266%2F4674%2F0999%2F0514.pdf&key=140017028")
+          result.first.service_type.must_equal("fulltext")
+          result.length.must_equal 1
+        end
+        metastore.errback do |error| 
+          flunk error
+        end
+      end
     end
 
     it "has no fulltext list" do
 
-      EM.run_block {
+      EM.run_block do
         reference = Reference.new(params)
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr2.txt"))
         metastore = Metastore.new(reference, configuration)
-        metastore.callback { |result|        
-          result.must_be_empty
-        }
-        metastore.errback { |error| 
-          flunk error
-        }      
-      }
+        metastore.callback { |result| result.must_be_empty }
+        metastore.errback { |error| flunk error }
+      end
     end
 
-    it "does not exists" do    
+    it "does not exists" do
 
-      EM.run_block {
+      EM.run_block do
         reference = Reference.new(params)
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr3.txt"))
         metastore = Metastore.new(reference, configuration)
-        metastore.callback { |result|        
-          result.must_be_empty
-        }
-        metastore.errback { |error| 
-          flunk error
-        }      
-      }
+        metastore.callback { |result| result.must_be_empty }
+        metastore.errback { |error| flunk error }
+      end
     end
 
     it "points at wrong server" do
 
-      EM.run_block {
+      EM.run_block do
         reference = Reference.new(params)
         stub_request(:get, /#{configuration['url']}.*/).to_return(:status => 404)
         metastore = Metastore.new(reference, configuration)
-        metastore.callback { |result|        
-          result.must_be_empty
-        }
-        metastore.errback { |error| 
-          error.must_match /^Service Metastore failed with status 404*/
-        }
-      }
+        metastore.callback { |result| result.must_be_empty }
+        metastore.errback { |error| error.must_match /^Service Metastore failed with status 404/ }
+      end
     end
 
     it "skips references that should be excluded" do
 
-      EM.run_block {        
+      EM.run_block do
         reference = Reference.new(params.merge({"rft.date" => "2013", "rft.issn" => "01443577", "rft_id" => "urn:issn:01443577"}))
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr1.txt"))
         metastore = Metastore.new(reference, configuration)
-        metastore.callback { |result|     
-          result.must_be_empty          
-        }
-        metastore.errback { |error| 
-          flunk error
-        }
-      }
+        metastore.callback { |result| result.must_be_empty }
+        metastore.errback { |error| flunk error }
+      end
     end
   end
 
@@ -122,17 +123,15 @@ describe Metastore do
 
     it "fetches an alis url" do
 
-      EM.run_block {
+      EM.run_block do
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr4.txt"))
         metastore = Metastore.new(reference, configuration)
-        metastore.callback { |result|        
+        metastore.callback do |result|
           result.first.url.must_equal("http://example.com?id=000441656")
-          result.first.service_type.must_equal("fulltext")     
-        }
-        metastore.errback { |error| 
-          flunk error
-        }
-      }
+          result.first.service_type.must_equal("fulltext")
+        end
+        metastore.errback { |error| flunk error }
+      end
     end
   end
 
@@ -157,17 +156,15 @@ describe Metastore do
     reference = Reference.new(params)
 
     it "fetches the holdings" do
-      EM.run_block {
+      EM.run_block do
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr5.txt"))
         metastore = Metastore.new(reference, configuration)
-        metastore.callback { |result|        
-          result.first.holdings_list.length.must_equal 3          
+        metastore.callback do |result|
+          result.first.holdings_list.length.must_equal 3
           result.first.service_type.must_equal "fulltext"
-        }
-        metastore.errback { |error| 
-          flunk error
-        }
-      }      
+        end
+        metastore.errback { |error| flunk error }
+      end
     end
   end
 end

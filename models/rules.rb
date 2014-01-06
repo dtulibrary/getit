@@ -29,7 +29,7 @@ module Rules
 
     rule :nal_if_no_open_access,
          reply: service_is_not("nal"),
-         skip: has_seen_services("openaccess", ["metastore", "sfx"]),       
+         skip: has_seen_services("openaccess", ["metastore", "sfx"]),
          wait: has_not_seen_services(["metastore", "sfx"])
 
     fulltext_common_rules
@@ -79,7 +79,7 @@ module Rules
   def fulltext_common_rules
 
     # metastore has higher priority than sfx for the same subtypes (licensed or open access)
-    rule :metastore_preempts_sfx,   
+    rule :metastore_preempts_sfx,
          reply: service_is_not("sfx"),
          skip: has_seen_service_with_same_subtype("metastore"),
          # wait for decision if we haven't seen any responses from metastore yet

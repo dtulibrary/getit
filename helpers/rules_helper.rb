@@ -49,18 +49,20 @@ module RulesHelper
   end
 
   def has_seen_service_with_same_subtype(service_name)
-    has_seen_service_with_same_subtype_lambda = lambda do |service_name, service_response|      
-      @status.seen_with_subtype.has_key?(service_name) && service_response.subtype.match(@status.seen_with_subtype[service_name][/[a-z]+_/])
+    has_seen_service_with_same_subtype_lambda = lambda do |service_name, service_response|
+      # compare with each result from the given service whether it has been seen before
+      # only compare beginning of subtype (licence_|openaccess_)
+      @status.seen_with_subtype.has_key?(service_name) && @status.seen_with_subtype[service_name].any? {|subtype| subtype.match(service_response.subtype[/[a-z]+_/]) }
     end
     has_seen_service_with_same_subtype_lambda.curry[service_name]
   end
 
   # returns true if any of the service names has been sent or is onhold
   def has_seen_services(subtype = nil, service_names)
-    has_seen_services_lambda = lambda do |service_names, service_response|            
-      result = service_names.select do |name| 
+    has_seen_services_lambda = lambda do |service_names, service_response|
+      result = service_names.select do |name|
         @status.seen_with_subtype.include?(name) &&
-        (subtype.nil? || @status.seen_with_subtype[name].match(subtype))
+        (subtype.nil? || @status.seen_with_subtype[name].any? {|subtype| subtype.match(service_response.subtype[/[a-z]+_/]) })
       end.length > 0
     end
     has_seen_services_lambda.curry[service_names]
@@ -68,7 +70,7 @@ module RulesHelper
 
   # returns false if any of the services names has not been processed
   def has_not_seen_services(service_names)
-    has_not_processed_services_lambda = lambda do |service_names, service_response|      
+    has_not_processed_services_lambda = lambda do |service_names, service_response|
       !service_names.subset?(Set.new(@status.seen))
     end
     has_not_processed_services_lambda.curry[Set.new(service_names)]

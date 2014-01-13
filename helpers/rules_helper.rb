@@ -52,7 +52,7 @@ module RulesHelper
     has_seen_service_with_same_subtype_lambda = lambda do |service_name, service_response|
       # compare with each result from the given service whether it has been seen before
       # only compare beginning of subtype (licence_|openaccess_)
-      @status.seen_with_subtype.has_key?(service_name) && @status.seen_with_subtype[service_name].any? {|subtype| subtype.match(service_response.subtype[/[a-z]+_/]) }
+      @status.seen_with_subtype.has_key?(service_name) && @status.seen_with_subtype[service_name].any? {|subtype| subtype.match(service_response.subtype[/[a-z]+_?/]) }
     end
     has_seen_service_with_same_subtype_lambda.curry[service_name]
   end
@@ -62,7 +62,7 @@ module RulesHelper
     has_seen_services_lambda = lambda do |service_names, service_response|
       result = service_names.select do |name|
         @status.seen_with_subtype.include?(name) &&
-        (subtype.nil? || @status.seen_with_subtype[name].any? {|subtype| subtype.match(service_response.subtype[/[a-z]+_/]) })
+        (subtype.nil? || @status.seen_with_subtype[name].any? {|subtype| subtype.match(service_response.subtype[/[a-z]+_?/]) })
       end.length > 0
     end
     has_seen_services_lambda.curry[service_names]

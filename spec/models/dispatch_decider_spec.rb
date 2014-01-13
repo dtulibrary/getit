@@ -108,4 +108,33 @@ describe DispatchDecider do
     sfx_can_send = dd.can_send(sfx_rep)
     sfx_can_send.must_equal(:no)
   end
+
+  it "shows nal if no open access" do
+    reference = Reference.new(params.merge({"req_id" => "anonymous"}))
+    dd = DispatchDecider.new("fulltext", reference)
+
+    metastore_rep = ServiceResponse.new
+    metastore_rep.service_type = "fulltext"
+    metastore_rep.subtype = "license_local"
+    metastore_rep.source = "metastore"
+
+    sfx_rep = ServiceResponse.new
+    sfx_rep.service_type = "fulltext"
+    sfx_rep.subtype = "license_remote"
+    sfx_rep.source = "sfx"
+
+    nal_rep = NalServiceResponse.new
+    nal_rep.service_type = "fulltext"
+    nal_rep.subtype = "nal"
+    nal_rep.source = "nal"
+
+    metastore_can_send = dd.can_send(metastore_rep)
+    metastore_can_send.must_equal(:yes)
+    dd.status.update(metastore_rep, metastore_can_send)
+    sfx_can_send = dd.can_send(sfx_rep)
+    sfx_can_send.must_equal(:no)
+    dd.status.update(sfx_rep, sfx_can_send)
+    nal_can_send = dd.can_send(nal_rep)
+    nal_can_send.must_equal(:yes)    
+  end
 end

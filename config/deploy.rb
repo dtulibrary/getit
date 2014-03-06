@@ -34,7 +34,7 @@ else
   else
     set :scm_username, "#{user}"
   end
-  set :repository, "#{scm}"
+  set :repository, "#{scm_url}"
   if variables.include?(:branch_name)
     set :branch, "#{branch_name}"
   else

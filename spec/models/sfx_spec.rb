@@ -31,7 +31,7 @@ describe Sfx do
         sfx.callback do |result|
           result.first.url.must_be :==, "http://globalproxy.cvt.dk/login?url=http://link.springer.com/article/10.1145/2441776.2441941"
           result.first.service_type.must_be :==, "fulltext"
-          result.size.must_be :==, 1 
+          result.size.must_be :==, 1
         end
         sfx.errback do |error|
           flunk error
@@ -80,7 +80,11 @@ describe Sfx do
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_journal.txt"))
         sfx = Sfx.new(reference, configuration)
         sfx.callback do |result|
-          result.first.holdings_list.length.must_equal 1          
+          result.first.holdings_list.length.must_equal 1
+          result.first.holdings_list.first["fromyear"].must_equal "1950"
+          result.first.holdings_list.first["fromvolume"].must_equal "165"
+          result.first.holdings_list.first["fromissue"].must_equal "4184"
+          result.last.holdings_list.length.must_equal 1
           result.last.holdings_list.first["fromyear"].must_equal "1869"
           result.last.holdings_list.first["fromvolume"].must_equal "1"
           result.last.holdings_list.first["fromissue"].must_equal "1"
@@ -93,6 +97,58 @@ describe Sfx do
         end
       end
     end
+
+    it "includes coverage information for multiple holdings" do
+
+      EM.run_block do
+        stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_journal_holdings.txt"))
+        sfx = Sfx.new(reference, configuration)
+        sfx.callback do |result|
+          result.first.holdings_list.length.must_equal 2
+          result.first.holdings_list.first.length.must_equal 6
+          result.first.holdings_list.first["fromyear"].must_equal "1988"
+          result.first.holdings_list.first["fromvolume"].must_equal "1"
+          result.first.holdings_list.first["fromissue"].must_equal "1"
+          result.first.holdings_list.first["toyear"].must_equal "1994"
+          result.first.holdings_list.first["tovolume"].must_equal "6"
+          result.first.holdings_list.first["toissue"].must_equal "4"
+          result.first.holdings_list.last.length.must_equal 6
+          result.first.holdings_list.last["fromyear"].must_equal "1995"
+          result.first.holdings_list.last["fromvolume"].must_equal "7"
+          result.first.holdings_list.last["fromissue"].must_equal "1"
+          result.first.holdings_list.last["toyear"].must_equal "2001"
+          result.first.holdings_list.last["tovolume"].must_equal "13"
+          result.first.holdings_list.last["toissue"].must_equal "4"
+        end
+        sfx.errback do |error|
+          flunk error
+        end
+      end
+    end
+
+    it "includes coverage information for multiple holdings without symetric from-to elements" do
+      EM.run_block do
+        stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_journal_holdings2.txt"))
+        sfx = Sfx.new(reference, configuration)
+        sfx.callback do |result|
+          result.first.holdings_list.length.must_equal 2
+          result.first.holdings_list.first.length.must_equal 5
+          result.first.holdings_list.first["fromyear"].must_equal "1986"
+          result.first.holdings_list.first["fromvolume"].must_equal "1"
+          result.first.holdings_list.first["fromissue"].must_equal "1"
+          result.first.holdings_list.first["toyear"].must_equal "1994"
+          result.first.holdings_list.first["tovolume"].must_equal "9"
+          result.first.holdings_list.last.length.must_equal 3
+          result.first.holdings_list.last["fromyear"].must_equal "1995"
+          result.first.holdings_list.last["fromvolume"].must_equal "10"
+          result.first.holdings_list.last["fromissue"].must_equal "1"
+        end
+        sfx.errback do |error|
+          flunk error
+        end
+      end
+    end
+
   end
 
   describe "book" do

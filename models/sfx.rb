@@ -4,24 +4,24 @@ require_relative 'service'
 class Sfx
   include Service
 
-  def initialize(reference, configuration, cache_settings = {})    
+  def initialize(reference, configuration, cache_settings = {})
     # mapping of service type names between SFX and GetIT
     @sfx_to_getit_types = {"getFullTxt" => "fulltext"}
 
     @sfx_target_priority = {
-      "EBSCOHOST_ACADEMIC_SEARCH_ELITE" => 1,       
+      "EBSCOHOST_ACADEMIC_SEARCH_ELITE" => 1,
       "EBSCOHOST_BUSINESS_SOURCE_PREMIER" => 1,
       "JSTOR_ARTS_AND_SCIENCES_1" => 1,
       "JSTOR_LIFE_SCIENCES_COLLECTION" => 1,
-      "JSTOR_EARLY_JOURNAL_CONTENT_FREE" => 1,  
+      "JSTOR_EARLY_JOURNAL_CONTENT_FREE" => 1,
       "DOAJ_DIRECTORY_OPEN_ACCESS_JOURNALS_FREE" => 1,
-      "MISCELLANEOUS_FREE_EJOURNALS" => 1    
+      "MISCELLANEOUS_FREE_EJOURNALS" => 1
     }
     @sfx_target_priority.default = 0
-    
+
     skip = reference.doctype == 'book' &&
-      reference.context_object.referent.metadata['isbn'].nil? && 
-      reference.context_object.referent.metadata['issn'].nil? 
+      reference.context_object.referent.metadata['isbn'].nil? &&
+      reference.context_object.referent.metadata['issn'].nil?
 
     if skip
       # do not check for books without isbn
@@ -73,7 +73,7 @@ class Sfx
 
     service_type = target.at("./service_type").inner_text
 
-    response = FulltextServiceResponse.new      
+    response = FulltextServiceResponse.new
     response.url = target.at("./target_url").inner_text.chomp("/")
     response.service_type = @sfx_to_getit_types[service_type]
     response.source = "sfx"
@@ -91,20 +91,28 @@ class Sfx
     end
 
     unless (target/"./coverage").nil?
-      holding = {}            
-      from = target.xpath(".//coverage/from")
-      from.each do |node|
-        node.element_children.each do |c|
-          holding["from#{c.name}"] = c.content
+
+      (target/"./coverage").each do |coverage|
+
+        # iterate over holdings sequentially
+        # comes in the form from - to - from - to
+
+        holding = {}
+        coverage.children.each do |node|
+
+          if node.name == "from" && !holding.empty?
+            response.holdings_list << holding
+            holding = {}
+          end
+          if node.name == "from" || node.name == "to"
+            node.children.each do |child|
+              holding["#{node.name}#{child.name}"] = child.content unless child.name == "text"
+            end
+          end
         end
+        response.holdings_list << holding unless holding.empty?
+
       end
-      to = target.xpath(".//coverage/to")
-      to.each do |node|
-        node.element_children.each do |c|
-          holding["to#{c.name}"] = c.content
-        end
-      end
-      response.holdings_list << holding unless holding.empty?
     end
 
     response.set_translations(@reference.doctype, response.subtype, @reference.user_type)
@@ -121,7 +129,7 @@ class Sfx
     @sfx_to_getit_types.values.each do |service_type|
       co.serviceType.first.set_metadata(service_type, "yes")
     end
-    
+
     co_h = co.to_hash
 
     # remove timestamp so it can be used as cache key

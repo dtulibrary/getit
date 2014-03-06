@@ -3,7 +3,11 @@ require 'bundler/capistrano'
 # disable touch of public/* folders
 set :normalize_asset_timestamps, false
 
-set :application, ENV['HOST'] || 'kyandi.vagrant.vm'
+if(variables.include?(:host))
+  set :application, "#{host}"
+else
+ set :application, 'kyandi.vagrant.vm'
+end
 
 set :deploy_to, "/var/www/#{application}"
 role :web, "#{application}"
@@ -25,8 +29,12 @@ if fetch(:application).end_with?('vagrant.vm')
 else
   set :deploy_via, :remote_cache
   set :scm, :git
-  set :scm_username, ENV['CAP_USER']
-  set :repository, ENV['SCM']
+  if(variables.include?(:scm_user))
+    set :scm_username, "#{scm_user}"
+  else
+    set :scm_username, "#{user}"
+  end
+  set :repository, "#{scm}"
   if variables.include?(:branch_name)
     set :branch, "#{branch_name}"
   else
@@ -53,5 +61,5 @@ namespace :deploy do
     task t, :roles => :app do
       run "/etc/init.d/thin #{t}"
     end
-  end 
+  end
 end

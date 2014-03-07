@@ -149,6 +149,36 @@ describe Sfx do
       end
     end
 
+    it "has embargo" do
+      EM.run_block do
+        stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_journal_embargo.txt"))
+        sfx = Sfx.new(reference, configuration)
+        sfx.callback do |result|
+          result.first.holdings_list.length.must_equal 2
+          result.first.holdings_list.last["embargo"].first.must_equal "year"
+          result.first.holdings_list.last["embargo"].last.must_equal "1"
+        end
+        sfx.errback do |error|
+          flunk error
+        end
+      end
+    end
+
+    it "has embargo (defined in months)" do
+      EM.run_block do
+        stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/sfx_journal_embargo2.txt"))
+        sfx = Sfx.new(reference, configuration)
+        sfx.callback do |result|
+          result.last.holdings_list.length.must_equal 2
+          result.last.holdings_list.last["embargo"].first.must_equal "month"
+          result.last.holdings_list.last["embargo"].last.must_equal "6"
+        end
+        sfx.errback do |error|
+          flunk error
+        end
+      end
+    end
+
   end
 
   describe "book" do

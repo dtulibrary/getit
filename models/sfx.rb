@@ -112,6 +112,17 @@ class Sfx
         end
         response.holdings_list << holding unless holding.empty?
 
+        unless (coverage/"./embargo/availability").nil?
+          if (coverage/"./embargo/availability").inner_text == "not_available"
+
+            (coverage/"./embargo").children.each do |node|
+              if ["year", "month"].include? node.name
+                response.holdings_list << { "embargo" => [ node.name, node.content]}
+                break
+              end
+            end
+          end
+        end
       end
     end
 

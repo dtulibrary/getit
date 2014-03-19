@@ -24,35 +24,35 @@ class Scan
 
       if response["numFound"] > 0
         response["docs"].each do |doc|
-          
+
           if doc.has_key?("holdings_ssf")
             has_local = false
-            
+
             doc["holdings_ssf"].each do |holdings_json|
               holdings = JSON.parse(holdings_json)
-            
+
               if holdings["type"] == "printed"
-              
+
                 if article_year != 0 && holdings["fromyear"].to_i <= article_year && holdings["toyear"].to_i >= article_year
                   has_local = true
-                  
+
                   if
                     # holdings volume or issue is set
                     (holdings["fromvolume"] != nil || holdings["tovolume"] != nil ||
                     holdings["fromissue"] != nil || holdings["toissue"] != nil) &&
                     (# article in volume/issue before holding
-                      (article_year == holdings["fromyear"].to_i && 
+                      (article_year == holdings["fromyear"].to_i &&
                       (article_volume < holdings["fromvolume"].to_i ||
-                       article_issue < holdings["fromissue"].to_i)) || 
+                       article_issue < holdings["fromissue"].to_i)) ||
                       # article in volume/issue after holding
                       (article_year == holdings["toyear"].to_i &&
-                      (article_volume > holdings["tovolume"].to_i || 
+                      (article_volume > holdings["tovolume"].to_i ||
                        article_issue > holdings["toissue"].to_i)))
-                    has_local = false                    
+                    has_local = false
                   end
-                end 
-              end            
-            end     
+                end
+              end
+            end
             service_response.subtype = "dtic_scan" if has_local
           end
         end
@@ -62,19 +62,21 @@ class Scan
     service_response.set_translations(@reference.doctype, service_response.subtype, @reference.user_type)
 
     [service_response]
-  end  
+  end
 
-  def response_alternative    
+  def response_alternative
     service_response = rd_service_response
     service_response.set_translations(@reference.doctype, service_response.subtype, @reference.user_type)
     [service_response]
   end
 
-  def get_query    
+  def get_query
+
     query = ""
-    query = "issn_ss:#{@reference.context_object.referent.metadata['issn']}" if !@reference.context_object.referent.metadata['issn'].nil?
-    query ||= "isbn_ss:#{@reference.context_object.referent.metadata['isbn']}" if !@reference.context_object.referent.metadata['isbn'].nil?
-    query ||= "journal_title_ts:#{@reference.context_object.referent.metadata['jtitle']}" if !@reference.context_object.referent.metadata['jtitle'].nil?    
+
+    query = "issn_ss:#{@reference.context_object.referent.metadata['issn'].gsub('-', '')}" if !@reference.context_object.referent.metadata['issn'].nil?
+    query ||= "isbn_ss:#{@reference.context_object.referent.metadata['isbn'].gsub('-', '')}" if !@reference.context_object.referent.metadata['isbn'].nil?
+    query ||= "journal_title_ts:#{@reference.context_object.referent.metadata['jtitle']}" if !@reference.context_object.referent.metadata['jtitle'].nil?
 
     query.empty? ? nil : {"q" => query, "fq" => "format:journal",  "fl" => "holdings_ssf", "wt" => "json"}
   end

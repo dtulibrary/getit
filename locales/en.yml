@@ -168,8 +168,8 @@ en:
         type: *scan_type
         short_explanation:
           dtu_staff: "Request scan from external document supplier &mdash; cost covered by the DTU information budget"
-          dtu_student: &scan_request_text_remote "Request scan from external document supplier"
-          walkin: *scan_request_text_remote
+          dtu_student: "Request scan from external document supplier &mdash; cost partially covered by the DTU information budget"
+          walkin: &scan_request_text_remote "Request scan from external document supplier"
           public: *scan_request_text_remote
         lead_text: *scan_lead_text
         explanation:

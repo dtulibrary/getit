@@ -189,8 +189,8 @@ en:
           public: *scan_remote_tool_tip
         icon: *scan_icon
         list_text:
-          dtu_staff: "Request from commercial supplier"
-          dtu_student: *scan_request
+          dtu_staff: &scan_remote_list_text "Request from commercial supplier"
+          dtu_student: *scan_remote_list_text
           walkin: *scan_buy
           public: *scan_buy
       nal: &nal

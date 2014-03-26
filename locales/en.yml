@@ -183,10 +183,10 @@ en:
           walkin: *scan_buy
           public: *scan_buy
         tool_tip:
-          dtu_staff: &scan_remote_tool_tip "Scan from External Supplier"
+          dtu_staff: &scan_remote_tool_tip "Scan from commercial supplier"
           dtu_student: *scan_remote_tool_tip
-          walkin: *scan_remote_tool_tip
-          public: *scan_remote_tool_tip
+          walkin: &scan_remote_tool_tip_public "Scan from external supplier"
+          public: *scan_remote_tool_tip_public
         icon: *scan_icon
         list_text:
           dtu_staff: &scan_remote_list_text "Request from commercial supplier"

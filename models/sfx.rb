@@ -182,6 +182,7 @@ class Sfx
       standard_numbers.sort.map do |number, type|
         query_params = params.dup
         query_params << "rft.#{type.to_s}=#{number}"
+        query_params << "fromfindit=true"
         queries << URI.escape(query_params.join('&'))
       end
     end

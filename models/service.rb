@@ -69,7 +69,7 @@ module Service
         end
 
         request.errback do
-          self.fail("Error making API call for #{self.class}: #{request.error}")
+          self.fail("Error making API call for #{self.class}: #{request.error} with query: #{query}")
         end
 
       else

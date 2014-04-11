@@ -37,12 +37,13 @@ module Service
 
         response = {}
 
-        timeout = @configuration["timeout"] || 5
+        connect_timeout = @configuration["timeout"] || 5
+        inactivity_timeout = @configuration["timeout"] || 10
 
         @logger.info "#{self.class} call service with #{query}"
 
         start = Time.now
-        request = EM::HttpRequest.new(@configuration["url"], :connect_timeout => timeout).get({
+        request = EM::HttpRequest.new(@configuration["url"], :connect_timeout => connect_timeout, :inactivity_timeout => inactivity_timeout).get({
           :query => query
         })
 

@@ -1,4 +1,4 @@
-require_relative '../test_helper'
+require_relative '../../test_helper'
 
 describe Nal do
 
@@ -13,11 +13,11 @@ describe Nal do
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/nal.txt"))
       nal = Nal.new(reference, configuration)
-      nal.callback { |result|                
+      nal.callback { |result|
         result.first.url_list.size.must_be :==, 3
         result.first.button_text.must_equal "At 3 libraries"
       }
-      nal.errback { |error| 
+      nal.errback { |error|
         flunk error
       }
     }
@@ -27,14 +27,14 @@ describe Nal do
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/nal.txt"))
       nal = Nal.new(reference, configuration)
-      nal.callback { |result|                
+      nal.callback { |result|
         result.first.urls.each do |item|
           [:id, :label, :url].each do |key|
             item[key].wont_be_nil
           end
         end
       }
-      nal.errback { |error| 
+      nal.errback { |error|
         flunk error
       }
     }
@@ -44,11 +44,11 @@ describe Nal do
     EM.run_block {
       stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/nal_with_error.txt"))
       nal = Nal.new(reference, configuration)
-      nal.callback { |result|        
+      nal.callback { |result|
         result.first.url_list.size.must_be :==, 1
         result.first.button_text.must_equal "At 1 library"
       }
-      nal.errback { |error| 
+      nal.errback { |error|
         flunk error
       }
     }

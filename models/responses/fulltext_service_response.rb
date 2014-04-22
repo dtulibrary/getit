@@ -1,4 +1,3 @@
-require_relative 'service_response'
 
 class FulltextServiceResponse < ServiceResponse
 

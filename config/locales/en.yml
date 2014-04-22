@@ -2,6 +2,25 @@ en:
   general:
     library: "library"
     libraries: "libraries"
+  loan:
+    availability:
+      available:
+        text: Available
+        text_long: Available for loan
+        icon: icon-check
+        icon_color: green
+        url_text: Borrow
+      available_onsite:
+        text: Available on-site
+        icon: icon-home
+        icon_color: green
+      unavailable:
+        text: Unavailable
+        text_with_until: Available from %{due}
+        text_with_until_long: Available for loan from %{due}
+        icon: icon-minus-circle
+        icon_color: red
+        url_text: Reserve
   fulltext:
     article:
       license_local:
@@ -39,12 +58,12 @@ en:
           dtu_staff: "From DTU Library server"
           dtu_student: "From DTU Library server"
           walkin: "From DTU Library server"
-          #Map & info
+          # Map & info
           public: &map_tool_tip "Available on-site at DTU Library"
         icon: &license_icon
-          dtu_staff: "icon-download-alt"
-          dtu_student: "icon-download-alt"
-          walkin: "icon-download-alt"
+          dtu_staff: "icon-download"
+          dtu_student: "icon-download"
+          walkin: "icon-download"
           public: "icon-map-marker"
         list_text: *license_short_name
       license_remote: &license_remote
@@ -102,10 +121,10 @@ en:
           walkin: *openaccess_text
           public: *openaccess_text
         icon: &openacces_icon
-          dtu_staff: "icon-download-alt"
-          dtu_student: "icon-download-alt"
-          walkin: "icon-download-alt"
-          public: "icon-download-alt"
+          dtu_staff: "icon-download"
+          dtu_student: "icon-download"
+          walkin: "icon-download"
+          public: "icon-download"
         list_text: *openaccess_short_name
       openaccess_remote:
         short_name: *openaccess_short_name
@@ -335,9 +354,9 @@ en:
           walkin: "Journal homepage"
           public: "On-site use"
         icon:
-          dtu_staff: "icon-external-link-sign"
-          dtu_student: "icon-external-link-sign"
-          walkin: "icon-external-link-sign"
+          dtu_staff: "icon-external-link-square"
+          dtu_student: "icon-external-link-square"
+          walkin: "icon-external-link-square"
           public: "icon-map-marker"
         list_text: *journal_license_remote_short_name
       openaccess_remote:
@@ -367,10 +386,10 @@ en:
           walkin: "Journal homepage"
           public: "Journal homepage"
         icon:
-          dtu_staff: "icon-external-link-sign"
-          dtu_student: "icon-external-link-sign"
-          walkin: "icon-external-link-sign"
-          public: "icon-external-link-sign"
+          dtu_staff: "icon-external-link-square"
+          dtu_student: "icon-external-link-square"
+          walkin: "icon-external-link-square"
+          public: "icon-external-link-square"
         list_text: *journal_openaccess_remote_short_name
       print:
         short_name: &journal_print_short_name

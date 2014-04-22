@@ -1,0 +1,49 @@
+HTTP/1.1 200 OK
+Content-Length: 1780
+Server: Metaproxy/1.4.8
+Connection: Keep-Alive
+Content-Type: text/xml
+
+<?xml version="1.0"?>
+<zs:searchRetrieveResponse xmlns:zs="http://www.loc.gov/zing/srw/"><zs:version>1.1</zs:version><zs:numberOfRecords>1</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema/><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record>
+  <item>
+    <available>P&#xE5; hylden</available>
+    <location>DTU Library Ballerup / Reference collection</location>
+    <callno>801.3 DUD bd. 1 A-Bim</callno>
+  </item>
+  <item>
+    <available>P&#xE5; hylden</available>
+    <location>DTU Library Ballerup / Reference collection</location>
+    <callno>801.3 DUD bd. 2 Bin-Far</callno>
+  </item>
+  <item>
+    <available>P&#xE5; hylden</available>
+    <location>DTU Library Ballerup / Reference collection</location>
+    <callno>801.3 DUD bd. 3 Fas-Hev</callno>
+  </item>
+  <item>
+    <available>P&#xE5; hylden</available>
+    <location>DTU Library Ballerup / Reference collection</location>
+    <callno>801.3 DUD bd. 4 Hex-Lef</callno>
+  </item>
+  <item>
+    <available>P&#xE5; hylden</available>
+    <location>DTU Library Ballerup / Reference collection</location>
+    <callno>801.3 DUD bd. 5 Leg-Pow</callno>
+  </item>
+  <item>
+    <available>P&#xE5; hylden</available>
+    <location>DTU Library Ballerup / Reference collection</location>
+    <callno>801.3 DUD bd. 6 Poz-Sik</callno>
+  </item>
+  <item>
+    <available>P&#xE5; hylden</available>
+    <location>DTU Library Ballerup / Reference collection</location>
+    <callno>801.3 DUD bd. 7 Sil-Urh</callno>
+  </item>
+  <item>
+    <available>P&#xE5; hylden</available>
+    <location>DTU Library Ballerup / Reference collection</location>
+    <callno>801.3 DUD bd. 8 Uri-Zz</callno>
+  </item>
+</record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records></zs:searchRetrieveResponse>

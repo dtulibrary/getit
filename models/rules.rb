@@ -1,13 +1,11 @@
-require_relative "../helpers/rules_helper"
-require_relative "../helpers/application_helper"
 
 # Rule format:
 #
 # rule :name,
-#      priority: number 
+#      priority: number
 #      reply: [conditions] (msg send ok if conditions => true)
 #      skip:  [conditions] (msg send not ok if conditions => true)
-#      wait:  [conditions] (hold msg if conditions => true) 
+#      wait:  [conditions] (hold msg if conditions => true)
 #
 module Rules
   include RulesHelper

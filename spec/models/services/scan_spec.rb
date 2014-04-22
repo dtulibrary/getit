@@ -1,5 +1,5 @@
 
-require_relative '../test_helper'
+require_relative '../../test_helper'
 
 describe Scan do
 
@@ -62,8 +62,8 @@ describe Scan do
     "rft_dat" => "{\"id\":\"13367718\"}",
     "req_id" => "anonymous"
   }
-  
-  params_local_in_range_year = {    
+
+  params_local_in_range_year = {
     "url_ver" => "Z39.88-2004",
     "url_ctx_fmt" => "info:ofi/fmt:kev:mtx:ctx",
     "ctx_ver" => "Z39.88-2004",
@@ -81,7 +81,7 @@ describe Scan do
     "req_id" => "anonymous"
   }
 
-  params_sparse_metadata = {    
+  params_sparse_metadata = {
     "url_ver" => "Z39.88-2004",
     "url_ctx_fmt" => "info:ofi/fmt:kev:mtx:ctx",
     "ctx_ver" => "Z39.88-2004",
@@ -98,7 +98,7 @@ describe Scan do
   describe "holdings in print collection exists for journal" do
 
     it "chooses RD scan if the article is not in the holdings range" do
-      
+
       EM.run_block {
         reference = Reference.new(params_local_not_in_range)
         configuration = {"url" => "http://example.com", "enable_dtic" => true}
@@ -107,14 +107,14 @@ describe Scan do
         scan.callback { |result|
           result.first.subtype.must_equal "rd_scan"
         }
-        scan.errback { |error| 
+        scan.errback { |error|
           flunk error
         }
       }
     end
 
     it "chooses local scan if the article is in the holdings scan" do
-      
+
       EM.run_block {
         reference = Reference.new(params_local_in_range)
         configuration = {"url" => "http://example.com", "enable_dtic" => true}
@@ -123,14 +123,14 @@ describe Scan do
         scan.callback { |result|
           result.first.subtype.must_equal "dtic_scan"
         }
-        scan.errback { |error| 
+        scan.errback { |error|
           flunk error
         }
       }
     end
 
     it "chooses local scan if the article is in the holdings scan where holdings only include year" do
-        
+
       EM.run_block {
         reference = Reference.new(params_local_in_range_year)
         configuration = {"url" => "http://example.com", "enable_dtic" => true}
@@ -139,14 +139,14 @@ describe Scan do
         scan.callback { |result|
           result.first.subtype.must_equal "dtic_scan"
         }
-        scan.errback { |error| 
+        scan.errback { |error|
           flunk error
         }
       }
     end
 
     it "does not choose local scan if local scan is disabled" do
-      
+
       EM.run_block {
         reference = Reference.new(params_local_in_range)
         configuration = {"url" => "http://example.com", "enable_dtic" => false}
@@ -156,7 +156,7 @@ describe Scan do
         scan.callback { |result|
           result.first.subtype.must_equal "rd_scan"
         }
-        scan.errback { |error| 
+        scan.errback { |error|
           flunk error
         }
       }
@@ -166,7 +166,7 @@ describe Scan do
   describe "holdings in print collection does not exists for journal" do
 
     it "does not find a local scan option" do
-      
+
       EM.run_block {
         reference = Reference.new(params_no_local)
         configuration = {"url" => "http://example.com", "enable_dtic" => true}
@@ -176,7 +176,7 @@ describe Scan do
         scan.callback { |result|
           result.first.subtype.must_equal "rd_scan"
         }
-        scan.errback { |error| 
+        scan.errback { |error|
           flunk error
         }
       }
@@ -193,7 +193,7 @@ describe Scan do
       scan.callback { |result|
         result.first.subtype.must_equal "rd_scan"
       }
-      scan.errback { |error| 
+      scan.errback { |error|
         flunk error
       }
     }

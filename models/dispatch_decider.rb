@@ -1,6 +1,4 @@
 
-require_relative 'rules'
-
 class DispatchDecider
   include Rules
 
@@ -9,13 +7,13 @@ class DispatchDecider
   def initialize(service_list_name, reference)
 
     @reference = reference
-    @status = Status.new    
+    @status = Status.new
     @rules = []
 
     case service_list_name
     when "fulltext"
       if ["article", "thesis"].include?(@reference.doctype)
-        add_fulltext_rules 
+        add_fulltext_rules
       end
     when "fulltext_info"
       if ["article", "thesis"].include?(@reference.doctype)
@@ -26,7 +24,7 @@ class DispatchDecider
     end
   end
 
-  def can_send(response)    
+  def can_send(response)
     process_rules(response)
   end
 
@@ -40,7 +38,7 @@ class DispatchDecider
   # a rule test can respond with :yes, :no or :undecided
   # :undecided is used when there is not enough info to decide yet
   # Truth table for comining rules:
-  #   
+  #
   # __|_y_|_u_|_n_
   # y | y   u   n
   # u | u   u   n
@@ -48,7 +46,7 @@ class DispatchDecider
   #
   def process_rules(data)
     result = :yes
-    @rules.sort_by(&:priority).each do |rule|    
+    @rules.sort_by(&:priority).each do |rule|
       test = rule.run(data, @status)
       if test != :yes
         result = test
@@ -91,14 +89,14 @@ class DispatchDecider
         end
       end
     end
-    
+
     def seen
       @sent.keys + @onhold.keys + @ignore
     end
 
     def seen_with_subtype
       @sent.merge(@onhold)
-    end    
+    end
   end
 
   class Rule
@@ -120,7 +118,7 @@ class DispatchDecider
     end
 
     def run(data, status)
-      result = :yes      
+      result = :yes
       if evaluate(reply, data)
         result = :yes
       elsif evaluate(skip, data)
@@ -131,7 +129,7 @@ class DispatchDecider
       result
     end
 
-    private 
+    private
 
     def evaluate(predicates, data)
       if !predicates.is_a?(Array)
@@ -141,7 +139,7 @@ class DispatchDecider
         res = predicate.call(data)
         return true if res
       end
-      return false      
+      return false
     end
   end
 end

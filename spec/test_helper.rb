@@ -21,6 +21,8 @@ require 'openurl'
 
 require 'turn/autorun'
 
-Dir.glob('./{helpers,controllers,models}/*.rb').each { |file| require file }
+require 'require_all'
+require_rel '../helpers', '../models', '../controllers'
 
-I18n.load_path += Dir[File.join(File.dirname(__FILE__), '../locales', '*.yml').to_s]
+I18n.enforce_available_locales = true
+I18n.load_path += Dir[File.join(File.dirname(__FILE__), '../config/locales', '*.yml').to_s]

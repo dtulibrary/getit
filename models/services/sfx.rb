@@ -1,5 +1,4 @@
 require 'nokogiri'
-require_relative 'service'
 
 class Sfx
   include Service

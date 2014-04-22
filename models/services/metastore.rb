@@ -1,6 +1,5 @@
 
 require 'json'
-require_relative 'service'
 
 class Metastore
   include Service

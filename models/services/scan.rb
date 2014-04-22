@@ -1,6 +1,4 @@
 
-require_relative 'service'
-
 # Lookup local holding in metastore index and sets scan option to be either dtic
 # or rp (reprints desk) based on whether item is included in holdings or not
 class Scan

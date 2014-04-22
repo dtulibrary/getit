@@ -9,8 +9,9 @@ gem "nokogiri"
 gem "sinatra-synchrony"
 gem "i18n"
 gem "dalli"
+gem "require_all"
 
-group :test do 
+group :test do
   gem "minitest"
   gem "webmock"
   gem "rack-test"

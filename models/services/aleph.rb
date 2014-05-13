@@ -37,6 +37,8 @@ class Aleph
               status.availability = :unavailable
             when "I bestilling"
               status.availability =:unavailable
+            when "Tabt/Regning"
+              status.availability =:unavailable
             else
               Kyandi.logger.error "Aleph service: Unknown status #{child.content} for alis id #{@reference.custom_co_data["alis_id"]}"
             end

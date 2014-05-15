@@ -4,6 +4,33 @@ class Aleph
   include Service
 
   MONTH_ABBR_MAP = {"maj" => "may", "okt" => "oct"}.freeze
+  LENDING_STATUS = {
+    "Not received" => :unavailable,
+    "Rykket" => :unavailable,
+    "Ikke udkommet" => :unavailable,
+    "Til indbinding" => :unavailable,
+    "Bortkommet" => :unavailable,
+    "Missing p.t." => :unavailable,
+    "Missing/bill" => :unavailable,
+    "Discarded" => :unavailable,
+    "Acquisition" => :unavailable,
+    "Binder" => :unavailable,
+    "Bortkommet" => :unavailable,
+    "Restoration" => :unavailable,
+    "In bindery" => :unavailable,
+    "non-copy-circ" => :unavailable,
+    "Elec. ed." => :unavailable,
+    "Back order" => :unavailable,
+    "Claimed" => :unavailable,
+    "Not published" => :unavailable,
+    "Out of print" => :unavailable,
+    "Reject" => :unavailable,
+    "Lost" => :unavailable,
+    "Reading Room" => :available_onsite,
+    "Not for loan" => :available_onsite,
+    "On exhibition" => :available_onsite,
+    "New book displ" => :available_onsite
+  }
 
   def parse_response(response)
 
@@ -21,7 +48,7 @@ class Aleph
 
         location = ""
         sub_division = ""
-        due_date = nil
+        lending_period = ""
 
         item.children.each do |child|
           case child.name
@@ -36,9 +63,9 @@ class Aleph
               # it is out on loan and has been reserved by another user
               status.availability = :unavailable
             when "I bestilling"
-              status.availability =:unavailable
+              status.availability = :unavailable
             when "Tabt/Regning"
-              status.availability =:unavailable
+              status.availability = :unavailable
             else
               Kyandi.logger.error "Aleph service: Unknown status #{child.content} for alis id #{@reference.custom_co_data["alis_id"]}"
             end
@@ -50,26 +77,34 @@ class Aleph
               end
             end
             begin
-              due_date = Date.parse(due_date).to_datetime.strftime('%-d/%-m-%Y')
+              status.due_date = Date.parse(due_date).to_datetime
             rescue ArgumentError
             end
-          when "location"
-            if m = /(.*) \/ (.*)/.match(child.content)
-              location = m[1]
-              if location.include?("Ballerup")
-                location = "DTU Ballerup"
-              else
-                location = "DTU Lyngby"
-              end
-              sub_division = m[2]
+          when "collection"
+            location = child.content
+            if location.include?("Ballerup")
+              location = "DTU Ballerup"
+            else
+              location = "DTU Lyngby"
             end
+          when "placement"
+            sub_division = child.content
           when "callno"
             status.callno = child.content
+          when "lendingPeriod"
+            lending_period = child.content
           end
         end
 
-        if ["Textbook collection", "Reference collection"].include?(sub_division)
+        if LENDING_STATUS.include?(lending_period)
+          status.availability = LENDING_STATUS[lending_period]
+        end
+
+        if ["Textbook collection", "Reference collection", "Closed stacks"].include?(sub_division)
           status.availability = :available_onsite
+          if sub_division == "Closed stacks"
+            status.callno = ""
+          end
         end
 
         status.text = I18n.t("loan.availability.#{status.availability}.text")
@@ -80,9 +115,8 @@ class Aleph
           status.url_text = I18n.t("loan.availability.#{status.availability}.url_text")
           status.url = "#{@configuration['aleph_url']}#{@reference.custom_co_data["alis_id"]}"
         end
-        if status.availability == :unavailable && !due_date.nil?
-          status.text = I18n.t('loan.availability.unavailable.text_with_until', :due => due_date)
-          status.text_long = I18n.t('loan.availability.unavailable.text_with_until_long', :due => due_date)
+        if status.availability == :unavailable && !status.due_date.nil?
+          set_text_with_date(status)
         end
 
         # set summary to current status if it is the most optimistic status we have seen so far
@@ -99,6 +133,10 @@ class Aleph
             loan_response.locations[location] << status
           else
             existing_status.count += 1
+            if !status.due_date.nil? && !existing_status.due_date.nil? && (status.due_date < existing_status.due_date)
+              existing_status.due_date = status.due_date
+              set_text_with_date(existing_status)
+            end
           end
         else
           loan_response.locations[location] = [status]
@@ -109,6 +147,11 @@ class Aleph
     end
 
     service_responses
+  end
+
+  def set_text_with_date(status)
+    status.text = I18n.t('loan.availability.unavailable.text_with_until', :due => status.due_date.strftime('%-d/%-m-%Y'))
+    status.text_long = I18n.t('loan.availability.unavailable.text_with_until_long', :due => status.due_date.strftime('%-d/%-m-%Y'))
   end
 
   def get_query

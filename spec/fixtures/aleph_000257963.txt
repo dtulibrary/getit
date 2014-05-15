@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Content-Length: 621
+Server: Metaproxy/1.5.1
+Connection: Keep-Alive
+Content-Type: text/xml
+
+<?xml version="1.0"?>
+<zs:searchRetrieveResponse xmlns:zs="http://www.loc.gov/zing/srw/"><zs:version>1.1</zs:version><zs:numberOfRecords>1</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema/><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record>
+  <item>
+    <available>P&#xE5; hylden</available>
+    <lendingPeriod>New book displ</lendingPeriod>
+    <collection>DTU Library Lyngby</collection>
+    <placement>Open stacks</placement>
+    <callno>536.7 Experimental</callno>
+  </item>
+</record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records></zs:searchRetrieveResponse>

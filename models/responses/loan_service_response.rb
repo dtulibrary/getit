@@ -25,6 +25,7 @@ class LoanServiceResponse < ServiceResponse
     attr_accessor :url_text
     attr_accessor :count
     attr_accessor :callno
+    attr_accessor :due_date
 
     @@availabilities = {:available => 3, :available_onsite => 2, :unavailable => 1}
     @@availabilities.default = 0

@@ -1,0 +1,32 @@
+HTTP/1.1 200 OK
+Content-Length: 1110
+Server: Metaproxy/1.5.1
+Connection: Keep-Alive
+Content-Type: text/xml
+
+<?xml version="1.0"?>
+<zs:searchRetrieveResponse xmlns:zs="http://www.loc.gov/zing/srw/"><zs:version>1.1</zs:version><zs:numberOfRecords>1</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema/><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record>
+  <item>
+    <available>Udl&#xE5;nt</available>
+    <lendingPeriod>4 weeks</lendingPeriod>
+    <collection>DTU Library Ballerup</collection>
+    <placement>Open stacks</placement>
+    <callno>621.3.01 HAM</callno>
+    <due>02/jun/2014</due>
+  </item>
+  <item>
+    <available>Udl&#xE5;nt</available>
+    <lendingPeriod>4 weeks</lendingPeriod>
+    <collection>DTU Library Ballerup</collection>
+    <placement>Open stacks</placement>
+    <callno>621.3.01 HAM</callno>
+    <due>20/maj/2014</due>
+  </item>
+  <item>
+    <available>Tabt/Regning</available>
+    <lendingPeriod>4 weeks</lendingPeriod>
+    <collection>DTU Library Ballerup</collection>
+    <placement>Open stacks</placement>
+    <callno>621.3.01 HAM</callno>
+  </item>
+</record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records></zs:searchRetrieveResponse>

@@ -1,6 +1,6 @@
 HTTP/1.1 200 OK
-Content-Length: 689
-Server: Metaproxy/1.4.8
+Content-Length: 853
+Server: Metaproxy/1.5.1
 Connection: Keep-Alive
 Content-Type: text/xml
 
@@ -8,12 +8,16 @@ Content-Type: text/xml
 <zs:searchRetrieveResponse xmlns:zs="http://www.loc.gov/zing/srw/"><zs:version>1.1</zs:version><zs:numberOfRecords>1</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema/><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record>
   <item>
     <available>P&#xE5; hylden</available>
-    <location>DTU Library Lyngby / Textbook collection</location>
-    <callno>53 Sears</callno>
+    <lendingPeriod>Not for loan</lendingPeriod>
+    <collection>DTU Library Ballerup</collection>
+    <placement>Textbook collection</placement>
+    <callno>621.3 HAM</callno>
   </item>
   <item>
-    <available>P&#xE5; hylden</available>
-    <location>DTU Library Lyngby / Open stacks</location>
-    <callno>53 Sears</callno>
+    <available>Tabt/Regning Reserveret</available>
+    <lendingPeriod>4 weeks</lendingPeriod>
+    <collection>DTU Library Ballerup</collection>
+    <placement>Open stacks</placement>
+    <callno>621.3 HAM</callno>
   </item>
 </record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records></zs:searchRetrieveResponse>

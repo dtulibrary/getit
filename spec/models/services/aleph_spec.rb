@@ -89,7 +89,7 @@ describe Aleph do
         result.first.locations.first.last.size.must_equal 1
 
         status = result.first.locations.first.last.first
-        status.text.must_equal "Available on-site"
+        status.text.must_equal "<a href=\"http://example.com/123456789\" target=\"_blank\">Available on-site</a>"
         status.icon.must_equal "icon-home"
         status.callno.must_equal ""
         status.count.must_equal 24
@@ -112,7 +112,7 @@ describe Aleph do
         result.first.locations.first.last.size.must_equal 2
 
         first_status = result.first.locations["DTU Ballerup"].first
-        first_status.text.must_equal "Available on-site"
+        first_status.text.must_equal "<a href=\"http://example.com/123456789\" target=\"_blank\">Available on-site</a>"
         first_status.icon.must_equal "icon-home"
         first_status.callno.must_equal "621.3 HAM"
         first_status.count.must_equal 1
@@ -164,7 +164,7 @@ describe Aleph do
         result.first.locations.first.last.size.must_equal 1
 
         status = result.first.locations["DTU Lyngby"].first
-        status.text.must_equal "Available on-site"
+        status.text.must_equal "<a href=\"http://example.com/123456789\" target=\"_blank\">Available on-site</a>"
         status.icon.must_equal "icon-home"
         status.callno.must_equal "536.7 Experimental"
         status.count.must_equal 1
@@ -238,6 +238,26 @@ describe Aleph do
         status.icon.must_equal "icon-minus-circle"
         status.callno.must_equal "Bestilt 1 eks. 980511"
         status.url.must_equal "http://example.com/123456789"
+        status.count.must_equal 1
+
+        result.first.summary.must_equal status
+      end
+    end
+  end
+
+  it "handles lending period which indicates onsite use" do
+    EM.run_block do
+      reference = Reference.new(params)
+      stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/aleph_000461276.txt"))
+      aleph = Aleph.new(reference, configuration)
+      aleph.callback do |result|
+        result.first.locations.size.must_equal 1
+        result.first.locations.first.last.size.must_equal 1
+
+        status = result.first.locations["DTU Lyngby"].first
+        status.text.must_equal "<a href=\"http://example.com/123456789\" target=\"_blank\">Available on-site</a>"
+        status.icon.must_equal "icon-home"
+        status.callno.must_equal "624.02 Ola St.f."
         status.count.must_equal 1
 
         result.first.summary.must_equal status

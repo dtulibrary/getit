@@ -11,7 +11,7 @@ en:
         icon_color: green
         url_text: Borrow
       available_onsite:
-        text: Available on-site
+        text: <a href="%{url}" target="_blank">Available on-site</a>
         icon: icon-home
         icon_color: green
       unavailable:

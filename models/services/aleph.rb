@@ -29,7 +29,8 @@ class Aleph
     "Reading Room" => :available_onsite,
     "Not for loan" => :available_onsite,
     "On exhibition" => :available_onsite,
-    "New book displ" => :available_onsite
+    "New book displ" => :available_onsite,
+    "ReadingRoom DTV" => :available_onsite
   }
 
   def parse_response(response)
@@ -107,14 +108,17 @@ class Aleph
           end
         end
 
-        status.text = I18n.t("loan.availability.#{status.availability}.text")
+        url = "#{@configuration['aleph_url']}#{@reference.custom_co_data["alis_id"]}"
+        if status.availability == :available_onsite
+          status.text = I18n.t("loan.availability.#{status.availability}.text", :url => url)
+        else
+          status.text = I18n.t("loan.availability.#{status.availability}.text")
+          status.url = url
+          status.url_text = I18n.t("loan.availability.#{status.availability}.url_text")
+        end
         status.text_long = I18n.t("loan.availability.#{status.availability}.text_long") if status.availability == :available
         status.icon = I18n.t("loan.availability.#{status.availability}.icon")
         status.icon_color = I18n.t("loan.availability.#{status.availability}.icon_color")
-        unless status.availability == :available_onsite
-          status.url_text = I18n.t("loan.availability.#{status.availability}.url_text")
-          status.url = "#{@configuration['aleph_url']}#{@reference.custom_co_data["alis_id"]}"
-        end
         if status.availability == :unavailable && !status.due_date.nil?
           set_text_with_date(status)
         end

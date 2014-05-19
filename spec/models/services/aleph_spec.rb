@@ -265,4 +265,32 @@ describe Aleph do
     end
   end
 
+  it "handles 'ventehylde' status" do
+    EM.run_block do
+      reference = Reference.new(params)
+      stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/aleph_000489920.txt"))
+      aleph = Aleph.new(reference, configuration)
+      aleph.callback do |result|
+        puts "#{result}"
+        result.first.locations.size.must_equal 1
+        result.first.locations.first.last.size.must_equal 2
+
+        first_status = result.first.locations["DTU Lyngby"].first
+        first_status.text.must_equal "<a href=\"http://example.com/123456789\" target=\"_blank\">Available on-site</a>"
+        first_status.icon.must_equal "icon-home"
+        first_status.callno.must_equal "001 Craft"
+        first_status.count.must_equal 1
+
+        second_status = result.first.locations["DTU Lyngby"].last
+        second_status.text.must_equal "Available from 17/6-2014"
+        second_status.text_long.must_equal "Available for loan from 17/6-2014"
+        second_status.icon.must_equal "icon-minus-circle"
+        second_status.callno.must_equal "001 Craft"
+        second_status.count.must_equal 2
+
+        result.first.summary.must_equal first_status
+      end
+    end
+  end
+
 end

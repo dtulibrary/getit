@@ -57,6 +57,8 @@ class Aleph
             case child.content
             when "Udlånt"
               status.availability = :unavailable
+            when "På ventehylde"
+              status.availability = :unavailable
             when "På hylden"
               status.availability = :available
             when /Reserveret/
@@ -137,7 +139,7 @@ class Aleph
             loan_response.locations[location] << status
           else
             existing_status.count += 1
-            if !status.due_date.nil? && !existing_status.due_date.nil? && (status.due_date < existing_status.due_date)
+            if (!status.due_date.nil? && existing_status.due_date.nil?) || (!status.due_date.nil? && !existing_status.due_date.nil? && (status.due_date < existing_status.due_date))
               existing_status.due_date = status.due_date
               set_text_with_date(existing_status)
             end

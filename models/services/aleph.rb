@@ -116,7 +116,7 @@ class Aleph
           status.url = url
           status.url_text = I18n.t("loan.availability.#{status.availability}.url_text")
         end
-        status.text_long = I18n.t("loan.availability.#{status.availability}.text_long") if status.availability == :available
+        status.text_long = I18n.t("loan.availability.#{status.availability}.text_long") unless status.availability == :unavailable
         status.icon = I18n.t("loan.availability.#{status.availability}.icon")
         status.icon_color = I18n.t("loan.availability.#{status.availability}.icon_color")
         if status.availability == :unavailable && !status.due_date.nil?

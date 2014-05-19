@@ -12,6 +12,7 @@ en:
         url_text: Borrow
       available_onsite:
         text: <a href="%{url}" target="_blank">Available on-site</a>
+        text_long: Available on-site
         icon: icon-home
         icon_color: green
       unavailable:

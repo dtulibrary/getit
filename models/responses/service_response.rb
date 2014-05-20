@@ -7,6 +7,7 @@ class ServiceResponse
   attr_accessor :source
   attr_accessor :priority
   attr_accessor :source_priority
+  attr_accessor :log_info
 
   def initialize
     @public_vars = ["@url", "@service_type", "@subtype", "@source"]

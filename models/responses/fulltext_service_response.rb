@@ -11,7 +11,6 @@ class FulltextServiceResponse < ServiceResponse
   attr_accessor :icon
   attr_accessor :holdings_list
   attr_accessor :list_text
-  attr_accessor :log_info
 
   def initialize
     super

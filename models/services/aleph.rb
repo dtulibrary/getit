@@ -59,6 +59,10 @@ class Aleph
               status.availability = :unavailable
             when "På ventehylde"
               status.availability = :unavailable
+            when "Bortkommet"
+              status.availability = :unavailable
+            when "Not received"
+              status.availability = :unavailable
             when "På hylden"
               status.availability = :available
             when /Reserveret/

@@ -78,6 +78,7 @@ class Sfx
     response.source = "sfx"
     response.source_priority = @configuration["priority"]
     response.priority = @sfx_target_priority[target.at("./target_name").inner_text]
+    response.log_info = "SFX target: #{target.at("./target_name").inner_text}"
 
     if (target/"./target_public_name").inner_text =~ /open access/i
       response.subtype = "openaccess_remote"

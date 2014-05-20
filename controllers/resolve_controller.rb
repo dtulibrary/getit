@@ -36,7 +36,8 @@ class ResolveController < ApplicationController
                 results.each do |result|
                   can_send = decider.can_send(result)
                   if can_send == :yes
-                    logger.info("Sending result for #{service_name}")
+                    logger.info "Sending result for #{service_name}"
+                    logger.info result.log_info unless result.log_info.nil?
                     out << "data: #{result.to_json}\n\n"
                   elsif can_send == :maybe
                     on_hold << result

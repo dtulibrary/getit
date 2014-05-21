@@ -59,10 +59,6 @@ class Aleph
               status.availability = :unavailable
             when "På ventehylde"
               status.availability = :unavailable
-            when "Bortkommet"
-              status.availability = :unavailable
-            when "Not received"
-              status.availability = :unavailable
             when "På hylden"
               status.availability = :available
             when /Reserveret/
@@ -74,7 +70,11 @@ class Aleph
             when "Tabt/Regning"
               status.availability = :unavailable
             else
-              Kyandi.logger.error "Aleph service: Unknown status #{child.content} for alis id #{@reference.custom_co_data["alis_id"]}"
+              if LENDING_STATUS.include?(child.content)
+                status.availability = LENDING_STATUS[child.content]
+              else
+                Kyandi.logger.error "Aleph service: Unknown status #{child.content} for alis id #{@reference.custom_co_data["alis_id"]}"
+              end
             end
           when "due"
             due_date = child.content

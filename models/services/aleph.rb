@@ -169,12 +169,13 @@ class Aleph
 
   def get_query
     {
-      "version" => "1.1",
-      "operation" => "searchRetrieve",
-      "query" => "rec.identifier=#{@reference.custom_co_data["alis_id"]}",
-      "maximumRecords" => "1",
-      "x-username" => @configuration['username'],
-      "x-password" => @configuration['password']
+      'version'        => '1.1',
+      'operation'      => 'searchRetrieve',
+      'query'          => "rec.identifier=#{@reference.custom_co_data["alis_id"]}",
+      'maximumRecords' => '1',
+      'x-username'     => @configuration['username'],
+      'x-password'     => @configuration['password'],
+      'recordSchema'   => 'raw'
     }
   end
 

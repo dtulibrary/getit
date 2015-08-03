@@ -171,7 +171,7 @@ class Aleph
     {
       "version" => "1.1",
       "operation" => "searchRetrieve",
-      "query" => "rec.id=#{@reference.custom_co_data["alis_id"]}",
+      "query" => "rec.identifier=#{@reference.custom_co_data["alis_id"]}",
       "maximumRecords" => "1",
       "x-username" => @configuration['username'],
       "x-password" => @configuration['password']

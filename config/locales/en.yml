@@ -447,3 +447,29 @@ en:
           public: "%{filename}"
         icon: *license_icon
         list_text: *license_short_name
+      license_remote:
+        short_name: *license_short_name
+        type: *license_type
+        short_explanation:
+          dtu_staff: &download_from_remote_repo 'Download from remote repository for immediate reading'
+          dtu_student: *download_from_remote_repo
+          walkin: *download_from_remote_repo
+          public: *download_from_remote_repo
+        lead_text:
+          dtu_staff: ""
+          dtu_student: ""
+          walkin: ""
+          public: ""
+        explanation:
+          dtu_staff: ""
+          dtu_student: ""
+          walkin: ""
+          public: ""
+        button_text: *license_button_text
+        tool_tip:
+          dtu_staff: "%{filename}"
+          dtu_student: "%{filename}"
+          walkin: "%{filename}"
+          public: "%{filename}"
+        icon: *license_icon
+        list_text: *license_short_name

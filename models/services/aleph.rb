@@ -109,6 +109,8 @@ class Aleph
         if LENDING_STATUS.include?(lending_period)
           status.availability = LENDING_STATUS[lending_period]
         end
+        
+        next if sub_division == 'DISK'
 
         if ["Textbook collection", "Reference collection", "Closed stacks"].include?(sub_division)
           status.availability = :available_onsite

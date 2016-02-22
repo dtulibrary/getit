@@ -5,7 +5,7 @@ gem "sinatra"
 gem "em-http-request"
 gem 'sinatra-contrib'
 gem "openurl"
-gem "capistrano"
+gem "capistrano", '~> 2.14'
 gem "nokogiri"
 gem "sinatra-synchrony"
 gem "i18n"

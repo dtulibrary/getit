@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+
+  getit-web:
+    build: .
+    command: rackup
+    volumes:
+      - .:/myapp
+    ports:
+      - "3003:3000"

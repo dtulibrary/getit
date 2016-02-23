@@ -12,6 +12,7 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     cookiejar (0.3.0)
     crack (0.3.2)
+    daemons (1.2.3)
     dalli (2.6.4)
     em-http-request (1.1.1)
       addressable (>= 2.3.4)
@@ -81,6 +82,10 @@ GEM
       eventmachine (~> 1.0.0)
       rack-fiber_pool (~> 0.9)
       sinatra (~> 1.0)
+    thin (1.6.3)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0)
+      rack (~> 1.0)
     tilt (1.4.1)
     turn (0.9.7)
       ansi
@@ -109,5 +114,9 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   sinatra-synchrony
+  thin
   turn
   webmock
+
+BUNDLED WITH
+   1.11.2

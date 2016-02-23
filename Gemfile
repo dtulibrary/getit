@@ -1,5 +1,6 @@
 source "http://rubygems.org"
 
+gem 'thin'
 gem "sinatra"
 gem "em-http-request"
 gem 'sinatra-contrib'

@@ -18,6 +18,7 @@ require 'minitest/autorun'
 require 'webmock/minitest'
 require 'rack/test'
 require 'openurl'
+require 'debugger'
 
 require 'turn/autorun'
 

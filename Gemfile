@@ -13,7 +13,7 @@ gem "dalli"
 gem "require_all"
 
 group :test do
-  gem "minitest"
+  gem "minitest", '~> 4'
   gem "webmock"
   gem "rack-test"
   gem "turn"
@@ -22,3 +22,4 @@ group :test do
   gem "simplecov-html", :require => false
   gem "simplecov-rcov", :require => false
 end
+gem 'debugger', group: [:development, :test]

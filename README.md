@@ -4,14 +4,12 @@ GetIt is a document delivery microservice for FindIt built using Sinatra.
 
 # Installation
 
-Clone the repository. You will also need to install the `puppet_applications` repository.
-Copy the GetIt config file from the relevant puppet_applications folder to your local app's config directory: `cp ../puppet-applications/modules/kyandi/templates/production/config.local.yml config/`
+Clone the repository and run `bundle install`. Run the server using `thin start`. If you want to run FindIt against your local version you can use the mother-docker FindIt and change the url in FindIt's `application.rb`. You can then run your local GetIt on a specific port, e.g. `thin start -p 3003`.
 
-You will need to install Vagrant and VirtualBox. Make sure that virtualization is enabled in your BIOS. 
-From your `vagrant` folder you should now be able to run `vagrant up`.
+# Tests
 
-You will need to deploy the application code to the vagrant box: `bundle exec cap deploy:setup`
+Tests are written in Minitest using Webmock to stub HTTP requests. You can run all tests by simply using the `m` command. You can also run individual tests by line number as you would in rspec, for example: `m spec/controllers/resolve_controller_spec.rb:32` where the line number refers to the start of an `it` block.
 
 ## Gotchas
 
-The gems are not pinned to specific versions and there may arise some mismatch problems between the gems installed to the system and the vagrant machine's ruby version (1.9.3). To avoid this, make sure that you don't accidentally regenerate `Gemfile.lock` with newer gems.
+Running tests against ResolveController gives some curious multithreading errors. If you need to test against ResolveController, remove the EventMachine iterator and replace with a simpler iterator as described in the comments.

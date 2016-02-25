@@ -1,4 +1,3 @@
-
 class ResolveController < ApplicationController
 
   get '/', provides: 'text/event-stream' do
@@ -7,7 +6,6 @@ class ResolveController < ApplicationController
 
     headers "Cache-Control" => "no-cache",
             "Access-Control-Allow-Origin" => "*"
-
     reference = Reference.new(CGI::parse(request.query_string))
     service_list_name = reference.service_list_name || settings.service_list_default
     service_list = settings.service_lists[service_list_name][reference.doctype]
@@ -16,6 +14,8 @@ class ResolveController < ApplicationController
     stream(:keepalive) do |out|
 
       on_hold = []
+      # NOTE - this iterator causes a threading error when calling from tests
+      # to fix - comment out and use service_list.each do |service_name| instead
       concurrency = service_list.length
       EM::Synchrony::Iterator.new(service_list, concurrency).map do |service_name, iter|
 
@@ -68,7 +68,6 @@ class ResolveController < ApplicationController
         out << "data: #{result.to_json}\n\n" if can_send == :yes
         decider.status.update(result, can_send)
       end
-
       out << "event: close\n"
       out << "data: none\n\n"
       out.close

@@ -425,6 +425,12 @@ en:
           public: "icon-map-marker"
         list_text: *journal_print_short_name
     thesis:
+      openaccess_local:
+        tool_tip:
+          dtu_staff: *dtu_download
+          dtu_student: *dtu_download
+          walkin: *dtu_download
+          public: *dtu_download
       license_local:
         short_name: *license_short_name
         type: *license_type

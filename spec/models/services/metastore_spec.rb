@@ -86,6 +86,60 @@ describe Metastore do
         metastore.errback { |error| error.must_match /^Service Metastore failed with status 404/ }
       end
     end
+
+
+
+    describe 'when searching for student theses' do
+
+      describe 'metastore_fulltext_response' do
+        before do
+          @parsed_fulltext = {"source"=>"sorbit", "name"=>"Bachelorprojekt.pdf", "local"=>true, "type"=>"other", "url"=>"sorbit?pi=%2F35194.681392.pdf&key=466544331"}
+          # we reuse a fixture - the Solr response isn't important for our test but the method will fail if it's missing
+          stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr1.txt"))
+        end
+
+        it 'permits access for dtu users' do
+          EM.run_block do
+            reference = Reference.new(params.merge("req_id" =>"dtu_staff", 'rft.genre' => 'thesis'))
+            metastore = Metastore.new(reference, configuration)
+            fulltext = metastore.metastore_fulltext_response(@parsed_fulltext)
+            fulltext.url.must_include(@parsed_fulltext['url'])
+            fulltext.url.wont_match(/.*visit.*/)
+          end
+        end
+        it 'permits access for public users' do
+          EM.run_block do
+            reference = Reference.new(params.merge("req_id" =>"public", 'rft.genre' => 'thesis'))
+            metastore = Metastore.new(reference, configuration)
+            fulltext = metastore.metastore_fulltext_response(@parsed_fulltext)
+            fulltext.url.must_include(@parsed_fulltext['url'])
+            fulltext.url.wont_match(/.*visit.*/)
+          end
+        end
+      end
+
+    end
+  end
+  describe 'accessible_full_text' do
+    it 'is true when type is openaccess' do
+      Metastore.accessible_full_text?('type' => 'openaccess').must_equal true
+    end
+    it 'is false when type is not openaccess' do
+      Metastore.accessible_full_text?('type' => 'lock and key').wont_equal true
+    end
+
+    it 'is true when source is sorbit and there is a url' do
+      accessible = Metastore.accessible_full_text?('source' => 'sorbit', 'url' => 'http://galoshes.com')
+      accessible.must_equal true
+    end
+    it 'is false when source is sorbit and there is no url' do
+      accessible = Metastore.accessible_full_text?('source' => 'sorbit', 'url' => '')
+      accessible.wont_equal true
+    end
+    it 'is false when source is sorbit and the url is nil' do
+      accessible = Metastore.accessible_full_text?('source' => 'sorbit', 'url' => nil)
+      accessible.wont_equal true
+    end
   end
 
   describe "alis" do

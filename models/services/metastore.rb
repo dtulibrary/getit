@@ -6,7 +6,6 @@ class Metastore
 
   def initialize(reference, configuration, cache_settings = {})
     @category = configuration['category']
-
     super(reference, configuration, cache_settings)
   end
 
@@ -70,7 +69,6 @@ class Metastore
       skip_sources = @configuration["skip_sources"].map { |s| "NOT source_ss:#{s}" }
     end
     skip_sources << "access_ss:#{@reference.dtu? ? 'dtu' : 'dtupub'}"
-
     query = {
       "q" => "{!raw f=cluster_id_ss v=$id}", "id" => "#{@reference.custom_co_data["id"] || nil}",
       "fl" => "#{metastore_key}",
@@ -87,21 +85,19 @@ class Metastore
     "fulltext_list_ssf" # fulltext
   end
 
-  private
-
   def metastore_fulltext_response(fulltext)
-
     response = metastore_service_response
     local = fulltext["local"] == true
 
     url = fulltext["url"]
+    # Check for local path
     if local && /http/.match(url).nil?
       url.prepend(@configuration["dtic_url"])
     end
 
     response.url = url
 
-    if fulltext["type"] == "openaccess"
+    if Metastore.accessible_full_text?(fulltext)
       response.subtype = "openaccess"
     else
       response.subtype = "license"
@@ -115,15 +111,27 @@ class Metastore
     if response.subtype.start_with?("license") && @reference.user_type == "public"
       response.url = "http://www.dtic.dtu.dk/english/servicemenu/visit/opening#lyngby"
     end
-
     response.set_translations(@reference.doctype, response.subtype, @reference.user_type)
 
     if @reference.doctype == "thesis"
-      response.tool_tip = I18n.t "fulltext.#{@reference.doctype}.#{response.subtype}.%s.#{@reference.user_type}" % "tool_tip", filename: fulltext["name"]
+      response.tool_tip = I18n.t("fulltext.#{@reference.doctype}.#{response.subtype}.tool_tip.#{@reference.user_type}")
     end
-
     response
   end
+
+  def self.accessible_full_text?(fulltext)
+    Metastore.open_access_fulltext?(fulltext) || Metastore.accessible_student_thesis?(fulltext)
+  end
+
+  def self.open_access_fulltext?(fulltext)
+     fulltext["type"] == "openaccess"
+  end
+
+  def self.accessible_student_thesis?(response)
+    response['source'] == 'sorbit' && response['url'].is_a?(String) && response['url'].size > 0
+  end
+
+  private
 
   def metastore_service_response
     response = FulltextServiceResponse.new

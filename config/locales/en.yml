@@ -56,9 +56,9 @@ en:
           walkin: *download
           public: "Visit DTU"
         tool_tip: &license_tool_tip
-          dtu_staff: "From DTU Library server"
-          dtu_student: "From DTU Library server"
-          walkin: "From DTU Library server"
+          dtu_staff: &license_local_tool_tip "From DTU Library server"
+          dtu_student: *license_local_tool_tip
+          walkin: *license_local_tool_tip
           # Map & info
           public: &map_tool_tip "Available on-site at DTU Library"
         icon: &license_icon
@@ -426,11 +426,29 @@ en:
         list_text: *journal_print_short_name
     thesis:
       openaccess_local:
-        tool_tip:
-          dtu_staff: *dtu_download
-          dtu_student: *dtu_download
-          walkin: *dtu_download
+        short_name:
+          <<: *license_short_name
+          public: *download
+        type:
+          <<: *license_type
+          public: "Online"
+        short_explanation:
+          <<: *license_short_explanation
           public: *dtu_download
+        lead_text:
+          dtu_staff: ""
+          dtu_student: ""
+          walkin: ""
+          public: ""
+        explanation: *license_explanation
+        button_text:
+          <<: *license_button_text
+          public: *download
+        tool_tip:
+          <<: *license_tool_tip
+          public: *license_local_tool_tip
+        icon: *openacces_icon
+        list_text: *openaccess_short_name
       license_local:
         short_name: *license_short_name
         type: *license_type

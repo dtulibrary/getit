@@ -105,7 +105,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  capistrano
+  capistrano (~> 2.14)
   dalli
   debugger
   em-http-request
@@ -125,4 +125,3 @@ DEPENDENCIES
   thin
   turn
   webmock
-

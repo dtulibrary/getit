@@ -1,0 +1,139 @@
+{
+  "abstract-citations-response": {
+    "h-index": "1",
+    "identifier-legend": {
+      "identifier": [
+        {
+          "@_fa": "true",
+          "dc:identifier": "SCOPUS_ID:0037070197",
+          "prism:doi": "10.1016/S0014-5793(01)03313-0",
+          "pii": "S0014579301033130",
+          "scopus_id": "0037070197"
+        }
+      ]
+    },
+    "citeInfoMatrix": {
+      "citeInfoMatrixXML": {
+        "citationMatrix": {
+          "citeInfo": [
+            {
+              "@_fa": "true",
+              "dc:identifier": "SCOPUS_ID:0037070197",
+              "prism:url": "https://api.elsevier.com/content/abstract/scopus_id/0037070197",
+              "dc:title": "The orientation of the antibiotic peptide maculatin 1.1 in DMPG and DMPC lipid bilayers. Support for a pore-forming mechanism",
+              "author": [
+                {
+                  "@_fa": "true",
+                  "initials": "C.S.B.",
+                  "index-name": "Chia C.S.B.",
+                  "surname": "Chia",
+                  "authid": "55126316600",
+                  "author-url": "https://api.elsevier.com/content/author/author_id/55126316600"
+                },
+                {
+                  "@_fa": "true",
+                  "initials": "J.",
+                  "index-name": "Torres J.",
+                  "surname": "Torres",
+                  "authid": "7402798449",
+                  "author-url": "https://api.elsevier.com/content/author/author_id/7402798449"
+                },
+                {
+                  "@_fa": "true",
+                  "initials": "M.A.",
+                  "index-name": "Cooper M.A.",
+                  "surname": "Cooper",
+                  "authid": "7404411451",
+                  "author-url": "https://api.elsevier.com/content/author/author_id/7404411451"
+                },
+                {
+                  "@_fa": "true",
+                  "initials": "I.T.",
+                  "index-name": "Arkin I.T.",
+                  "surname": "Arkin",
+                  "authid": "7003858738",
+                  "author-url": "https://api.elsevier.com/content/author/author_id/7003858738"
+                },
+                {
+                  "@_fa": "true",
+                  "initials": "J.H.",
+                  "index-name": "Bowie J.H.",
+                  "surname": "Bowie",
+                  "authid": "7102792890",
+                  "author-url": "https://api.elsevier.com/content/author/author_id/7102792890"
+                }
+              ],
+              "citationType": {
+                "@code": "ar",
+                "$": "Article"
+              },
+              "sort-year": "2002",
+              "prism:publicationName": "FEBS Letters",
+              "prism:volume": "512",
+              "prism:issueIdentifier": "1-3",
+              "prism:startingPage": "47",
+              "prism:endingPage": "51",
+              "prism:issn": "0014-5793",
+              "pcc": "41",
+              "cc": [
+                {
+                  "@_fa": "true",
+                  "$": "1"
+                },
+                {
+                  "@_fa": "true",
+                  "$": "1"
+                },
+                {
+                  "@_fa": "true",
+                  "$": "2"
+                }
+              ],
+              "lcc": "0",
+              "rangeCount": "4",
+              "rowTotal": "45"
+            }
+          ]
+        }
+      }
+    },
+    "citeColumnTotalXML": {
+      "citeCountHeader": {
+        "prevColumnHeading": "previous",
+        "columnHeading": [
+          {
+            "@_fa": "true",
+            "$": "2014"
+          },
+          {
+            "@_fa": "true",
+            "$": "2015"
+          },
+          {
+            "@_fa": "true",
+            "$": "2016"
+          }
+        ],
+        "laterColumnHeading": "later",
+        "prevColumnTotal": "41",
+        "columnTotal": [
+          {
+            "@_fa": "true",
+            "$": "1"
+          },
+          {
+            "@_fa": "true",
+            "$": "1"
+          },
+          {
+            "@_fa": "true",
+            "$": "2"
+          }
+        ],
+        "laterColumnTotal": "0",
+        "rangeColumnTotal": "4",
+        "grandTotal": "45"
+      }
+    }
+  }
+}

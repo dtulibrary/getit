@@ -2,4 +2,4 @@ config/*.local.yml
 log/*
 .*.swp
 coverage*
-/.idea
+.idea/

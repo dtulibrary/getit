@@ -12,4 +12,5 @@ EM.error_handler do |e|
 end
 
 map('/resolve') { run ResolveController }
+map('/citation_count') { run CitationCountController }
 map('/') { run ApplicationController }

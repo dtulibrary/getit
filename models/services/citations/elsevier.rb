@@ -1,4 +1,5 @@
 require 'uri'
+
 module Citations
   class Elsevier
     include Kyandi
@@ -18,7 +19,8 @@ module Citations
     end
 
     def query
-      resp = Net::HTTP.get_response(BASE_URL, query_string)
+      Kyandi.logger.info "querying #{BASE_URL + query_string}"
+      resp = Net::HTTP.get_response(URI(BASE_URL + query_string))
       if resp.code == '200'
         parse_response(resp.body)
       else

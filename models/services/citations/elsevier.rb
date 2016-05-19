@@ -2,35 +2,47 @@ require 'uri'
 module Citations
   class Elsevier
 
+    BASE_URL = 'http://api.elsevier.com/content/search/scopus'
+
     def url_params
-      {
-          httpAccept: 'application/json',
-          apiKey: api_key, scopus_id: nil,
-          doi: nil, pubmed_id: nil
-      }
+      { httpAccept: 'application/json', apiKey: api_key }
     end
 
-    def initialize(config)
+    def initialize(config, ids)
       @config = config
+      @ids = ids
     end
 
     def api_key
       @config['api_key']
     end
 
-    def query(ids)
+    def query
 
     end
 
-    def url(identifiers)
-      params = url_params.merge(identifiers).reject { |_,v| v.nil? }
-      "#{@config['base_url']}?#{URI.encode_www_form(params)}"
+    def url
+      combined_params = url_params.merge(search_params)
+      "#{BASE_URL}?#{URI.encode_www_form(combined_params)}"
+    end
+
+    # convert { doi: 'xxx', scopus_id: 'yyy' } => { query: 'DOI(XXX) OR SCOPUS-ID(YYY)' }
+    def search_params
+      params = { doi: nil, scopus_id: nil, pmid: nil }.merge(@ids).reject {|_,v| v.nil? }
+      { query: params.collect {|k,v| "#{k.to_s.upcase.sub('_', '-')}(#{v})"}.join(' OR ') }
     end
 
     def parse_response(response)
       json = JSON.parse(response)
-      count = json['abstract-citations-response']['citeColumnTotalXML']['citeCountHeader']['grandTotal']
-      { count: count }
+      result_count = json['search-results']['opensearch:totalResults']
+      if result_count == '0'
+        {}
+      else
+        entry = json['search-results']['entry'].first
+        # there are a number of links, we need the scopus link, see the fixture for an example
+        url = entry['link'].select {|h| h['@ref'] == 'scopus'}.first['@href']
+        { count: entry['citedby-count'], url: url }
+      end
     end
   end
 end

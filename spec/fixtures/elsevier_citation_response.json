@@ -1,139 +1,31 @@
-{
-  "abstract-citations-response": {
-    "h-index": "1",
-    "identifier-legend": {
-      "identifier": [
-        {
-          "@_fa": "true",
-          "dc:identifier": "SCOPUS_ID:0037070197",
-          "prism:doi": "10.1016/S0014-5793(01)03313-0",
-          "pii": "S0014579301033130",
-          "scopus_id": "0037070197"
-        }
-      ]
+{"search-results": {
+  "opensearch:totalResults":"1","opensearch:startIndex":"0","opensearch:itemsPerPage":"1","opensearch:Query":{
+    "@role": "request", "@searchTerms": "PMID(22136928)", "@startPage": "0"
+  },"link": [
+    {
+      "@_fa": "true", "@ref": "self", "@href": "http://api.elsevier.com:80/content/search/scopus?start=0&count=25&query=PMID%2822136928%29&apiKey=a96e2a9b3bd3df81c305bbf3675d1ace&httpAccept=application/json",
+      "@type": "application/json"
     },
-    "citeInfoMatrix": {
-      "citeInfoMatrixXML": {
-        "citationMatrix": {
-          "citeInfo": [
-            {
-              "@_fa": "true",
-              "dc:identifier": "SCOPUS_ID:0037070197",
-              "prism:url": "https://api.elsevier.com/content/abstract/scopus_id/0037070197",
-              "dc:title": "The orientation of the antibiotic peptide maculatin 1.1 in DMPG and DMPC lipid bilayers. Support for a pore-forming mechanism",
-              "author": [
-                {
-                  "@_fa": "true",
-                  "initials": "C.S.B.",
-                  "index-name": "Chia C.S.B.",
-                  "surname": "Chia",
-                  "authid": "55126316600",
-                  "author-url": "https://api.elsevier.com/content/author/author_id/55126316600"
-                },
-                {
-                  "@_fa": "true",
-                  "initials": "J.",
-                  "index-name": "Torres J.",
-                  "surname": "Torres",
-                  "authid": "7402798449",
-                  "author-url": "https://api.elsevier.com/content/author/author_id/7402798449"
-                },
-                {
-                  "@_fa": "true",
-                  "initials": "M.A.",
-                  "index-name": "Cooper M.A.",
-                  "surname": "Cooper",
-                  "authid": "7404411451",
-                  "author-url": "https://api.elsevier.com/content/author/author_id/7404411451"
-                },
-                {
-                  "@_fa": "true",
-                  "initials": "I.T.",
-                  "index-name": "Arkin I.T.",
-                  "surname": "Arkin",
-                  "authid": "7003858738",
-                  "author-url": "https://api.elsevier.com/content/author/author_id/7003858738"
-                },
-                {
-                  "@_fa": "true",
-                  "initials": "J.H.",
-                  "index-name": "Bowie J.H.",
-                  "surname": "Bowie",
-                  "authid": "7102792890",
-                  "author-url": "https://api.elsevier.com/content/author/author_id/7102792890"
-                }
-              ],
-              "citationType": {
-                "@code": "ar",
-                "$": "Article"
-              },
-              "sort-year": "2002",
-              "prism:publicationName": "FEBS Letters",
-              "prism:volume": "512",
-              "prism:issueIdentifier": "1-3",
-              "prism:startingPage": "47",
-              "prism:endingPage": "51",
-              "prism:issn": "0014-5793",
-              "pcc": "41",
-              "cc": [
-                {
-                  "@_fa": "true",
-                  "$": "1"
-                },
-                {
-                  "@_fa": "true",
-                  "$": "1"
-                },
-                {
-                  "@_fa": "true",
-                  "$": "2"
-                }
-              ],
-              "lcc": "0",
-              "rangeCount": "4",
-              "rowTotal": "45"
-            }
-          ]
-        }
-      }
-    },
-    "citeColumnTotalXML": {
-      "citeCountHeader": {
-        "prevColumnHeading": "previous",
-        "columnHeading": [
-          {
-            "@_fa": "true",
-            "$": "2014"
-          },
-          {
-            "@_fa": "true",
-            "$": "2015"
-          },
-          {
-            "@_fa": "true",
-            "$": "2016"
-          }
-        ],
-        "laterColumnHeading": "later",
-        "prevColumnTotal": "41",
-        "columnTotal": [
-          {
-            "@_fa": "true",
-            "$": "1"
-          },
-          {
-            "@_fa": "true",
-            "$": "1"
-          },
-          {
-            "@_fa": "true",
-            "$": "2"
-          }
-        ],
-        "laterColumnTotal": "0",
-        "rangeColumnTotal": "4",
-        "grandTotal": "45"
-      }
+    {
+      "@_fa": "true", "@ref": "first", "@href": "http://api.elsevier.com:80/content/search/scopus?start=0&count=25&query=PMID%2822136928%29&apiKey=a96e2a9b3bd3df81c305bbf3675d1ace&httpAccept=application/json",
+      "@type": "application/json"
     }
+  ],
+  "entry": [
+    {
+      "@_fa": "true", "link": [
+      {"@_fa": "true", "@ref": "self", "@href": "http://api.elsevier.com/content/abstract/scopus_id/82755170946"},
+      {"@_fa": "true", "@ref": "author-affiliation", "@href": "http://api.elsevier.com/content/abstract/scopus_id/82755170946?field=author,affiliation"},
+      {"@_fa": "true", "@ref": "scopus", "@href": "http://www.scopus.com/inward/record.url?partnerID=HzOxMe3b&scp=82755170946&origin=inward"},
+      {"@_fa": "true", "@ref": "scopus-citedby", "@href": "http://www.scopus.com/inward/citedby.url?partnerID=HzOxMe3b&scp=82755170946&origin=inward"},
+      {"@_fa": "true", "@ref": "full-text", "@href": "http://api.elsevier.com/content/article/eid/1-s2.0-S1934590911004826"}
+    ],
+      "prism:url":"http://api.elsevier.com/content/abstract/scopus_id/82755170946","dc:identifier":"SCOPUS_ID:82755170946","eid":"2-s2.0-82755170946",
+      "dc:title":"Adult cardiac-resident MSC-like stem cells with a proepicardial origin","dc:creator":"Chong J.",
+      "prism:publicationName":"Cell Stem Cell","prism:issn":"19345909","prism:eIssn":"18759777","prism:volume":"9",
+      "prism:issueIdentifier":"6","prism:pageRange":"527-540","prism:coverDate":"2011-12-02","prism:coverDisplayDate":"2 December 2011",
+      "prism:doi":"10.1016/j.stem.2011.10.002","pii":"S1934590911004826","citedby-count":"136","affiliation": [{"@_fa": "true", "affilname":"Victor Chang Cardiac Research Institute","affiliation-city":"Sydney","affiliation-country":"Australia"},{"@_fa": "true", "affilname":"University of Washington Seattle","affiliation-city":"Seattle","affiliation-country":"United States"}],"pubmed-id":"22136928","prism:aggregationType":"Journal","subtype":"ar","subtypeDescription":"Article","source-id":"6100153018"
   }
+  ]
+}
 }

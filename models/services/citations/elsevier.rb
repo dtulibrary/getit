@@ -1,7 +1,7 @@
 require 'uri'
 module Citations
   class Elsevier
-
+    include Kyandi
     BASE_URL = 'http://api.elsevier.com/content/search/scopus'
 
     def url_params
@@ -18,12 +18,22 @@ module Citations
     end
 
     def query
-
+      resp = Net::HTTP.get_response(BASE_URL, query_string)
+      if resp.code == '200'
+        parse_response(resp.body)
+      else
+        Kyandi.logger.error("HTTP #{resp.code}: Elsevier request failed #{BASE_URL + query_string}")
+        {}
+      end
     end
 
     def url
-      combined_params = url_params.merge(search_params)
       "#{BASE_URL}?#{URI.encode_www_form(combined_params)}"
+    end
+
+    def query_string
+      combined_params = url_params.merge(search_params)
+      "?#{URI.encode_www_form(combined_params)}"
     end
 
     # convert { doi: 'xxx', scopus_id: 'yyy' } => { query: 'DOI(XXX) OR SCOPUS-ID(YYY)' }

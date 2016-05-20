@@ -8,6 +8,7 @@ class CitationCountController < ApplicationController
   # returns: { "elsevier" : { "count" : "15", "backlink" : "http://blabla" } }
   get '/' do
     content_type 'application/json'
+    response['Access-Control-Allow-Origin'] = '*'
     if params_valid?
       elsevier = Citations::Elsevier.new(settings.services['citations']['elsevier'], valid_params)
       JSON.generate({ elsevier: elsevier.query })

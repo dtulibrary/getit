@@ -5,13 +5,17 @@ class CitationCountController < ApplicationController
   # Takes a hash of document identifiers and queries CitationCount services
   # and returns a json blob with values for teh different services
   # e.g. ?doi=10.1016%2FS0014-5793(01)03313-0&scopus_id=000350083900013
-  # returns: { "elsevier" : { "count" : "15", "backlink" : "http://blabla" } }
+  # returns: { "elsevier" : { "count" : "15", "url" : "http://blabla" }, "web_of_science" : { "count" : "5", "url" : "http://blabla" } }
   get '/' do
+    headers "Cache-Control" => "no-cache",
+            "Access-Control-Allow-Origin" => "*"
+
     content_type 'application/json'
-    response['Access-Control-Allow-Origin'] = '*'
+
     if params_valid?
       elsevier = Citations::Elsevier.new(settings.services['citations']['elsevier'], valid_params)
-      JSON.generate({ elsevier: elsevier.query })
+      web_of_science = Citations::WebOfScience.new(valid_params)
+      JSON.generate({ elsevier: elsevier.query, web_of_science: web_of_science.query })
     else
       status 400
       JSON.generate({error: "Invalid input: valid keys are #{VALID_KEYS.join(', ')} only"})

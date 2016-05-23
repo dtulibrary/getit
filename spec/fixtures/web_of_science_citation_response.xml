@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<response xmlns="http://www.isinet.com/xrpc41">
+<fn name="LinksAMR.retrieve" rc="OK">
+<map>
+<map name="10.1038/nature04924">
+<map name="WOS">
+<val name="relatedRecordsURL"><![CDATA[http://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&SrcApp=PARTNER_APP&SrcAuth=LinksAMR&KeyUT=WOS:000238979700043&DestLinkType=RelatedRecords&DestApp=ALL_WOS&UsrCustomerID=e81501f5699c9cebd224e42e1b7f3afa]]></val>
+<val name="sourceURL"><![CDATA[http://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&SrcApp=PARTNER_APP&SrcAuth=LinksAMR&KeyUT=WOS:000238979700043&DestLinkType=FullRecord&DestApp=ALL_WOS&UsrCustomerID=e81501f5699c9cebd224e42e1b7f3afa]]></val>
+<val name="timesCited">116</val>
+<val name="doi">10.1038/nature04924</val>
+<val name="citingArticlesURL"><![CDATA[http://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&SrcApp=PARTNER_APP&SrcAuth=LinksAMR&KeyUT=WOS:000238979700043&DestLinkType=CitingArticles&DestApp=ALL_WOS&UsrCustomerID=e81501f5699c9cebd224e42e1b7f3afa]]></val>
+</map>
+</map>
+</map>
+</fn>
+</response>

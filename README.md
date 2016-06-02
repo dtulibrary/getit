@@ -42,4 +42,4 @@ GetIt is a crucial application in the FindIt infrastructure but it is unfortunat
   ```ruby
   if Metastore::Rules.inaccessible_to_user?(response.subtype, @reference.user_type); ... end
   ```
-  By making the business logic explicit in method names, we ease the maintenance cost. Static methods separate the logic from external state and make it easier
+  By making the business logic explicit in method names, we ease the maintenance cost. Static methods separate the logic from external state and make it easier.

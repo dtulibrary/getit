@@ -124,7 +124,7 @@ class Metastore
   end
 
   def self.open_access_fulltext?(fulltext)
-     fulltext["type"] == "openaccess"
+    fulltext['type'] == 'openaccess' || fulltext['source'] == 'orbit'
   end
 
   def self.accessible_student_thesis?(response)

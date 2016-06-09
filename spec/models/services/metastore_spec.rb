@@ -128,6 +128,10 @@ describe Metastore do
       Metastore.accessible_full_text?('type' => 'lock and key').wont_equal true
     end
 
+    it 'is true when source is orbit' do
+      Metastore.accessible_full_text?('type' => 'research', 'source' => 'orbit').must_equal true
+    end
+
     it 'is true when source is sorbit and there is a url' do
       accessible = Metastore.accessible_full_text?('source' => 'sorbit', 'url' => 'http://galoshes.com')
       accessible.must_equal true

@@ -1,7 +1,7 @@
 
 require_relative '../../test_helper'
 
-describe Scan do
+describe DticScan do
 
   params_no_local = {
     "url_ver" => "Z39.88-2004",
@@ -81,7 +81,7 @@ describe Scan do
     "req_id" => "anonymous"
   }
 
-  params_sparse_metadata = {
+  params_missing_journal_info = {
     "url_ver" => "Z39.88-2004",
     "url_ctx_fmt" => "info:ofi/fmt:kev:mtx:ctx",
     "ctx_ver" => "Z39.88-2004",
@@ -95,17 +95,15 @@ describe Scan do
     "req_id" => "anonymous"
   }
 
-  describe "holdings in print collection exists for journal" do
-
-    it "chooses RD scan if the article is not in the holdings range" do
-
+  describe "when holdings include journal" do
+    it 'returns empty response array when article is not covered by holdings' do
       EM.run_block {
         reference = Reference.new(params_local_not_in_range)
-        configuration = {"url" => "http://example.com", "enable_dtic" => true}
+        configuration = {"url" => "http://example.com"}
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings.txt"))
-        scan = Scan.new(reference, configuration)
+        scan = DticScan.new(reference, configuration)
         scan.callback { |result|
-          result.first.subtype.must_equal "rd_scan"
+          result.must_equal []
         }
         scan.errback { |error|
           flunk error
@@ -113,15 +111,14 @@ describe Scan do
       }
     end
 
-    it "chooses local scan if the article is in the holdings scan" do
-
+    it 'returns dtic_scan service response when article is covered by holdings (year,volume,issue)' do
       EM.run_block {
         reference = Reference.new(params_local_in_range)
-        configuration = {"url" => "http://example.com", "enable_dtic" => true}
+        configuration = {"url" => "http://example.com"}
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings.txt"))
-        scan = Scan.new(reference, configuration)
+        scan = DticScan.new(reference, configuration)
         scan.callback { |result|
-          result.first.subtype.must_equal "dtic_scan"
+          result.first.subtype.must_equal 'dtic_scan'
         }
         scan.errback { |error|
           flunk error
@@ -129,13 +126,12 @@ describe Scan do
       }
     end
 
-    it "chooses local scan if the article is in the holdings scan where holdings only include year" do
-
+    it 'returns dtic_scan service response when article is covered by holdings (year)' do
       EM.run_block {
         reference = Reference.new(params_local_in_range_year)
-        configuration = {"url" => "http://example.com", "enable_dtic" => true}
+        configuration = {"url" => "http://example.com"}
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings_only_year.txt"))
-        scan = Scan.new(reference, configuration)
+        scan = DticScan.new(reference, configuration)
         scan.callback { |result|
           result.first.subtype.must_equal "dtic_scan"
         }
@@ -144,37 +140,18 @@ describe Scan do
         }
       }
     end
-
-    it "does not choose local scan if local scan is disabled" do
-
-      EM.run_block {
-        reference = Reference.new(params_local_in_range)
-        configuration = {"url" => "http://example.com", "enable_dtic" => false}
-
-        stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings.txt"))
-        scan = Scan.new(reference, configuration)
-        scan.callback { |result|
-          result.first.subtype.must_equal "rd_scan"
-        }
-        scan.errback { |error|
-          flunk error
-        }
-      }
-    end
   end
 
-  describe "holdings in print collection does not exists for journal" do
-
-    it "does not find a local scan option" do
-
+  describe "when holdings don't include journal" do
+    it 'returns empty response array' do
       EM.run_block {
         reference = Reference.new(params_no_local)
-        configuration = {"url" => "http://example.com", "enable_dtic" => true}
+        configuration = {"url" => "http://example.com"}
 
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/holdings_no_result.txt"))
-        scan = Scan.new(reference, configuration)
+        scan = DticScan.new(reference, configuration)
         scan.callback { |result|
-          result.first.subtype.must_equal "rd_scan"
+          result.must_equal []
         }
         scan.errback { |error|
           flunk error
@@ -183,15 +160,14 @@ describe Scan do
     end
   end
 
-  it "returns an rd scan option when metadata is too sparse to detect whether a local scan option exists or not" do
-
+  it 'returns an empty response array when metadata is missing journal info' do
     EM.run_block {
-      reference = Reference.new(params_sparse_metadata)
-      configuration = {"url" => "http://example.com", "enable_dtic" => true}
+      reference = Reference.new(params_missing_journal_info)
+      configuration = {"url" => "http://example.com"}
 
-      scan = Scan.new(reference, configuration)
+      scan = DticScan.new(reference, configuration)
       scan.callback { |result|
-        result.first.subtype.must_equal "rd_scan"
+        result.must_equal []
       }
       scan.errback { |error|
         flunk error

@@ -21,44 +21,50 @@ class ResolveController < ApplicationController
 
         service_conf = settings.services[service_name]
 
-        if klass = get_class(service_conf["type"])
+        service_enabled = service_conf['enabled']
 
-          logger.info "Calling service #{service_name}"
-          service = klass.new(reference, service_conf, settings.cache)
+        if service_enabled.nil? || service_enabled
+          if klass = get_class(service_conf["type"])
 
-          service.callback do |results|
+            logger.info "Calling service #{service_name}"
+            service = klass.new(reference, service_conf, settings.cache)
 
-            EM.synchrony do
-              m = EM::Synchrony::Thread::Mutex.new
-              m.synchronize do
-                # send the responses we already know are safe to send rigth away
-                # otherwise push to decision to all services has been executed
-                results.each do |result|
-                  can_send = decider.can_send(result)
-                  if can_send == :yes
-                    logger.info "Sending result for #{service_name}"
-                    logger.info result.log_info unless result.log_info.nil?
-                    out << "data: #{result.to_json}\n\n"
-                  elsif can_send == :maybe
-                    on_hold << result
+            service.callback do |results|
+
+              EM.synchrony do
+                m = EM::Synchrony::Thread::Mutex.new
+                m.synchronize do
+                  # send the responses we already know are safe to send rigth away
+                  # otherwise push to decision to all services has been executed
+                  results.each do |result|
+                    can_send = decider.can_send(result)
+                    if can_send == :yes
+                      logger.info "Sending result for #{service_name}"
+                      logger.info result.log_info unless result.log_info.nil?
+                      out << "data: #{result.to_json}\n\n"
+                    elsif can_send == :maybe
+                      on_hold << result
+                    end
+                    decider.status.update(result, can_send)
                   end
-                  decider.status.update(result, can_send)
+                  decider.status.update(service_name, :no) if results.empty?
                 end
-                decider.status.update(service_name, :no) if results.empty?
               end
+              logger.info "Callback for #{service_name} done"
+              iter.return
             end
-            logger.info "Callback for #{service_name} done"
-            iter.return
-          end
 
-          service.errback do |error|
-            decider.status.update(service_name, :no)
-            logger.error "#{error}"
+            service.errback do |error|
+              decider.status.update(service_name, :no)
+              logger.error "#{error}"
+              iter.return
+            end
+          else
+            logger.error "Service #{service_name} does not exist"
             iter.return
           end
         else
-          logger.error "Service #{service_name} does not exist"
-          iter.return
+          logger.info "Skipping disabled service '#{service_name}'"
         end
       end
 

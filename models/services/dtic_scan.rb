@@ -1,27 +1,22 @@
-require 'ostruct'
-
-# Choose between available scan services based on a number of criteria.
-class Scan
+class DticScan
   include Service
 
   def parse_response(response)
-    return [] unless @reference.doctype == 'article'
+    return [] unless dtic_applies?(response)
 
     service_response = FulltextServiceResponse.new
 
     service_response.service_type    = "fulltext"
-    service_response.source          = "scan"
+    service_response.source          = "dtic_scan"
     service_response.source_priority = @configuration["priority"]
-    service_response.subtype         = choose_scan_service(response)
+    service_response.subtype         = 'dtic_scan'
 
     service_response.set_translations(@reference.doctype, service_response.subtype, @reference.user_type)
     [service_response]
   end
 
   def response_alternative
-    service_response = rd_service_response
-    service_response.set_translations(@reference.doctype, service_response.subtype, @reference.user_type)
-    [service_response]
+    []
   end
 
   def get_query
@@ -37,19 +32,12 @@ class Scan
 
   private
 
-  def choose_scan_service(response)
+  def dtic_applies?(response)
     (year, volume, issue) = extract_year_volume_issue(@reference)
     holdings_documents    = extract_holdings_documents(response)
-    current               = HoldingsPoint.new('year' => year, 'volume' => volume, 'issue' => issue)
+    current               = DticScan::HoldingsPoint.new('year' => year, 'volume' => volume, 'issue' => issue)
 
-    case
-    when @configuration['enable_dtic'] && holdings_documents.any? {|doc| doc.printed_holdings.any? {|interval| interval.include?(current)}}
-      'dtic_scan'
-    when @configuration['enable_tib'] && tib_applies?(@reference)
-      'tib_scan'
-    else
-      'rd_scan'
-    end
+    @reference.doctype == 'article' && holdings_documents.any? {|doc| doc.printed_holdings.any? {|interval| interval.include?(current)}}
   end
 
   def extract_year_volume_issue(reference)
@@ -61,16 +49,4 @@ class Scan
     (JSON.parse(resp[:body])['response']['docs'] || []).map {|doc| HoldingsDocument.new(doc)}
   end
 
-  def tib_applies?(reference)
-    # TODO: implement logic on when to use TIB as scan source 
-  end
-
-  def rd_service_response
-    service_response = FulltextServiceResponse.new
-    service_response.service_type = "fulltext"
-    service_response.source = "scan"
-    service_response.source_priority = @configuration["priority"]
-    service_response.subtype = "rd_scan"
-    service_response
-  end
 end

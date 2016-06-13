@@ -21,25 +21,67 @@ describe DispatchDecider do
     "rft.genre" => "article"
   }
 
-  it "ignores the scan response" do
+  it "ignores the scan responses" do
 
     reference = Reference.new(params.merge({"req_id" => "dtu_staff"}))
 
     dd = DispatchDecider.new("fulltext", reference)
     dd.status.update("metastore", :no)
     
-    scan_rep = ServiceResponse.new
-    scan_rep.service_type = "fulltext"
-    scan_rep.subtype = "rd_scan"
-    scan_rep.source = "scan"
+    dtic = scan_response('dtic_scan')
+    tib  = scan_response('tib_scan')
+    rd   = scan_response('rd_scan')
 
     sfx_rep = ServiceResponse.new
     sfx_rep.service_type = "fulltext"
     sfx_rep.subtype = "license_remote"
     sfx_rep.source = "sfx"
 
-    dd.can_send(scan_rep).must_equal(:maybe)
+    dd.can_send(dtic).must_equal(:maybe)
+    dd.can_send(tib).must_equal(:maybe)
+    dd.can_send(rd).must_equal(:maybe)
     dd.can_send(sfx_rep).must_equal(:yes)
+  end
+
+  it 'prefers dtic scan over tib scan' do
+    reference = Reference.new(params.merge({"req_id" => "dtu_staff"}))
+
+    dd = DispatchDecider.new("fulltext", reference)
+    dd.status.update('metastore', :no)
+    dd.status.update('sfx', :no)
+    dd.status.update(scan_response('dtic_scan'), :yes)
+
+    tib  = scan_response('tib_scan')
+
+    dd.can_send(tib).must_equal(:no)
+  end
+
+  it 'prefers tib scan over rd scan' do
+    reference = Reference.new(params.merge({"req_id" => "dtu_staff"}))
+
+    dd = DispatchDecider.new("fulltext", reference)
+    dd.status.update('metastore', :no)
+    dd.status.update('sfx', :no)
+    dd.status.update('dtic_scan', :no)
+    dd.status.update(scan_response('tib_scan'), :yes)
+
+    rd  = scan_response('rd_scan')
+
+    dd.can_send(rd).must_equal(:no)
+  end
+
+  it 'prefers rd scan over nothing' do
+    reference = Reference.new(params.merge({"req_id" => "dtu_staff"}))
+
+    dd = DispatchDecider.new("fulltext", reference)
+    dd.status.update('metastore', :no)
+    dd.status.update('sfx', :no)
+    dd.status.update('dtic_scan', :no)
+    dd.status.update('tib_scan', :no)
+
+    rd  = scan_response('rd_scan')
+
+    dd.can_send(rd).must_equal(:yes)
   end
 
   it "only selects the license result" do
@@ -136,5 +178,13 @@ describe DispatchDecider do
     dd.status.update(sfx_rep, sfx_can_send)
     nal_can_send = dd.can_send(nal_rep)
     nal_can_send.must_equal(:yes)    
+  end
+
+  def scan_response(source)
+    response = ServiceResponse.new
+    response.service_type = "fulltext"
+    response.subtype = source
+    response.source = source
+    response
   end
 end

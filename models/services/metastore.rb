@@ -27,9 +27,10 @@ class Metastore
         end
 
         sr_licensed, sr_openaccess = responses.partition {|sr| sr.subtype.match("license") }
+        # put open access / PURE before licensed access
+        service_responses << sr_openaccess.first unless sr_openaccess.empty?
         # sort on subtype - pick local over remote
         service_responses << sr_licensed.sort_by(&:subtype).first unless sr_licensed.empty?
-        service_responses << sr_openaccess.first unless sr_openaccess.empty?
 
       when "alis"
         response = metastore_service_response
@@ -87,26 +88,15 @@ class Metastore
 
   def metastore_fulltext_response(fulltext)
     response = metastore_service_response
-    local = fulltext["local"] == true
 
     url = fulltext["url"]
     # Check for local path
-    if local && /http/.match(url).nil?
+    if fulltext['local'] && /http/.match(url).nil?
       url.prepend(@configuration["dtic_url"])
     end
 
     response.url = url
-
-    if Metastore.accessible_full_text?(fulltext)
-      response.subtype = "openaccess"
-    else
-      response.subtype = "license"
-    end
-    if local
-      response.subtype << "_local"
-    else
-     response.subtype << "_remote"
-    end
+    response.subtype = Metastore.subtype(fulltext)
 
     if response.subtype.start_with?("license") && @reference.user_type == "public"
       response.url = "http://www.dtic.dtu.dk/english/servicemenu/visit/opening#lyngby"
@@ -119,12 +109,37 @@ class Metastore
     response
   end
 
+  def self.subtype(fulltext)
+    if Metastore.pure_source?(fulltext)
+      Metastore.pure_type(fulltext)
+    else
+      Metastore.access_type(fulltext)
+    end
+  end
+
+  def self.access_type(fulltext)
+    location = fulltext['local'] ? '_local' : '_remote'
+    if Metastore.accessible_full_text?(fulltext)
+      return "openaccess_#{location}"
+    else
+      return "license_#{location}"
+    end
+  end
+
   def self.accessible_full_text?(fulltext)
     Metastore.open_access_fulltext?(fulltext) || Metastore.accessible_student_thesis?(fulltext)
   end
 
   def self.open_access_fulltext?(fulltext)
-    fulltext['type'] == 'openaccess' || fulltext['source'] == 'orbit'
+    fulltext['type'] == 'openaccess'
+  end
+
+  def self.pure_source?(fulltext)
+    fulltext['source'] == 'orbit' || !(fulltext['source'] =~ /^rdb_/).nil?
+  end
+
+  def self.pure_type(fulltext)
+    fulltext['source'] == 'orbit' ? 'pure_orbit' : 'pure_other'
   end
 
   def self.accessible_student_thesis?(response)

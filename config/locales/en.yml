@@ -141,6 +141,20 @@ en:
         tool_tip: *openaccess_tool_tip
         icon: *openacces_icon
         list_text: *openaccess_short_name
+      pure_orbit:
+        <<: *openaccess_remote
+        short_explanation: &openaccess_remote_short_explanation
+          dtu_staff: &orbit_download  "Download from DTU Orbit for immediate reading"
+          dtu_student: *orbit_download
+          walkin: *orbit_download
+          public: *orbit_download
+      pure_other:
+        <<: *openaccess_remote
+        short_explanation: &openaccess_remote_short_explanation
+          dtu_staff: &pure_download  "Download from repository for immediate reading"
+          dtu_student: *pure_download
+          walkin: *pure_download
+          public: *pure_download
       dtic_scan:
         short_name: &scan_short_name
           dtu_staff: &scan_request "Request"

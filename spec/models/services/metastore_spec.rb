@@ -89,9 +89,8 @@ describe Metastore do
 
 
 
-    describe 'when searching for student theses' do
-
-      describe 'metastore_fulltext_response' do
+    describe 'metastore_fulltext_response' do
+      describe 'when searching for student theses' do
         before do
           @parsed_fulltext = {"source"=>"sorbit", "name"=>"Bachelorprojekt.pdf", "local"=>true, "type"=>"other", "url"=>"sorbit?pi=%2F35194.681392.pdf&key=466544331"}
           # we reuse a fixture - the Solr response isn't important for our test but the method will fail if it's missing
@@ -118,6 +117,39 @@ describe Metastore do
         end
       end
 
+      describe 'DTU Orbit sources' do
+        before do
+          @parsed_fulltext = {"source"=>"orbit", "local"=>false, "type"=>"research", "url"=>"http://orbit.dtu.dk/ws/files/106464682/PhysRevB.91.014431.pdf"}
+          # we reuse a fixture - the Solr response isn't important for our test but the method will fail if it's missing
+          stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr1.txt"))
+        end
+
+        it 'marks as pure_orbit' do
+          EM.run_block do
+            reference = Reference.new(params)
+            metastore = Metastore.new(reference, configuration)
+            fulltext = metastore.metastore_fulltext_response(@parsed_fulltext)
+            fulltext.subtype.must_equal 'pure_orbit'
+          end
+        end
+      end
+
+      describe 'other PURE sources' do
+        before do
+          @parsed_fulltext = {"source"=>"rdb_ku", "local"=>false, "type"=>"research", "url"=>"http://orbit.dtu.dk/ws/files/106464682/PhysRevB.91.014431.pdf"}
+          # we reuse a fixture - the Solr response isn't important for our test but the method will fail if it's missing
+          stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/solr1.txt"))
+        end
+
+        it 'marks as pure_rdb_ku' do
+          EM.run_block do
+            reference = Reference.new(params)
+            metastore = Metastore.new(reference, configuration)
+            fulltext = metastore.metastore_fulltext_response(@parsed_fulltext)
+            fulltext.subtype.must_equal 'pure_other'
+          end
+        end
+      end
     end
   end
   describe 'accessible_full_text' do
@@ -128,8 +160,8 @@ describe Metastore do
       Metastore.accessible_full_text?('type' => 'lock and key').wont_equal true
     end
 
-    it 'is true when source is orbit' do
-      Metastore.accessible_full_text?('type' => 'research', 'source' => 'orbit').must_equal true
+    it 'is false when source is orbit' do
+      Metastore.accessible_full_text?('type' => 'research', 'source' => 'orbit').must_equal false
     end
 
     it 'is true when source is sorbit and there is a url' do
@@ -143,6 +175,20 @@ describe Metastore do
     it 'is false when source is sorbit and the url is nil' do
       accessible = Metastore.accessible_full_text?('source' => 'sorbit', 'url' => nil)
       accessible.wont_equal true
+    end
+  end
+
+  describe 'pure_source?' do
+    it 'is true when source is an rdb_*' do
+      Metastore.pure_source?('source' => 'rdb_ku').must_equal true
+      Metastore.pure_source?('source' => 'rdb_aau').must_equal true
+    end
+    it 'is true when source is orbit' do
+      Metastore.pure_source?('source' => 'orbit').must_equal true
+    end
+    it 'is false in all other cases' do
+      Metastore.pure_source?('source' => 'ardb_xyz').must_equal false
+      Metastore.pure_source?('source' => 'elsevier').must_equal false
     end
   end
 

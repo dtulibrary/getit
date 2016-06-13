@@ -118,7 +118,7 @@ class Metastore
   end
 
   def self.access_type(fulltext)
-    location = fulltext['local'] ? '_local' : '_remote'
+    location = fulltext['local'] ? 'local' : 'remote'
     if Metastore.accessible_full_text?(fulltext)
       return "openaccess_#{location}"
     else

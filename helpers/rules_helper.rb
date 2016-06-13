@@ -3,6 +3,8 @@ require 'set'
 
 module RulesHelper
 
+  SCAN_SERVICES = ['dtic_scan', 'tib_scan', 'rd_scan']
+
   ## user rule helpers
 
   def user_is_dtu
@@ -33,6 +35,10 @@ module RulesHelper
     end
     service_is_not_lambda.curry[service_names, subtype]    
   end  
+
+  def service_is_not_scan
+    service_is_not(SCAN_SERVICES)
+  end
 
   ## status rule helpers
 
@@ -68,12 +74,20 @@ module RulesHelper
     has_seen_services_lambda.curry[service_names]
   end
 
+  def has_seen_scan_services
+    has_seen_services(SCAN_SERVICES)
+  end
+
   # returns false if any of the services names has not been processed
   def has_not_seen_services(service_names)
     has_not_processed_services_lambda = lambda do |service_names, service_response|
       !service_names.subset?(Set.new(@status.seen))
     end
     has_not_processed_services_lambda.curry[Set.new(service_names)]
+  end
+
+  def has_not_seen_scan_services
+    has_not_seen_services(SCAN_SERVICES)
   end
 
 end

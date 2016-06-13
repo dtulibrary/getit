@@ -152,6 +152,28 @@ describe Metastore do
       end
     end
   end
+
+  describe 'Metastore.subtype' do
+    describe 'locally held licensed content' do
+      it 'should be license_local' do
+        fulltext = {'source' => 'elsevier', 'local' =>true, 'type' => 'publisher', 'url' => 'http://production.datastore.cvt.dk/filestore?oid=53a755d4527293d37303651d&targetid=53a755d4527293d373036520'}
+        Metastore.subtype(fulltext).must_equal 'license_local'
+      end
+    end
+    describe 'remotely held licensed content' do
+      it 'should be license remote' do
+        fulltext = {'source' => 'elsevier', 'local' =>false, 'type' => 'publisher', 'url' => 'http://production.datastore.cvt.dk/filestore?oid=53a755d4527293d37303651d&targetid=53a755d4527293d373036520'}
+        Metastore.subtype(fulltext).must_equal 'license_remote'
+      end
+    end
+    describe 'remotely held open access' do
+      it 'should be open access remote' do
+        fulltext = {'source' => 'arxiv', 'local' =>false, 'type' => 'openaccess', 'url' => 'http://arxiv.org/abs/1510.05055'}
+        Metastore.subtype(fulltext).must_equal 'openaccess_remote'
+      end
+    end
+  end
+
   describe 'accessible_full_text' do
     it 'is true when type is openaccess' do
       Metastore.accessible_full_text?('type' => 'openaccess').must_equal true

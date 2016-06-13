@@ -15,13 +15,13 @@ module Rules
 
     # DTU - direct fulltext access is preferred over scan
     rule :direct_fulltext_preempts_scan,
-         reply: [user_is_not_dtu, service_is_not("scan")],
+         reply: [user_is_not_dtu, service_is_not_scan],
          skip: has_seen_services(["metastore", "sfx"]),
          wait: has_not_seen_services(["metastore", "sfx"])
 
     # Public - scan is preferred over licensed direct fulltexts
     rule :openaccess_fulltext_preempts_scan,
-         reply: [user_is_dtu, service_is_not("scan")],
+         reply: [user_is_dtu, service_is_not_scan],
          skip: has_seen_services("openaccess", ["metastore", "sfx"]),
          wait: has_not_seen_services(["metastore", "sfx"])
 
@@ -29,6 +29,21 @@ module Rules
          reply: service_is_not("nal"),
          skip: has_seen_services("openaccess", ["metastore", "sfx"]),
          wait: has_not_seen_services(["metastore", "sfx"])
+
+    rule :dtic_scan,
+         reply: service_is_not('dtic_scan'),
+         skip: has_seen_services(['metastore', 'sfx']),
+         wait: has_not_seen_services(['metastore', 'sfx'])
+
+    rule :tib_scan,
+         reply: service_is_not('tib_scan'),
+         skip: has_seen_services(['metastore', 'sfx', 'dtic_scan']),
+         wait: has_not_seen_services(['metastore', 'sfx', 'dtic_scan'])
+
+    rule :rd_scan,
+         reply: service_is_not('rd_scan'),
+         skip: has_seen_services(['metastore', 'sfx', 'dtic_scan', 'tib_scan']),
+         wait: has_not_seen_services(['metastore', 'sfx'])#, 'dtic_scan', 'tib_scan'])
 
     fulltext_common_rules
   end
@@ -52,7 +67,7 @@ module Rules
     if doctype == "article"
       rule :openaccess_preempts_scan,
            priority: 2,
-           reply: service_is_not("scan"),
+           reply: service_is_not_scan,
            skip: has_seen_services("openaccess", ["metastore", "sfx"]),
            wait: has_not_seen_services(["metastore", "sfx"])
 
@@ -67,8 +82,8 @@ module Rules
       rule :scan_preempts_licensed,
            priority: 3,
            reply: [user_is_dtu, service_and_subtype_is_not("license", ["sfx", "metastore"])],
-           skip: has_seen_services(["scan"]),
-           wait: has_not_seen_services(["scan"])
+           skip: has_seen_scan_services,
+           wait: has_not_seen_scan_services
 
       fulltext_common_rules
     end

@@ -197,6 +197,36 @@ en:
           walkin: "icon-file-text"
           public: "icon-file-text"
         list_text: *scan_short_name
+      tib_scan:
+        short_name: *scan_short_name
+        type: *scan_type
+        short_explanation:
+          dtu_staff: "Request scan from external document supplier <strong>&mdash; cost covered by the DTU information budget</strong>"
+          dtu_student: "Request scan from external document supplier <strong>&mdash; cost partially covered by the DTU information budget</strong>"
+          walkin: &scan_request_text_remote "Request scan from external document supplier"
+          public: *scan_request_text_remote
+        lead_text: *scan_lead_text
+        explanation:
+          dtu_staff: ""
+          dtu_student: "DTU Student discount price"
+          walkin: ""
+          public: ""
+        button_text:
+          dtu_staff: *scan_request
+          dtu_student: *scan_buy
+          walkin: *scan_buy
+          public: *scan_buy
+        tool_tip:
+          dtu_staff: &scan_remote_tool_tip "Scan from commercial supplier"
+          dtu_student: *scan_remote_tool_tip
+          walkin: &scan_remote_tool_tip_public "Scan from external supplier"
+          public: *scan_remote_tool_tip_public
+        icon: *scan_icon
+        list_text:
+          dtu_staff: &scan_remote_list_text "Request from commercial supplier"
+          dtu_student: *scan_remote_list_text
+          walkin: *scan_buy
+          public: *scan_buy
       rd_scan:
         short_name: *scan_short_name
         type: *scan_type

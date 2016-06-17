@@ -23,7 +23,7 @@ describe Citations::Elsevier do
 
   describe 'query' do
     it 'should make a query and parse the response' do
-      stub_request(:get, 'http://api.elsevier.com/content/search/scopus:80?apiKey=test_key&httpAccept=application/json&query=DOI(10.1016/j.stem.2011.10.002)%20OR%20SCOPUS-ID(000350083900013)')
+      stub_request(:get, 'http://api.elsevier.com/content/search/scopus?apiKey=test_key&httpAccept=application/json&query=DOI(10.1016/j.stem.2011.10.002)%20OR%20SCOPUS-ID(000350083900013)')
           .to_return(body: api_response)
       result = elsevier.query
       result.must_be_kind_of Hash
@@ -31,7 +31,7 @@ describe Citations::Elsevier do
     end
 
     it 'should return an empty hash if the response is invalid' do
-      stub_request(:get, 'http://http//api.elsevier.com/content/search/scopus:80?apiKey=test_key&httpAccept=application/json&query=DOI(10.1016/j.stem.2011.10.002)%20OR%20SCOPUS-ID(000350083900013)')
+      stub_request(:get, 'http://api.elsevier.com/content/search/scopus?apiKey=test_key&httpAccept=application/json&query=DOI(10.1016/j.stem.2011.10.002)%20OR%20SCOPUS-ID(000350083900013)')
           .to_return(:status => [500, 'Internal Server Error'])
       result = elsevier.query
       result.must_be_kind_of Hash

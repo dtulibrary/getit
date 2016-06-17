@@ -36,7 +36,7 @@ en:
           walkin: "Online"
           public: "At DTU"
         short_explanation: &license_short_explanation
-          dtu_staff: &dtu_download "Download from DTU Library for immediate reading"
+          dtu_staff: &dtu_download "Download from DTU Library for immediate access"
           dtu_student: *dtu_download
           walkin: *dtu_download
           public: &public_download "Available on-site at DTU Library"
@@ -71,7 +71,7 @@ en:
         short_name: *license_short_name
         type: *license_type
         short_explanation:
-          dtu_staff: &license_remote_short "Download from publishers website for immediate reading"
+          dtu_staff: &license_remote_short "Download from publisher's website for immediate access"
           dtu_student: *license_remote_short
           walkin: *license_remote_short
           public: "Available on-site at DTU Library"
@@ -131,7 +131,7 @@ en:
         short_name: *openaccess_short_name
         type: *openaccess_type
         short_explanation: &openaccess_remote_short_explanation
-          dtu_staff: &remote_download "Download from remote repository for immediate reading"
+          dtu_staff: &remote_download "Download from repository for immediate access"
           dtu_student: *remote_download
           walkin: *remote_download
           public: *remote_download
@@ -143,18 +143,12 @@ en:
         list_text: *openaccess_short_name
       pure_orbit:
         <<: *openaccess_remote
-        short_explanation: &openaccess_remote_short_explanation
-          dtu_staff: &orbit_download  "Download from DTU Orbit for immediate reading"
+        short_explanation:
+          dtu_staff: &orbit_download  "Download from DTU Orbit repository for immediate access"
           dtu_student: *orbit_download
           walkin: *orbit_download
           public: *orbit_download
-      pure_other:
-        <<: *openaccess_remote
-        short_explanation: &openaccess_remote_short_explanation
-          dtu_staff: &pure_download  "Download from repository for immediate reading"
-          dtu_student: *pure_download
-          walkin: *pure_download
-          public: *pure_download
+      pure_other: *openaccess_remote
       dtic_scan:
         short_name: &scan_short_name
           dtu_staff: &scan_request "Request"

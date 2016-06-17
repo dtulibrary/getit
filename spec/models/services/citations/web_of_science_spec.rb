@@ -56,8 +56,9 @@ describe Citations::WebOfScience do
       api_response = File.read("spec/fixtures/web_of_science_citation_response.xml")
 
       stub_request(:post, "https://ws.isiknowledge.com/cps/xrpc").
-        with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/xml', 'Host'=>'ws.isiknowledge.com', 'User-Agent'=>'Ruby'}).
-        to_return(:status => 200, :body => api_response, :headers => {})
+          with(:body => "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<request xmlns=\"http://www.isinet.com/xrpc41\">\n  <fn name=\"LinksAMR.retrieve\">\n    <list>\n      <!-- authentication -->\n      <map><!-- leave this empty to use IP address for authentication --></map>\n      <!-- what to to return -->\n      <map>\n        <list name=\"WOS\">\n          <val>timesCited</val>\n          <val>doi</val>\n          <val>sourceURL</val>\n          <val>citingArticlesURL</val>\n          <val>relatedRecordsURL</val>\n        </list>\n      </map>\n      <!-- query -->\n      <map><map name=\"10.1038/nature04924\"><val name=\"doi\">10.1038/nature04924</val></map></map>\n    </list>\n  </fn>\n</request>",
+               :headers => {'Accept'=>'*/*', 'Content-Type'=>'application/xml', 'User-Agent'=>'Ruby'}).
+          to_return(:status => 200, :body => api_response, :headers => {})
 
       ids = { "doi" => '10.1038/nature04924' }
       web_of_science = Citations::WebOfScience.new(ids)

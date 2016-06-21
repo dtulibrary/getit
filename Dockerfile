@@ -1,5 +1,18 @@
-FROM ruby:2.1
-RUN apt-get update -q && apt-get install -y build-essential libpq-dev
+FROM debian:7.10
+
+RUN apt-get update -qq && apt-get install -y \ 
+  ruby \
+  build-essential \
+  libpq-dev \
+  git \
+  libxml2-dev \
+  libxslt1-dev \
+  libsqlite3-dev \
+  bundler
+
+# for nokogiri
+ENV NOKOGIRI_USE_SYSTEM_LIBRARIES 1
+
 RUN mkdir /myapp
 WORKDIR /myapp
 ADD Gemfile /myapp/Gemfile

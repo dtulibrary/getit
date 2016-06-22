@@ -65,6 +65,7 @@ class ResolveController < ApplicationController
           end
         else
           logger.info "Skipping disabled service '#{service_name}'"
+          decider.status.update(service_name, :no)
         end
       end
 

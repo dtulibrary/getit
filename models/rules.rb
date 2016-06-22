@@ -43,7 +43,7 @@ module Rules
     rule :rd_scan,
          reply: service_is_not('rd_scan'),
          skip: has_seen_services(['metastore', 'sfx', 'dtic_scan', 'tib_scan']),
-         wait: has_not_seen_services(['metastore', 'sfx'])#, 'dtic_scan', 'tib_scan'])
+         wait: has_not_seen_services(['metastore', 'sfx', 'dtic_scan', 'tib_scan'])
 
     fulltext_common_rules
   end

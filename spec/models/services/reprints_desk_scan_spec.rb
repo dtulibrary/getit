@@ -40,14 +40,14 @@ describe ReprintsDeskScan do
   end
 
   describe 'when language is non-english' do
-    it 'returns an empty array' do
+    it 'returns rd_scan' do
       EM.run_block {
         reference = Reference.new(reference_params)
         configuration = {"url" => "http://example.com"}
         stub_request(:get, /#{configuration['url']}.*/).to_return(File.new('spec/fixtures/rd_non-english.txt'))
         scan = ReprintsDeskScan.new(reference, configuration)
         scan.callback { |result|
-          result.must_equal []
+          result.first.subtype.must_equal 'rd_scan'
         }
         scan.errback { |error|
           flunk error

@@ -29,7 +29,6 @@ describe DispatchDecider do
     dd.status.update("metastore", :no)
     
     dtic = scan_response('dtic_scan')
-    tib  = scan_response('tib_scan')
     rd   = scan_response('rd_scan')
 
     sfx_rep = ServiceResponse.new
@@ -38,12 +37,11 @@ describe DispatchDecider do
     sfx_rep.source = "sfx"
 
     dd.can_send(dtic).must_equal(:maybe)
-    dd.can_send(tib).must_equal(:maybe)
     dd.can_send(rd).must_equal(:maybe)
     dd.can_send(sfx_rep).must_equal(:yes)
   end
 
-  it 'prefers dtic scan over tib scan' do
+  it 'prefers dtic scan over rd scan' do
     reference = Reference.new(params.merge({"req_id" => "dtu_staff"}))
 
     dd = DispatchDecider.new("fulltext", reference)
@@ -51,21 +49,7 @@ describe DispatchDecider do
     dd.status.update('sfx', :no)
     dd.status.update(scan_response('dtic_scan'), :yes)
 
-    tib  = scan_response('tib_scan')
-
-    dd.can_send(tib).must_equal(:no)
-  end
-
-  it 'prefers tib scan over rd scan' do
-    reference = Reference.new(params.merge({"req_id" => "dtu_staff"}))
-
-    dd = DispatchDecider.new("fulltext", reference)
-    dd.status.update('metastore', :no)
-    dd.status.update('sfx', :no)
-    dd.status.update('dtic_scan', :no)
-    dd.status.update(scan_response('tib_scan'), :yes)
-
-    rd  = scan_response('rd_scan')
+    rd = scan_response('rd_scan')
 
     dd.can_send(rd).must_equal(:no)
   end

@@ -57,7 +57,7 @@ module Citations
       end
 
       response = http_web_of_knowledge.start do |http|
-        request = Net::HTTP::Post.new(uri.to_s)
+        request = Net::HTTP::Post.new(uri.path)
         request.body = request_body
         request.content_type = "application/xml"
 

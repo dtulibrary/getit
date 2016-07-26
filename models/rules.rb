@@ -35,10 +35,15 @@ module Rules
          skip: has_seen_services(['metastore', 'sfx']),
          wait: has_not_seen_services(['metastore', 'sfx'])
 
-    rule :rd_scan,
-         reply: service_is_not('rd_scan'),
+    rule :tib_scan,
+         reply: service_is_not('tib_scan'),
          skip: has_seen_services(['metastore', 'sfx', 'dtic_scan']),
          wait: has_not_seen_services(['metastore', 'sfx', 'dtic_scan'])
+
+    rule :rd_scan,
+         reply: service_is_not('rd_scan'),
+         skip: has_seen_services(['metastore', 'sfx', 'dtic_scan', 'tib_scan']),
+         wait: has_not_seen_services(['metastore', 'sfx', 'dtic_scan', 'tib_scan'])
 
     fulltext_common_rules
   end

@@ -16,13 +16,13 @@ class TibScan
   end
 
   def tib_applies?(response)
-    return [] unless @reference.doctype == 'article'
+    return false unless @reference.doctype == 'article'
 
 		solr_response = JSON.parse(response[:body])['response']
-		return [] unless solr_response['numFound'] > 0
+		return false unless solr_response['numFound'] > 0
 
 		doc = Document.new(solr_response['docs'].first)
-    !doc.english? || doc.conference_paper?
+    (!doc.undefined_language? && !doc.english?) || doc.conference_paper?
   end
 
   def get_query

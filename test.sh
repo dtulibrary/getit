@@ -1,3 +1,1 @@
-rake db:migrate
-rspec
-
+m

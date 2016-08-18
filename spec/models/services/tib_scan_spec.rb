@@ -69,5 +69,20 @@ describe TibScan do
         }
       }
     end
+
+    it 'returns an empty array when language is undefined' do
+      EM.run_block {
+        reference = Reference.new(reference_params)
+        configuration = {"url" => "http://example.com"}
+        stub_request(:get, /#{configuration['url']}.*/).to_return(File.new("spec/fixtures/tib_wrong_subformat_undefined_language.txt"))
+        scan = TibScan.new(reference, configuration)
+        scan.callback { |result|
+          result.must_equal []
+        }
+        scan.errback { |error|
+          flunk error
+        }
+      }
+    end
   end
 end

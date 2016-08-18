@@ -28,7 +28,7 @@ class TibScan
   def get_query
     query = { 
       "q" => "{!raw f=cluster_id_ss v=$id}", "id" => "#{@reference.custom_co_data["id"] || nil}",
-      "fl" => "subformat_s,language_ss",
+      "fl" => "subformat_s,language_ss,isolanguage_ss",
       "wt" => "json"
     }   
   end

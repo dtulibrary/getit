@@ -8,4 +8,4 @@ Content-Type: application/json;charset=UTF-8
 Transfer-Encoding: chunked
 Date: Tue, 21 May 2013 14:37:58 GMT
 
-{"responseHeader":{"status":0,"QTime":26,"params":{"fl":"subformat_s,language_ss","q":"*:*","wt":"json"}},"response":{"numFound":1,"start":0,"maxScore":9.7718725,"docs":[{"subformat_s":"conference_paper","language_ss":["eng"]}]},"facet_counts":{"facet_queries":{},"facet_fields":{},"facet_dates":{},"facet_ranges":{}}}
+{"responseHeader":{"status":0,"QTime":26,"params":{"fl":"subformat_s,language_ss,isolanguage_ss","q":"*:*","wt":"json"}},"response":{"numFound":1,"start":0,"maxScore":9.7718725,"docs":[{"subformat_s":"conference_paper","isolanguage_ss":["eng"]}]},"facet_counts":{"facet_queries":{},"facet_fields":{},"facet_dates":{},"facet_ranges":{}}}

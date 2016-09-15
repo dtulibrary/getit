@@ -10,7 +10,7 @@ class DticScan
     end
 
     def printed_holdings
-      @printed ||= holdings_intervals.select {|interval| interval.type == 'printed'}
+      @printed ||= holdings_intervals.select {|interval| interval.type == 'printed' || interval.type == 'print'}
     end
 
     def electronic_holdings

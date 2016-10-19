@@ -141,7 +141,7 @@ en:
         tool_tip: *openaccess_tool_tip
         icon: *openacces_icon
         list_text: *openaccess_short_name
-      pure_orbit:
+      pure_orbit: &pure_orbit
         <<: *openaccess_remote
         short_explanation:
           dtu_staff: &orbit_download  "Download from DTU Orbit repository for immediate access"
@@ -289,6 +289,8 @@ en:
           walkin: *nal_tool_tip
           public: *nal_tool_tip
     book:
+      pure_orbit: *pure_orbit
+      pure_other: *openaccess_remote
       license_local:
         short_name: *license_short_name
         type: *license_type

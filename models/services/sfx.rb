@@ -22,6 +22,12 @@ class Sfx
       reference.context_object.referent.metadata['isbn'].nil? &&
       reference.context_object.referent.metadata['issn'].nil?
 
+    # Using the DOI in link resolution for journals leads to problems
+    # with invalid target_urls being returned
+    if reference.doctype == 'journal'
+      reference.context_object.referent.set_metadata('doi', '')
+    end
+
     if skip
       # do not check for books without isbn
       # to prevent wrong matches on title

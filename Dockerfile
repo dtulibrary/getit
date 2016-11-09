@@ -1,4 +1,4 @@
-FROM debian:7.10
+FROM debian:8.6
 
 RUN apt-get update -qq && apt-get install -y \ 
   ruby \

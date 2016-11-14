@@ -40,6 +40,10 @@ module RulesHelper
     service_is_not(SCAN_SERVICES)
   end
 
+  def service_is_scan
+    !service_is_not(SCAN_SERVICES)
+  end
+
   ## status rule helpers
 
   def has_sent_any

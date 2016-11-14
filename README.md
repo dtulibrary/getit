@@ -20,6 +20,23 @@ event: close
 data: none
 
 ```
+## Rules
+
+GetIt uses a `Rules` DSL to decide if and when to call different services. This is configured in `models/rules.rb` and is called by `ResolveController` when it runs through the service list defined in the services config.
+
+```ruby
+# ResolveController pseudo code
+enabled_services.each do |service|
+  service.call do |results|
+    if send_now?(service) # DispatchDecider uses Rules DSL to make decision
+      output << results
+    elsif send_later?(results)
+      call_later(service)
+    end
+  end
+end
+```
+
 ## Tests
 
 Tests are written in Minitest using Webmock to stub HTTP requests. You can run all tests by simply using the `m` command. You can also run individual tests by line number as you would in rspec, for example: `m spec/models/services/metastore_spec.rb:32` where the line number refers to the start of an `it` block.
@@ -29,7 +46,7 @@ Note that running tests against ResolveController gives some curious multithread
 ### Refactoring
 GetIt is a crucial application in the FindIt infrastructure but it is unfortunately quite complex and difficult to understand. Some of this complexity is caused by the use of multithreading which is probably necessary for an application of its nature, but some complexity is a result of design decisions.
 
- - FindIt view logic should be extracted from this app. Translations have no place here. The API response should thus be simplified considerably. Instead of returning texts and icon names, we should instead return simplistic status codes, which FindIt can convert into views. 
+ - FindIt view logic should be extracted from this app. Translations have no place here. The API response should thus be simplified considerably. Instead of returning texts and icon names, we should instead return simplistic status codes, which FindIt can convert into views.
  - The Service classes are confusing in that they are maintained before and after requests. Services should instead be functional with a static Client class for building the query and a static Response class for parsing the response. For example instead of a single `Metastore` class, we should have a `Metastore::Client` class and a `Metastore::Response` class. We might also have a `Metastore::Rules` class which would contain the business logic that makes decisions based on a combination of Metastore responses and the original request parameters.
  - There is too much business logic embedded in `if;else;end` clauses. It would be better to refactor these as methods in order to make the business logic clearer. For example:
   ```ruby

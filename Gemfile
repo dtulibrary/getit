@@ -23,6 +23,4 @@ group :test do
   gem "simplecov-rcov", :require => false
 end
 
-group :development do
-  gem 'byebug'
-end
+gem 'debugger', group: [:development, :test]

@@ -34,25 +34,20 @@ module Rules
          skip: has_seen_services("openaccess", ["metastore", "sfx"]),
          wait: has_not_seen_services(["metastore", "sfx"])
 
-    rule :dtic_scan_public,
-         reply: [user_is_not_dtu, service_is_not_scan]
-         skip: has_seen_services("openaccess", ["metastore", "sfx"]),
-         wait: has_not_seen_services(['metastore', 'sfx']),
+    rule :dtic_scan,
+          reply: service_is_not('dtic_scan'),
+          skip: skip_dtic_scan?,
+          wait: wait_dtic_scan?
 
-    rule :dtic_scan
-          reply: [user_is_dtu, service_is_not('dtic_scan')],
-          skip: has_seen_services(['metastore', 'sfx']),
-          wait: has_not_seen_services(['metastore', 'sfx'])
+    rule :tib_scan,
+         reply: service_is_not('tib_scan'),
+         skip: [user_is_not_dtu, has_seen_services(['metastore', 'sfx', 'dtic_scan'])],
+         wait: has_not_seen_services(['metastore', 'sfx', 'dtic_scan'])
 
-     rule :tib_scan,
-          reply: [user_is_dtu, service_is_not('tib_scan')],
-          skip: has_seen_services(['metastore', 'sfx', 'dtic_scan']),
-          wait: has_not_seen_services(['metastore', 'sfx', 'dtic_scan'])
-
-     rule :rd_scan,
-          reply: [user_is_dtu, service_is_not('rd_scan')],
-          skip: has_seen_services(['metastore', 'sfx', 'dtic_scan', 'tib_scan']),
-          wait: has_not_seen_services(['metastore', 'sfx', 'dtic_scan', 'tib_scan'])
+    rule :rd_scan,
+         reply: service_is_not('rd_scan'),
+         skip: skip_rd_scan?,
+         wait: wait_rd_scan?
 
 
     fulltext_common_rules

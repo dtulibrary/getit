@@ -132,14 +132,7 @@ class DispatchDecider
     private
 
     def evaluate(predicates, data)
-      if !predicates.is_a?(Array)
-        predicates = [predicates]
-      end
-      predicates.each do |predicate|
-        res = predicate.call(data)
-        return true if res
-      end
-      return false
+      !![predicates].flatten.find {|p| p.call(data)}
     end
   end
 end

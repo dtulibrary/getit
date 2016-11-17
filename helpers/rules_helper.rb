@@ -131,7 +131,6 @@ module RulesHelper
       if @reference.dtu?
         has_seen_services(%w(metastore sfx)).call(service_response)
       else
-        Kyandi.logger.info "Reference: #{@reference}"
         has_seen_services('openaccess', %w(metastore sfx)).call(service_response)
       end
     end

@@ -465,7 +465,7 @@ en:
           public: "icon-map-marker"
         list_text: *journal_print_short_name
     thesis:
-      openaccess_local:
+      openaccess_local: &thesis_openaccess_local
         short_name:
           <<: *license_short_name
           public: *download
@@ -512,3 +512,4 @@ en:
         icon: *license_icon
         list_text: *license_short_name
       license_remote: *openaccess_remote
+      pure_orbit: *thesis_openaccess_local

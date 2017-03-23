@@ -63,6 +63,7 @@ class Sfx
       end
     end
 
+    service_responses.reject! {|resp| resp.service_type == nil && resp.url.size == 0 }
     # sort and return, max one open access & one licensed
     if @reference.doctype != 'journal'
       sr_licensed, sr_openaccess = service_responses.partition {|sr| sr.subtype.match("license") }
